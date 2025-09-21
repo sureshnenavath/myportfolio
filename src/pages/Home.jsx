@@ -15,13 +15,14 @@ import {
   Email,
   Download,
 } from '@mui/icons-material';
+import DotGrid from '../style/DotGrid.jsx';
 
 const Home = () => {
   const { isDarkMode } = useTheme();
   const [textIndex, setTextIndex] = useState(0);
   const texts = [
     'Software Developer',
-    'Frontend Enthusiast',  
+    'Frontend Enthusiast',
     'React.js Specialist',
     'Full Stack Developer'
   ];
@@ -78,6 +79,7 @@ const Home = () => {
           : 'linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%)',
       }}
     >
+      {/* Background Layer */}
       <Box
         sx={{
           position: 'absolute',
@@ -89,34 +91,49 @@ const Home = () => {
           zIndex: 0,
         }}
       >
-        {[...Array(20)].map((_, i) => (
-          <motion.div
-            key={i}
-            style={{
-              position: 'absolute',
-              width: Math.random() * 300 + 50,
-              height: Math.random() * 300 + 50,
-              borderRadius: '50%',
-              background: `linear-gradient(45deg, 
-                ${isDarkMode ? 'rgba(99, 102, 241, 0.1)' : 'rgba(255, 255, 255, 0.1)'}, 
-                ${isDarkMode ? 'rgba(139, 92, 246, 0.1)' : 'rgba(255, 255, 255, 0.05)'})`,
-              top: Math.random() * 100 + '%',
-              left: Math.random() * 100 + '%',
-            }}
-            animate={{
-              x: [0, 100, 0],
-              y: [0, -100, 0],
-              scale: [1, 1.2, 1],
-            }}
-            transition={{
-              duration: Math.random() * 10 + 10,
-              repeat: Infinity,
-              ease: 'linear',
-            }}
+        {isDarkMode ? (
+          <DotGrid
+            dotSize={10}
+            gap={15}
+            baseColor="#5227FF"
+            activeColor="#5227FF"
+            proximity={120}
+            shockRadius={250}
+            shockStrength={5}
+            resistance={750}
+            returnDuration={1.5}
           />
-        ))}
+        ) : (
+          [...Array(20)].map((_, i) => (
+            <motion.div
+              key={i}
+              style={{
+                position: 'absolute',
+                width: Math.random() * 300 + 50,
+                height: Math.random() * 300 + 50,
+                borderRadius: '50%',
+                background: `linear-gradient(45deg, 
+                  ${isDarkMode ? 'rgba(99, 102, 241, 0.1)' : 'rgba(255, 255, 255, 0.1)'}, 
+                  ${isDarkMode ? 'rgba(139, 92, 246, 0.1)' : 'rgba(255, 255, 255, 0.05)'})`,
+                top: Math.random() * 100 + '%',
+                left: Math.random() * 100 + '%',
+              }}
+              animate={{
+                x: [0, 100, 0],
+                y: [0, -100, 0],
+                scale: [1, 1.2, 1],
+              }}
+              transition={{
+                duration: Math.random() * 10 + 10,
+                repeat: Infinity,
+                ease: 'linear',
+              }}
+            />
+          ))
+        )}
       </Box>
 
+      {/* Foreground Content */}
       <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1 }}>
         <motion.div
           variants={containerVariants}
@@ -131,6 +148,7 @@ const Home = () => {
               gap: 4,
             }}
           >
+            {/* Left Column */}
             <Box sx={{ flex: 1, textAlign: { xs: 'center', md: 'left' } }}>
               <motion.div variants={itemVariants}>
                 <Typography
@@ -151,7 +169,7 @@ const Home = () => {
                   sx={{
                     fontSize: { xs: '2.5rem', md: '4rem' },
                     fontWeight: 700,
-                    background: isDarkMode ? 'linear-gradient(45deg, #ababb3ff, #7f0f61b2, #97818cff)' : 'linear-gradient(45deg, #ababb3ff, #7f0f61b2, #97818cff)',
+                    background: 'linear-gradient(45deg, #ababb3ff, #7f0f61b2, #97818cff)',
                     WebkitBackgroundClip: 'text',
                     WebkitTextFillColor: 'transparent',
                     mb: 2,
@@ -279,6 +297,7 @@ const Home = () => {
               </motion.div>
             </Box>
 
+            {/* Right Column */}
             <Box sx={{ flex: 1, display: 'flex', justifyContent: 'center' }}>
               <motion.div
                 animate={floatingAnimation}
@@ -320,6 +339,7 @@ const Home = () => {
           </Box>
         </motion.div>
 
+        {/* Scroll Down Indicator */}
         <motion.div
           style={{
             position: 'absolute',
