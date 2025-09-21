@@ -167,31 +167,21 @@ const Projects = () => {
           </motion.div>
 
           {/* Projects Grid */}
-          <Grid 
-            container 
-            spacing={3} 
-            sx={{ 
+          <Box
+            component="div"
+            sx={{
+              display: 'grid',
+              gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, minmax(0, 1fr))' },
+              gap: 3,
               alignItems: 'stretch',
               width: '100%',
               margin: 0,
-              '& > .MuiGrid-item': {
-                paddingLeft: '12px !important',
-                paddingTop: '12px !important',
-              }
             }}
           >
             {projects.map((project, index) => (
-              <Grid 
-                item 
-                xs={12} 
-                md={6} 
-                key={project.id} 
-                sx={{ 
-                  display: 'flex',
-                  width: { xs: '100%', md: '50%' },
-                  flexBasis: { xs: '100%', md: '50%' },
-                  maxWidth: { xs: '100%', md: '50%' },
-                }}
+              <Box
+                key={project.id}
+                sx={{ display: 'flex', alignItems: 'stretch', width: '100%' }}
               >
                 <motion.div
                   variants={itemVariants}
@@ -204,9 +194,11 @@ const Projects = () => {
                   <Card
                     sx={{
                       width: '100%',
-                      height: '480px',
+                      height: '100%',
+                      minHeight: 480,
                       display: 'flex',
                       flexDirection: 'column',
+                      flex: '1 1 auto',
                       background: isDarkMode
                         ? 'linear-gradient(145deg, #1e293b, #334155)'
                         : 'linear-gradient(145deg, #ffffff, #f1f5f9)',
@@ -262,7 +254,6 @@ const Projects = () => {
                       flexGrow: 1, 
                       display: 'flex', 
                       flexDirection: 'column',
-                      height: '280px'
                     }}>
                       <Typography
                         variant="h5"
@@ -369,9 +360,9 @@ const Projects = () => {
                     </CardContent>
                   </Card>
                 </motion.div>
-              </Grid>
+              </Box>
             ))}
-          </Grid>
+          </Box>
         </motion.div>
 
         {/* Project Detail Modal */}
