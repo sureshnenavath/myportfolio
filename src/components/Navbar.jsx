@@ -16,6 +16,7 @@ import {
   useMediaQuery,
   useTheme as useMuiTheme,
 } from '@mui/material';
+import SparkleNavbar from './SparkleNavbar';
 import {
   Menu as MenuIcon,
   Close as CloseIcon,
@@ -126,49 +127,59 @@ const Navbar = () => {
           <Box sx={{ flexGrow: 1 }} />
           
           {!isMobile && (
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-              {navItems.map((item, index) => (
-                <motion.div
-                  key={item.name}
-                  initial={{ opacity: 0, y: -20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                >
-                  <Button
-                    component={Link}
-                    to={item.path}
-                    sx={{
-                      color: location.pathname === item.path
-                        ? '#6366f1'
-                        : isDarkMode ? '#fff' : '#000',
-                      fontWeight: location.pathname === item.path ? 'bold' : 'normal',
-                      position: 'relative',
-                      '&:hover': {
-                        color: '#6366f1',
-                        transform: 'translateY(-2px)',
-                      },
-                      transition: 'all 0.3s ease',
-                    }}
+            isDarkMode ? (
+              <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                {/* Sparkle navbar for dark mode */}
+                <SparkleNavbar
+                  items={navItems}
+                  color="#8b5cf6"
+                />
+              </Box>
+            ) : (
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                {navItems.map((item, index) => (
+                  <motion.div
+                    key={item.name}
+                    initial={{ opacity: 0, y: -20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: index * 0.1 }}
                   >
-                    {item.name}
-                    {location.pathname === item.path && (
-                      <motion.div
-                        layoutId="navbar-indicator"
-                        style={{
-                          position: 'absolute',
-                          bottom: 0,
-                          left: 0,
-                          right: 0,
-                          height: 2,
-                          background: 'linear-gradient(45deg, #6366f1, #8b5cf6)',
-                          borderRadius: 1,
-                        }}
-                      />
-                    )}
-                  </Button>
-                </motion.div>
-              ))}
-            </Box>
+                    <Button
+                      component={Link}
+                      to={item.path}
+                      sx={{
+                        color: location.pathname === item.path
+                          ? '#6366f1'
+                          : isDarkMode ? '#fff' : '#000',
+                        fontWeight: location.pathname === item.path ? 'bold' : 'normal',
+                        position: 'relative',
+                        '&:hover': {
+                          color: '#6366f1',
+                          transform: 'translateY(-2px)',
+                        },
+                        transition: 'all 0.3s ease',
+                      }}
+                    >
+                      {item.name}
+                      {location.pathname === item.path && (
+                        <motion.div
+                          layoutId="navbar-indicator"
+                          style={{
+                            position: 'absolute',
+                            bottom: 0,
+                            left: 0,
+                            right: 0,
+                            height: 2,
+                            background: 'linear-gradient(45deg, #6366f1, #8b5cf6)',
+                            borderRadius: 1,
+                          }}
+                        />
+                      )}
+                    </Button>
+                  </motion.div>
+                ))}
+              </Box>
+            )
           )}
           
           <IconButton
