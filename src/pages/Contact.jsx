@@ -290,7 +290,7 @@ const Contact = () => {
                     variant="contained"
                     size="large"
                     startIcon={<Download />}
-                    href="https://drive.google.com/file/d/16rCE330gJcew8CQeQsDGCQ7WjD1KHZWu/view?usp=sharing"
+                    href="https://drive.google.com/file/d/1PLzrbZ6ddO-yWo1dnVTDYql2L1N9uMRn/view?usp=sharing"
                     download
                     sx={{
                       background: 'linear-gradient(45deg, #6366f1, #8b5cf6)',
