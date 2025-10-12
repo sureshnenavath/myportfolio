@@ -4,15 +4,15 @@ import { useTheme } from '../contexts/ThemeContext';
 import {
   Box,
   Typography,
-  Container,
   Grid,
-  Card,
-  CardContent,
   TextField,
   Button,
-  IconButton,
-  Alert,
+  Container,
+  Card,
+  CardContent,
+  Divider,
   Snackbar,
+  Alert,
 } from '@mui/material';
 import {
   Email,
@@ -21,7 +21,8 @@ import {
   LinkedIn,
   GitHub,
   Send,
-  Download,
+  ContactMail,
+  Language,
 } from '@mui/icons-material';
 
 const Contact = () => {
@@ -29,48 +30,10 @@ const Contact = () => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
+    subject: '',
     message: '',
   });
   const [showAlert, setShowAlert] = useState(false);
-
-  const contactInfo = [
-    {
-      icon: <Email />,
-      title: 'Email',
-      value: 'sureshnenavath09@gmail.com',
-      link: 'mailto:sureshnenavath09@gmail.com',
-      color: '#ef4444',
-    },
-    {
-      icon: <Phone />,
-      title: 'Phone',
-      value: '+91 XXXXXXXX80',
-      link: 'tel:+916309767996',
-      color: '#22c55e',
-    },
-    {
-      icon: <LocationOn />,
-      title: 'Location',
-      value: 'Hyderabad, Telangana, India',
-      link: '#',
-      color: '#3b82f6',
-    },
-  ];
-
-  const socialLinks = [
-    {
-      icon: <LinkedIn />,
-      name: 'LinkedIn',
-      url: 'https://www.linkedin.com/in/nenavath-suresh/',
-      color: '#0077b5',
-    },
-    {
-      icon: <GitHub />,
-      name: 'GitHub',
-      url: 'https://github.com/sureshnenavath',
-      color: '#333',
-    },
-  ];
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -82,436 +45,580 @@ const Contact = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Here you would typically send the form data to a backend service
     console.log('Form submitted:', formData);
     setShowAlert(true);
-    setFormData({ name: '', email: '', message: '' });
+    setFormData({ name: '', email: '', subject: '', message: '' });
   };
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        delayChildren: 0.3,
-        staggerChildren: 0.2
-      }
-    }
-  };
+  const contactMethods = [
+    {
+      icon: <Email sx={{ fontSize: 40 }} />,
+      title: 'Email',
+      detail: 'sureshnenavath09@gmail.com',
+      link: 'mailto:sureshnenavath09@gmail.com',
+      color: '#FF6B6B',
+    },
+    {
+      icon: <Phone sx={{ fontSize: 40 }} />,
+      title: 'Phone',
+      detail: '+91 XXXXXXXX80',
+      link: 'tel:+916309767996',
+      color: '#4ECDC4',
+    },
+    {
+      icon: <LocationOn sx={{ fontSize: 40 }} />,
+      title: 'Location',
+      detail: 'Hyderabad, India',
+      color: '#45B7D1',
+    },
+  ];
 
-  const itemVariants = {
-    hidden: { y: 20, opacity: 0 },
-    visible: {
-      y: 0,
-      opacity: 1,
-      transition: {
-        duration: 0.5
-      }
-    }
-  };
+  const socialLinks = [
+    {
+      icon: <LinkedIn sx={{ fontSize: 32 }} />,
+      name: 'LinkedIn',
+      username: '/nenavath-suresh',
+      url: 'https://www.linkedin.com/in/nenavath-suresh/',
+      color: '#0077B5',
+    },
+    {
+      icon: <GitHub sx={{ fontSize: 32 }} />,
+      name: 'GitHub',
+      username: '/sureshnenavath',
+      url: 'https://github.com/sureshnenavath',
+      color: '#333333',
+    },
+  ];
 
   return (
     <Box
       sx={{
         minHeight: '100vh',
-        py: 8,
+        py: { xs: 6, md: 10 },
         background: isDarkMode
-          ? 'linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%)'
-          : 'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)',
+          ? 'linear-gradient(to bottom, #0f0f23 0%, #1a1a2e 100%)'
+          : 'linear-gradient(to bottom, #f0f4f8 0%, #d9e2ec 100%)',
       }}
     >
       <Container maxWidth="lg">
+        {/* Hero Section */}
         <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
+          initial={{ opacity: 0, y: -30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
         >
-          {/* Header */}
-          <motion.div variants={itemVariants}>
-            <Box sx={{ textAlign: 'center', mb: 8 }}>
-              <Typography
-                variant="h2"
-                sx={{
-                  fontWeight: 700,
-                  background: 'linear-gradient(45deg, #6366f1, #8b5cf6)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  mb: 2,
-                }}
-              >
-                Get In Touch
-              </Typography>
-              <Typography
-                variant="h6"
-                sx={{
-                  color: isDarkMode ? '#cbd5e1' : '#64748b',
-                  maxWidth: 600,
-                  mx: 'auto',
-                }}
-              >
-                Let's connect and discuss opportunities. I'm always excited to work on new projects!
-              </Typography>
-            </Box>
-          </motion.div>
+          <Box sx={{ textAlign: 'center', mb: 8 }}>
+            <ContactMail
+              sx={{
+                fontSize: 80,
+                mb: 2,
+                color: isDarkMode ? '#60A5FA' : '#3B82F6',
+              }}
+            />
+            <Typography
+              variant="h2"
+              sx={{
+                fontWeight: 900,
+                mb: 2,
+                fontSize: { xs: '2.5rem', md: '3.5rem' },
+                color: isDarkMode ? '#fff' : '#1e293b',
+              }}
+            >
+              Let's Connect
+            </Typography>
+            <Typography
+              variant="h6"
+              sx={{
+                color: isDarkMode ? '#94a3b8' : '#64748b',
+                maxWidth: 600,
+                mx: 'auto',
+                lineHeight: 1.8,
+              }}
+            >
+              Have a project in mind or just want to chat? Feel free to reach out!
+            </Typography>
+          </Box>
+        </motion.div>
 
-          <Grid container spacing={6}>
-            {/* Contact Information */}
-            <Grid item xs={12} md={6}>
-              <motion.div variants={itemVariants}>
+        <Grid container spacing={4}>
+          {/* Left Side - Contact Form */}
+          <Grid item xs={12} md={7}>
+            <motion.div
+              initial={{ opacity: 0, x: -50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+            >
+              <Card
+                sx={{
+                  background: isDarkMode
+                    ? 'rgba(30, 41, 59, 0.7)'
+                    : 'rgba(255, 255, 255, 0.9)',
+                  backdropFilter: 'blur(10px)',
+                  borderRadius: 4,
+                  boxShadow: isDarkMode
+                    ? '0 10px 40px rgba(0,0,0,0.5)'
+                    : '0 10px 40px rgba(0,0,0,0.1)',
+                  border: isDarkMode ? '1px solid rgba(96, 165, 250, 0.2)' : 'none',
+                }}
+              >
+                <CardContent sx={{ p: { xs: 3, md: 5 } }}>
+                  <Typography
+                    variant="h4"
+                    sx={{
+                      fontWeight: 700,
+                      mb: 1,
+                      color: isDarkMode ? '#60A5FA' : '#3B82F6',
+                    }}
+                  >
+                    Send a Message
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    sx={{
+                      mb: 4,
+                      color: isDarkMode ? '#94a3b8' : '#64748b',
+                    }}
+                  >
+                    I'll get back to you within 24 hours
+                  </Typography>
+
+                  <Box component="form" onSubmit={handleSubmit}>
+                    <Grid container spacing={3}>
+                      <Grid item xs={12} sm={6}>
+                        <TextField
+                          fullWidth
+                          label="Full Name"
+                          name="name"
+                          value={formData.name}
+                          onChange={handleInputChange}
+                          required
+                          variant="outlined"
+                          sx={{
+                            '& .MuiOutlinedInput-root': {
+                              backgroundColor: isDarkMode ? 'rgba(15, 23, 42, 0.5)' : '#fff',
+                              '&:hover fieldset': {
+                                borderColor: isDarkMode ? '#60A5FA' : '#3B82F6',
+                              },
+                              '&.Mui-focused fieldset': {
+                                borderColor: isDarkMode ? '#60A5FA' : '#3B82F6',
+                              },
+                            },
+                          }}
+                        />
+                      </Grid>
+                      <Grid item xs={12} sm={6}>
+                        <TextField
+                          fullWidth
+                          label="Email Address"
+                          name="email"
+                          type="email"
+                          value={formData.email}
+                          onChange={handleInputChange}
+                          required
+                          variant="outlined"
+                          sx={{
+                            '& .MuiOutlinedInput-root': {
+                              backgroundColor: isDarkMode ? 'rgba(15, 23, 42, 0.5)' : '#fff',
+                              '&:hover fieldset': {
+                                borderColor: isDarkMode ? '#60A5FA' : '#3B82F6',
+                              },
+                              '&.Mui-focused fieldset': {
+                                borderColor: isDarkMode ? '#60A5FA' : '#3B82F6',
+                              },
+                            },
+                          }}
+                        />
+                      </Grid>
+                      <Grid item xs={12}>
+                        <TextField
+                          fullWidth
+                          label="Subject"
+                          name="subject"
+                          value={formData.subject}
+                          onChange={handleInputChange}
+                          required
+                          variant="outlined"
+                          sx={{
+                            '& .MuiOutlinedInput-root': {
+                              backgroundColor: isDarkMode ? 'rgba(15, 23, 42, 0.5)' : '#fff',
+                              '&:hover fieldset': {
+                                borderColor: isDarkMode ? '#60A5FA' : '#3B82F6',
+                              },
+                              '&.Mui-focused fieldset': {
+                                borderColor: isDarkMode ? '#60A5FA' : '#3B82F6',
+                              },
+                            },
+                          }}
+                        />
+                      </Grid>
+                      <Grid item xs={12}>
+                        <TextField
+                          fullWidth
+                          label="Message"
+                          name="message"
+                          multiline
+                          rows={5}
+                          value={formData.message}
+                          onChange={handleInputChange}
+                          required
+                          variant="outlined"
+                          sx={{
+                            '& .MuiOutlinedInput-root': {
+                              backgroundColor: isDarkMode ? 'rgba(15, 23, 42, 0.5)' : '#fff',
+                              '&:hover fieldset': {
+                                borderColor: isDarkMode ? '#60A5FA' : '#3B82F6',
+                              },
+                              '&.Mui-focused fieldset': {
+                                borderColor: isDarkMode ? '#60A5FA' : '#3B82F6',
+                              },
+                            },
+                          }}
+                        />
+                      </Grid>
+                      <Grid item xs={12}>
+                        <Button
+                          type="submit"
+                          variant="contained"
+                          size="large"
+                          fullWidth
+                          endIcon={<Send />}
+                          sx={{
+                            py: 1.5,
+                            fontSize: '1.1rem',
+                            fontWeight: 600,
+                            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                            '&:hover': {
+                              background: 'linear-gradient(135deg, #764ba2 0%, #667eea 100%)',
+                              transform: 'translateY(-2px)',
+                              boxShadow: '0 8px 20px rgba(102, 126, 234, 0.4)',
+                            },
+                            transition: 'all 0.3s ease',
+                          }}
+                        >
+                          Send Message
+                        </Button>
+                      </Grid>
+                    </Grid>
+                  </Box>
+                </CardContent>
+              </Card>
+            </motion.div>
+          </Grid>
+
+          {/* Right Side - Contact Info */}
+          <Grid item xs={12} md={5}>
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+              {/* Contact Methods */}
+              <motion.div
+                initial={{ opacity: 0, x: 50 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+              >
                 <Typography
-                  variant="h4"
+                  variant="h5"
                   sx={{
-                    fontWeight: 600,
-                    color: isDarkMode ? '#e2e8f0' : '#1e293b',
-                    mb: 4,
+                    fontWeight: 700,
+                    mb: 3,
+                    color: isDarkMode ? '#60A5FA' : '#3B82F6',
                   }}
                 >
                   Contact Information
                 </Typography>
 
-                {/* Contact Cards */}
-                <Box sx={{ mb: 4 }}>
-                  {contactInfo.map((info, index) => (
-                    <motion.div
-                      key={info.title}
-                      initial={{ opacity: 0, x: -50 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ duration: 0.5, delay: index * 0.1 }}
-                      whileHover={{ x: 10 }}
-                    >
-                      <Card
-                        sx={{
-                          mb: 2,
-                          background: isDarkMode
-                            ? 'linear-gradient(145deg, #1e293b, #334155)'
-                            : 'linear-gradient(145deg, #ffffff, #f1f5f9)',
-                          borderRadius: 2,
-                          boxShadow: isDarkMode
-                            ? '0 4px 15px rgba(0, 0, 0, 0.3)'
-                            : '0 4px 15px rgba(0, 0, 0, 0.1)',
-                          border: isDarkMode ? '1px solid #334155' : '1px solid #e2e8f0',
-                          cursor: info.link !== '#' ? 'pointer' : 'default',
-                          transition: 'all 0.3s ease',
-                          '&:hover': {
-                            transform: info.link !== '#' ? 'translateX(5px)' : 'none',
-                          },
-                        }}
-                        onClick={() => info.link !== '#' && window.open(info.link)}
-                      >
-                        <CardContent sx={{ p: 3 }}>
-                          <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                            <Box
-                              sx={{
-                                color: info.color,
-                                mr: 2,
-                                display: 'flex',
-                                alignItems: 'center',
-                              }}
-                            >
-                              {info.icon}
-                            </Box>
-                            <Box>
-                              <Typography
-                                variant="h6"
-                                sx={{
-                                  fontWeight: 600,
-                                  color: isDarkMode ? '#e2e8f0' : '#1e293b',
-                                  mb: 0.5,
-                                }}
-                              >
-                                {info.title}
-                              </Typography>
-                              <Typography
-                                variant="body1"
-                                sx={{
-                                  color: isDarkMode ? '#cbd5e1' : '#64748b',
-                                }}
-                              >
-                                {info.value}
-                              </Typography>
-                            </Box>
-                          </Box>
-                        </CardContent>
-                      </Card>
-                    </motion.div>
-                  ))}
-                </Box>
-
-                {/* Social Links */}
-                <Box sx={{ mb: 4 }}>
-                  <Typography
-                    variant="h5"
-                    sx={{
-                      fontWeight: 600,
-                      color: isDarkMode ? '#e2e8f0' : '#1e293b',
-                      mb: 2,
-                    }}
-                  >
-                    Follow Me
-                  </Typography>
-                  <Box sx={{ display: 'flex', gap: 2 }}>
-                    {socialLinks.map((social, index) => (
-                      <motion.div
-                        key={social.name}
-                        initial={{ opacity: 0, scale: 0 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ duration: 0.3, delay: index * 0.1 }}
-                        whileHover={{ scale: 1.1 }}
-                        whileTap={{ scale: 0.95 }}
-                      >
-                        <IconButton
-                          href={social.url}
-                          target="_blank"
-                          sx={{
-                            background: social.color,
-                            color: 'white',
-                            width: 60,
-                            height: 60,
-                            '&:hover': {
-                              background: social.color,
-                              opacity: 0.8,
-                            },
-                          }}
-                        >
-                          {social.icon}
-                        </IconButton>
-                      </motion.div>
-                    ))}
-                  </Box>
-                </Box>
-
-                {/* Download Resume Button */}
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.6 }}
-                >
-                  <Button
-                    variant="contained"
-                    size="large"
-                    startIcon={<Download />}
-                    href="https://drive.google.com/file/d/16rCE330gJcew8CQeQsDGCQ7WjD1KHZWu/view?usp=sharing"
-                    download
-                    sx={{
-                      background: 'linear-gradient(45deg, #6366f1, #8b5cf6)',
-                      '&:hover': {
-                        background: 'linear-gradient(45deg, #5855eb, #7c3aed)',
-                        transform: 'translateY(-2px)',
-                      },
-                      transition: 'all 0.3s ease',
-                      borderRadius: 2,
-                      px: 4,
-                      py: 1.5,
-                    }}
-                  >
-                    Download Resume
-                  </Button>
-                </motion.div>
-              </motion.div>
-            </Grid>
-
-            {/* Contact Form */}
-            <Grid item xs={12} md={6}>
-              <motion.div variants={itemVariants}>
-                <Card
-                  sx={{
-                    background: isDarkMode
-                      ? 'linear-gradient(145deg, #1e293b, #334155)'
-                      : 'linear-gradient(145deg, #ffffff, #f1f5f9)',
-                    borderRadius: 3,
-                    boxShadow: isDarkMode
-                      ? '0 10px 25px rgba(0, 0, 0, 0.3)'
-                      : '0 10px 25px rgba(0, 0, 0, 0.1)',
-                    border: isDarkMode ? '1px solid #334155' : '1px solid #e2e8f0',
-                  }}
-                >
-                  <CardContent sx={{ p: 4 }}>
-                    <Typography
-                      variant="h4"
+                <Box sx={{ display: 'flex', flexDirection: 'row', gap: 2, flexWrap: 'wrap' }}>
+                  {contactMethods.map((method, index) => (
+                    <Box
+                      key={index}
+                      component={method.link ? motion.a : motion.div}
+                      href={method.link}
+                      whileHover={{ y: -5, scale: 1.02 }}
+                      transition={{ type: 'spring', stiffness: 300 }}
                       sx={{
-                        fontWeight: 600,
-                        color: isDarkMode ? '#e2e8f0' : '#1e293b',
-                        mb: 4,
-                        textAlign: 'center',
+                        position: 'relative',
+                        flex: '1 1 calc(33.333% - 14px)',
+                        minWidth: '150px',
+                        background: isDarkMode
+                          ? `linear-gradient(135deg, ${method.color}15, ${method.color}05)`
+                          : `linear-gradient(135deg, ${method.color}10, #ffffff)`,
+                        backdropFilter: 'blur(10px)',
+                        borderRadius: 3,
+                        p: 3,
+                        cursor: method.link ? 'pointer' : 'default',
+                        textDecoration: 'none',
+                        color: 'inherit',
+                        border: isDarkMode
+                          ? `2px solid ${method.color}30`
+                          : `2px solid ${method.color}20`,
+                        boxShadow: `0 4px 15px ${method.color}15`,
+                        overflow: 'hidden',
+                        '&:hover': {
+                          borderColor: method.color,
+                          boxShadow: `0 8px 25px ${method.color}30`,
+                        },
+                        transition: 'all 0.3s ease',
                       }}
                     >
-                      Send Message
-                    </Typography>
-
-                    <Box component="form" onSubmit={handleSubmit}>
-                      <TextField
-                        fullWidth
-                        label="Your Name"
-                        name="name"
-                        value={formData.name}
-                        onChange={handleInputChange}
-                        required
+                      {/* Decorative gradient blob */}
+                      <Box
                         sx={{
-                          mb: 3,
-                          '& .MuiOutlinedInput-root': {
-                            '& fieldset': {
-                              borderColor: isDarkMode ? '#475569' : '#d1d5db',
-                            },
-                            '&:hover fieldset': {
-                              borderColor: '#6366f1',
-                            },
-                            '&.Mui-focused fieldset': {
-                              borderColor: '#6366f1',
-                            },
-                          },
-                          '& .MuiInputLabel-root': {
-                            color: isDarkMode ? '#cbd5e1' : '#64748b',
-                          },
-                          '& .MuiOutlinedInput-input': {
-                            color: isDarkMode ? '#e2e8f0' : '#1e293b',
-                          },
+                          position: 'absolute',
+                          top: -20,
+                          right: -20,
+                          width: 100,
+                          height: 100,
+                          borderRadius: '50%',
+                          background: `radial-gradient(circle, ${method.color}20, transparent)`,
+                          filter: 'blur(20px)',
                         }}
                       />
 
-                      <TextField
-                        fullWidth
-                        label="Your Email"
-                        name="email"
-                        type="email"
-                        value={formData.email}
-                        onChange={handleInputChange}
-                        required
-                        sx={{
-                          mb: 3,
-                          '& .MuiOutlinedInput-root': {
-                            '& fieldset': {
-                              borderColor: isDarkMode ? '#475569' : '#d1d5db',
-                            },
-                            '&:hover fieldset': {
-                              borderColor: '#6366f1',
-                            },
-                            '&.Mui-focused fieldset': {
-                              borderColor: '#6366f1',
-                            },
-                          },
-                          '& .MuiInputLabel-root': {
-                            color: isDarkMode ? '#cbd5e1' : '#64748b',
-                          },
-                          '& .MuiOutlinedInput-input': {
-                            color: isDarkMode ? '#e2e8f0' : '#1e293b',
-                          },
-                        }}
-                      />
-
-                      <TextField
-                        fullWidth
-                        label="Your Message"
-                        name="message"
-                        multiline
-                        rows={6}
-                        value={formData.message}
-                        onChange={handleInputChange}
-                        required
-                        sx={{
-                          mb: 3,
-                          '& .MuiOutlinedInput-root': {
-                            '& fieldset': {
-                              borderColor: isDarkMode ? '#475569' : '#d1d5db',
-                            },
-                            '&:hover fieldset': {
-                              borderColor: '#6366f1',
-                            },
-                            '&.Mui-focused fieldset': {
-                              borderColor: '#6366f1',
-                            },
-                          },
-                          '& .MuiInputLabel-root': {
-                            color: isDarkMode ? '#cbd5e1' : '#64748b',
-                          },
-                          '& .MuiOutlinedInput-input': {
-                            color: isDarkMode ? '#e2e8f0' : '#1e293b',
-                          },
-                        }}
-                      />
-
-                      <motion.div
-                        whileHover={{ scale: 1.02 }}
-                        whileTap={{ scale: 0.98 }}
-                      >
-                        <Button
-                          type="submit"
-                          variant="contained"
-                          size="large"
-                          startIcon={<Send />}
-                          fullWidth
+                      <Box sx={{ position: 'relative', zIndex: 1 }}>
+                        <Box
                           sx={{
-                            background: 'linear-gradient(45deg, #6366f1, #8b5cf6)',
-                            '&:hover': {
-                              background: 'linear-gradient(45deg, #5855eb, #7c3aed)',
-                            },
-                            borderRadius: 2,
-                            py: 1.5,
-                            fontSize: '1.1rem',
-                            fontWeight: 600,
+                            width: 60,
+                            height: 60,
+                            borderRadius: 2.5,
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            background: method.color,
+                            color: '#fff',
+                            mb: 2,
+                            boxShadow: `0 6px 20px ${method.color}40`,
                           }}
                         >
-                          Send Message
-                        </Button>
-                      </motion.div>
+                          {method.icon}
+                        </Box>
+                        <Typography
+                          variant="caption"
+                          sx={{
+                            color: isDarkMode ? '#94a3b8' : '#64748b',
+                            fontSize: '0.75rem',
+                            fontWeight: 600,
+                            textTransform: 'uppercase',
+                            letterSpacing: 1,
+                          }}
+                        >
+                          {method.title}
+                        </Typography>
+                        <Typography
+                          variant="body1"
+                          sx={{
+                            fontWeight: 700,
+                            color: isDarkMode ? '#fff' : '#1e293b',
+                            fontSize: '0.95rem',
+                            mt: 0.5,
+                            wordBreak: 'break-word',
+                          }}
+                        >
+                          {method.detail}
+                        </Typography>
+                      </Box>
                     </Box>
-                  </CardContent>
-                </Card>
+                  ))}
+                </Box>
               </motion.div>
-            </Grid>
-          </Grid>
 
-          {/* Footer */}
-          <motion.div
-            variants={itemVariants}
-            initial="hidden"
-            animate="visible"
-            transition={{ delay: 1 }}
-          >
-            <Box
-              sx={{
-                textAlign: 'center',
-                mt: 8,
-                pt: 4,
-                borderTop: `1px solid ${isDarkMode ? '#334155' : '#e2e8f0'}`,
-              }}
-            >
-              <Typography
-                variant="body1"
-                sx={{
-                  color: isDarkMode ? '#cbd5e1' : '#64748b',
-                  mb: 2,
-                }}
+              {/* Social Links */}
+              <motion.div
+                initial={{ opacity: 0, x: 50 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6, delay: 0.4 }}
               >
-                © 2025 Nenavath Suresh. All rights reserved.
-              </Typography>
-              <Typography
-                variant="body2"
-                sx={{
-                  color: isDarkMode ? '#94a3b8' : '#94a3b8',
-                }}
+                <Typography
+                  variant="h5"
+                  sx={{
+                    fontWeight: 700,
+                    mb: 3,
+                    color: isDarkMode ? '#60A5FA' : '#3B82F6',
+                  }}
+                >
+                  Social Profiles
+                </Typography>
+
+                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                  {socialLinks.map((social, index) => (
+                    <Box
+                      key={index}
+                      component={motion.a}
+                      href={social.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      whileHover={{ scale: 1.03, y: -3 }}
+                      whileTap={{ scale: 0.98 }}
+                      transition={{ type: 'spring', stiffness: 400, damping: 17 }}
+                      sx={{
+                        position: 'relative',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 2.5,
+                        p: 2.5,
+                        borderRadius: 3,
+                        textDecoration: 'none',
+                        background: isDarkMode
+                          ? `linear-gradient(135deg, ${social.color}20, ${social.color}05)`
+                          : `linear-gradient(135deg, #ffffff, ${social.color}08)`,
+                        border: isDarkMode
+                          ? `2px solid ${social.color}40`
+                          : `2px solid ${social.color}30`,
+                        cursor: 'pointer',
+                        overflow: 'hidden',
+                        boxShadow: `0 4px 15px ${social.color}20`,
+                        '&:hover': {
+                          borderColor: social.color,
+                          boxShadow: `0 8px 30px ${social.color}40`,
+                          '& .social-icon': {
+                            transform: 'rotate(10deg) scale(1.1)',
+                          },
+                          '& .arrow-icon': {
+                            transform: 'translateX(5px)',
+                          },
+                        },
+                        transition: 'all 0.3s ease',
+                      }}
+                    >
+                      {/* Animated gradient background */}
+                      <Box
+                        sx={{
+                          position: 'absolute',
+                          top: 0,
+                          left: 0,
+                          right: 0,
+                          bottom: 0,
+                          background: `linear-gradient(135deg, ${social.color}10, transparent)`,
+                          opacity: 0,
+                          transition: 'opacity 0.3s ease',
+                          '&:hover': {
+                            opacity: 1,
+                          },
+                        }}
+                      />
+
+                      {/* Icon */}
+                      <Box
+                        className="social-icon"
+                        sx={{
+                          width: 60,
+                          height: 60,
+                          borderRadius: 2.5,
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          background: social.color,
+                          color: '#fff',
+                          flexShrink: 0,
+                          boxShadow: `0 6px 20px ${social.color}50`,
+                          transition: 'transform 0.3s ease',
+                          zIndex: 1,
+                        }}
+                      >
+                        {social.icon}
+                      </Box>
+
+                      {/* Text Content */}
+                      <Box sx={{ flex: 1, zIndex: 1 }}>
+                        <Typography
+                          variant="h6"
+                          sx={{
+                            fontWeight: 700,
+                            color: isDarkMode ? '#fff' : '#1e293b',
+                            fontSize: '1.1rem',
+                            mb: 0.3,
+                          }}
+                        >
+                          {social.name}
+                        </Typography>
+                        <Typography
+                          variant="body2"
+                          sx={{
+                            color: isDarkMode ? '#94a3b8' : '#64748b',
+                            fontSize: '0.9rem',
+                            fontWeight: 500,
+                          }}
+                        >
+                          {social.username}
+                        </Typography>
+                      </Box>
+
+                      {/* Arrow Icon */}
+                      <Box
+                        className="arrow-icon"
+                        sx={{
+                          zIndex: 1,
+                          color: social.color,
+                          display: 'flex',
+                          alignItems: 'center',
+                          transition: 'transform 0.3s ease',
+                        }}
+                      >
+                        <svg
+                          width="24"
+                          height="24"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        >
+                          <path d="M7 17L17 7M17 7H7M17 7V17" />
+                        </svg>
+                      </Box>
+                    </Box>
+                  ))}
+                </Box>
+              </motion.div>
+
+              {/* Resume Download */}
+              <motion.div
+                initial={{ opacity: 0, x: 50 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6, delay: 0.5 }}
               >
-                Built with ❤️ using React.js and Material-UI
-              </Typography>
+                <Button
+                  variant="contained"
+                  fullWidth
+                  size="large"
+                  href="https://drive.google.com/file/d/16rCE330gJcew8CQeQsDGCQ7WjD1KHZWu/view?usp=sharing"
+                  target="_blank"
+                  sx={{
+                    py: 2,
+                    fontSize: '1.1rem',
+                    fontWeight: 600,
+                    background: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
+                    borderRadius: 4,
+                    '&:hover': {
+                      background: 'linear-gradient(135deg, #f5576c 0%, #f093fb 100%)',
+                      transform: 'translateY(-2px)',
+                      boxShadow: '0 8px 20px rgba(245, 87, 108, 0.4)',
+                    },
+                    transition: 'all 0.3s ease',
+                  }}
+                >
+                  📄 Download Resume
+                </Button>
+              </motion.div>
             </Box>
-          </motion.div>
-        </motion.div>
-
-        {/* Success Alert */}
-        <Snackbar
-          open={showAlert}
-          autoHideDuration={6000}
-          onClose={() => setShowAlert(false)}
-          anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-        >
-          <Alert
-            onClose={() => setShowAlert(false)}
-            severity="success"
-            sx={{ width: '100%' }}
-          >
-            Message sent successfully! I'll get back to you soon.
-          </Alert>
-        </Snackbar>
+          </Grid>
+        </Grid>
       </Container>
+
+      {/* Success Alert */}
+      <Snackbar
+        open={showAlert}
+        autoHideDuration={5000}
+        onClose={() => setShowAlert(false)}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+      >
+        <Alert
+          onClose={() => setShowAlert(false)}
+          severity="success"
+          variant="filled"
+          sx={{ fontSize: '1rem' }}
+        >
+          🎉 Message sent successfully! I'll get back to you soon.
+        </Alert>
+      </Snackbar>
     </Box>
   );
 };

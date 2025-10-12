@@ -1,57 +1,47 @@
 import React from 'react';
+import { Box, Typography, Avatar, Chip, useTheme as useMuiTheme } from '@mui/material';
 import { motion } from 'framer-motion';
 import { useTheme } from '../contexts/ThemeContext';
-import {
-  Box,
-  Typography,
-  Avatar,
-  Chip,
-} from '@mui/material';
-import {
-  School,
-  LibraryBooks,
-  EmojiEvents,
-} from '@mui/icons-material';
+import { Work, School, Code } from '@mui/icons-material';
 
-const Education = () => {
+const Experience = () => {
   const { isDarkMode } = useTheme();
+  const muiTheme = useMuiTheme();
 
-  const educationData = [
+  const experiences = [
     {
-      id: 1,
-      degree: 'Bachelor of Technology',
-      field: 'Computer Science and Engineering',
-      institution: 'Siddhartha Institute of Engineering & Technology',
-      location: 'Hyderabad',
-      year: '2025',
-      description: 'Completed B.Tech in Computer Science and Engineering with focus on software development, data structures, algorithms, and web technologies.',
-      icon: <School />,
-      skills: ['DSA', 'Web Development', 'Software Engineering', 'Database'],
+      title: 'Full Stack Developer Intern',
+      company: 'Vedlogy Learnings',
+      date: 'September 2024 — Present',
+      description: 'Building modern web applications with cutting-edge technologies and contributing to real-world projects.',
+      logo: '/src/assets/vedlogy_logo.png',
+      type: 'work',
+      skills: [
+                'React',
+                'Django',
+                'Django REST Framework',
+                'SQLite',
+                'JWT Authentication',
+                'Google OAuth',
+                'LangChain',
+                'Generative AI Integration',
+                'RESTful API',
+                'Cryptography'
+                ],
     },
-    {
-      id: 2,
-      degree: 'Intermediate (MPC)',
-      field: 'Mathematics, Physics and Chemistry',
-      institution: 'Telangana Social Welfare Residential Educational Institutions Society',
-      location: 'Sangareddy, Telangana',
-      year: '2021',
-      description: 'Completed intermediate education in Mathematics, Physics, and Chemistry stream with excellent academic performance.',
-      icon: <LibraryBooks />,
-      skills: ['Mathematics', 'Physics', 'Chemistry'],
-    },
-    {
-      id: 3,
-      degree: 'Secondary School Certificate',
-      field: 'General Education',
-      institution: 'Zilla Parishad High School',
-      location: 'Zaheerabad, Telangana',
-      year: '2019',
-      description: 'Completed SSC with strong foundation in mathematics and science subjects.',
-      icon: <EmojiEvents />,
-      skills: ['Mathematics', 'Science', 'English'],
-    },
+    // Add more experiences here as needed
   ];
 
+  const getIcon = (type) => {
+    switch (type) {
+      case 'work':
+        return <Work />;
+      case 'education':
+        return <School />;
+      default:
+        return <Code />;
+    }
+  };
 
   return (
     <motion.div
@@ -79,10 +69,10 @@ const Education = () => {
                 backgroundClip: 'text',
               }}
             >
-              Education
+              My Journey
             </Typography>
             <Typography variant="h6" color="text.secondary" sx={{ maxWidth: 600, mx: 'auto' }}>
-              My educational journey and academic achievements
+              Explore my professional experience and the skills I've developed along the way
             </Typography>
           </motion.div>
         </Box>
@@ -98,18 +88,18 @@ const Education = () => {
               bottom: 0,
               width: 3,
               background: isDarkMode
-                ? 'linear-gradient(180deg, #6366f1 0%, #8b5cf6 50%, rgba(236,72,153,0.2) 100%)'
-                : 'linear-gradient(180deg, #6366f1 0%, #8b5cf6 50%, rgba(236,72,153,0.3) 100%)',
+                ? 'linear-gradient(180deg, #6366f1 0%, #8b5cf6 50%, rgba(139,92,246,0.2) 100%)'
+                : 'linear-gradient(180deg, #6366f1 0%, #8b5cf6 50%, rgba(139,92,246,0.3) 100%)',
               transform: { xs: 'none', md: 'translateX(-50%)' },
               borderRadius: 2,
             }}
           />
 
-          {educationData.map((edu, idx) => {
+          {experiences.map((exp, idx) => {
             const isLeft = idx % 2 === 0;
             return (
               <Box
-                key={edu.id}
+                key={idx}
                 component={motion.div}
                 initial={{ opacity: 0, x: isLeft ? -40 : 40, scale: 0.95 }}
                 animate={{ opacity: 1, x: 0, scale: 1 }}
@@ -171,53 +161,24 @@ const Education = () => {
 
                       <Box sx={{ display: 'flex', gap: 2, mb: 2, alignItems: 'center', flexDirection: { xs: 'row', md: isLeft ? 'row-reverse' : 'row' } }}>
                         <Avatar
+                          src={exp.logo}
+                          alt={exp.company}
                           sx={{
                             width: 64,
                             height: 64,
-                            background: 'linear-gradient(135deg, #6366f1, #8b5cf6)',
                             border: `3px solid ${isDarkMode ? 'rgba(139,92,246,0.3)' : 'rgba(139,92,246,0.2)'}`,
                             boxShadow: '0 8px 24px rgba(139,92,246,0.2)',
                           }}
-                        >
-                          {edu.icon}
-                        </Avatar>
+                        />
                         <Box sx={{ flex: 1 }}>
                           <Typography variant="h5" sx={{ fontWeight: 700, mb: 0.5 }}>
-                            {edu.degree}
+                            {exp.title}
                           </Typography>
-                          <Chip
-                            label={edu.year}
-                            size="small"
-                            sx={{
-                              background: 'linear-gradient(135deg, #6366f1, #8b5cf6)',
-                              color: 'white',
-                              fontWeight: 700,
-                              fontSize: '0.75rem',
-                            }}
-                          />
+                          <Typography variant="subtitle1" sx={{ color: '#8b5cf6', fontWeight: 600 }}>
+                            {exp.company}
+                          </Typography>
                         </Box>
                       </Box>
-
-                      <Typography
-                        variant="subtitle1"
-                        sx={{
-                          color: '#8b5cf6',
-                          fontWeight: 700,
-                          mb: 1,
-                        }}
-                      >
-                        {edu.field}
-                      </Typography>
-
-                      <Typography
-                        variant="body1"
-                        sx={{
-                          fontWeight: 600,
-                          mb: 0.5,
-                        }}
-                      >
-                        {edu.institution}
-                      </Typography>
 
                       <Typography
                         variant="body2"
@@ -227,16 +188,16 @@ const Education = () => {
                           fontWeight: 500,
                         }}
                       >
-                        📍 {edu.location}
+                        📅 {exp.date}
                       </Typography>
 
                       <Typography variant="body1" sx={{ mb: 2, lineHeight: 1.7 }}>
-                        {edu.description}
+                        {exp.description}
                       </Typography>
 
-                      {/* Skills/Subjects */}
+                      {/* Skills/Tech Stack */}
                       <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, justifyContent: { xs: 'flex-start', md: isLeft ? 'flex-end' : 'flex-start' } }}>
-                        {edu.skills.map((skill, i) => (
+                        {exp.skills.map((skill, i) => (
                           <Chip
                             key={i}
                             label={skill}
@@ -299,7 +260,7 @@ const Education = () => {
                         },
                       }}
                     >
-                      {edu.icon}
+                      {getIcon(exp.type)}
                     </Box>
                   </motion.div>
                 </Box>
@@ -307,75 +268,9 @@ const Education = () => {
             );
           })}
         </Box>
-
-        {/* Additional Information */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.4, duration: 0.5 }}
-        >
-          <Box sx={{ mt: 8, textAlign: 'center' }}>
-            <Box
-              sx={{
-                position: 'relative',
-                background: isDarkMode
-                  ? 'linear-gradient(135deg, rgba(99,102,241,0.05) 0%, rgba(139,92,246,0.05) 100%)'
-                  : 'linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(249,250,251,0.9) 100%)',
-                backdropFilter: 'blur(20px)',
-                border: `1px solid ${isDarkMode ? 'rgba(139,92,246,0.2)' : 'rgba(139,92,246,0.15)'}`,
-                borderRadius: 3,
-                p: 4,
-                maxWidth: 700,
-                mx: 'auto',
-                boxShadow: isDarkMode
-                  ? '0 20px 60px rgba(0,0,0,0.6), 0 0 40px rgba(139,92,246,0.1)'
-                  : '0 20px 60px rgba(139,92,246,0.15), 0 10px 30px rgba(0,0,0,0.05)',
-              }}
-            >
-              {/* Gradient accent bar */}
-              <Box
-                sx={{
-                  position: 'absolute',
-                  top: 0,
-                  left: 0,
-                  right: 0,
-                  height: 4,
-                  background: 'linear-gradient(90deg, #6366f1, #8b5cf6, #ec4899)',
-                  borderRadius: '12px 12px 0 0',
-                }}
-              />
-              <Typography
-                variant="h5"
-                sx={{
-                  fontWeight: 700,
-                  background: 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  backgroundClip: 'text',
-                  mb: 2,
-                }}
-              >
-                Academic Excellence
-              </Typography>
-              <Typography
-                variant="body1"
-                sx={{
-                  color: isDarkMode ? '#cbd5e1' : '#64748b',
-                  lineHeight: 1.7,
-                }}
-              >
-                Throughout my educational journey, I have maintained a strong academic record 
-                while actively participating in various technical projects and programming competitions. 
-                My education has provided me with a solid foundation in computer science principles 
-                and practical software development skills.
-              </Typography>
-            </Box>
-          </Box>
-        </motion.div>
       </Box>
     </motion.div>
   );
 };
 
-export default Education;
+export default Experience;

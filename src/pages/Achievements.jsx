@@ -3,26 +3,17 @@ import { useTheme } from '../contexts/ThemeContext';
 import {
   Box,
   Typography,
-  Container,
   Grid,
-  Card,
-  CardContent,
-  Avatar,
   Chip,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
 } from '@mui/material';
 import {
   EmojiEvents,
-  Code,
   GitHub,
-  Group,
-  Star,
   TrendingUp,
   Build,
   CheckCircle,
+  WorkspacePremium,
+  Verified,
 } from '@mui/icons-material';
 
 const Achievements = () => {
@@ -34,7 +25,7 @@ const Achievements = () => {
       title: 'Full-Stack Development',
       description: 'Built multiple full-stack applications using MERN stack',
       icon: <Build />,
-      color: '#6366f1',
+      gradient: 'linear-gradient(135deg, #6366f1, #8b5cf6)',
       details: [
         'Developed 5+ complete web applications',
         'Implemented user authentication systems',
@@ -47,7 +38,7 @@ const Achievements = () => {
       title: 'Freelance Projects',
       description: 'Completed several freelance projects successfully',
       icon: <TrendingUp />,
-      color: '#8b5cf6',
+      gradient: 'linear-gradient(135deg, #8b5cf6, #ec4899)',
       details: [
         'Delivered projects on time and within budget',
         'Maintained long-term client relationships',
@@ -60,7 +51,7 @@ const Achievements = () => {
       title: 'GitHub Contributor',
       description: 'Active contributor on GitHub with consistent commits',
       icon: <GitHub />,
-      color: '#22c55e',
+      gradient: 'linear-gradient(135deg, #10b981, #059669)',
       details: [
         'Maintained consistent coding activity',
         'Contributed to open-source projects',
@@ -73,7 +64,7 @@ const Achievements = () => {
       title: 'Coding Competitions',
       description: 'Participated in coding contests and hackathons',
       icon: <EmojiEvents />,
-      color: '#f59e0b',
+      gradient: 'linear-gradient(135deg, #f59e0b, #ef4444)',
       details: [
         'Participated in online coding competitions',
         'Solved algorithmic and data structure problems',
@@ -84,394 +75,445 @@ const Achievements = () => {
   ];
 
   const skills = [
-      { name: 'JavaScript', icon: '💛' },
-      { name: 'React.js', icon: '⚛️' },
-      { name: 'Node.js', icon: '🚀' },
-      { name: 'Express.js', icon: '⚡' },
-      { name: 'Python', icon: '🐍' },
-      { name: 'HTML/CSS', icon: '🎨' },
-      { name: 'Git/GitHub', icon: '📚' },
-      { name: 'SQLite', icon: '🗄️' },
-    ];
+    { name: 'JavaScript', icon: '💛', gradient: 'linear-gradient(135deg, #f59e0b, #d97706)' },
+    { name: 'React.js', icon: '⚛️', gradient: 'linear-gradient(135deg, #06b6d4, #0891b2)' },
+    { name: 'Node.js', icon: '🚀', gradient: 'linear-gradient(135deg, #10b981, #059669)' },
+    { name: 'Express.js', icon: '⚡', gradient: 'linear-gradient(135deg, #6366f1, #4f46e5)' },
+    { name: 'Python', icon: '🐍', gradient: 'linear-gradient(135deg, #3b82f6, #2563eb)' },
+    { name: 'HTML/CSS', icon: '🎨', gradient: 'linear-gradient(135deg, #ec4899, #db2777)' },
+    { name: 'Git/GitHub', icon: '📚', gradient: 'linear-gradient(135deg, #8b5cf6, #7c3aed)' },
+    { name: 'SQLite', icon: '🗄️', gradient: 'linear-gradient(135deg, #14b8a6, #0d9488)' },
+  ];
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        delayChildren: 0.3,
-        staggerChildren: 0.2
-      }
-    }
-  };
+  const stats = [
+    {
+      number: '50+',
+      label: 'Projects Built',
+      icon: <Build sx={{ fontSize: 32 }} />,
+      gradient: 'linear-gradient(135deg, #6366f1, #8b5cf6)',
+    },
+    {
+      number: '500+',
+      label: 'GitHub Commits',
+      icon: <GitHub sx={{ fontSize: 32 }} />,
+      gradient: 'linear-gradient(135deg, #8b5cf6, #ec4899)',
+    },
+    {
+      number: '10+',
+      label: 'Technologies',
+      icon: <WorkspacePremium sx={{ fontSize: 32 }} />,
+      gradient: 'linear-gradient(135deg, #ec4899, #ef4444)',
+    },
+    {
+      number: '5+',
+      label: 'Competitions',
+      icon: <EmojiEvents sx={{ fontSize: 32 }} />,
+      gradient: 'linear-gradient(135deg, #f59e0b, #ef4444)',
+    },
+  ];
 
-  const itemVariants = {
-    hidden: { y: 20, opacity: 0 },
-    visible: {
-      y: 0,
-      opacity: 1,
-      transition: {
-        duration: 0.5
-      }
-    }
-  };
 
   return (
-    <Box
-      sx={{
-        minHeight: '100vh',
-        py: 8,
-        background: isDarkMode
-          ? 'linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%)'
-          : 'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)',
-      }}
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -20 }}
+      transition={{ duration: 0.5 }}
     >
-      <Container maxWidth="lg">
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-        >
-          {/* Header */}
-          <motion.div variants={itemVariants}>
-            <Box sx={{ textAlign: 'center', mb: 8 }}>
-              <Typography
-                variant="h2"
+      <Box sx={{ maxWidth: 1200, mx: 'auto', px: { xs: 2, md: 4 }, py: { xs: 4, md: 8 } }}>
+        {/* Header Section */}
+        <Box sx={{ textAlign: 'center', mb: 8 }}>
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2, duration: 0.5 }}
+          >
+            <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 2, mb: 2 }}>
+              <EmojiEvents
                 sx={{
-                  fontWeight: 700,
-                  background: 'linear-gradient(45deg, #6366f1, #8b5cf6)',
+                  fontSize: 48,
+                  background: 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%)',
                   WebkitBackgroundClip: 'text',
                   WebkitTextFillColor: 'transparent',
-                  mb: 2,
+                  backgroundClip: 'text',
+                }}
+              />
+              <Typography
+                variant="h3"
+                sx={{
+                  fontWeight: 800,
+                  background: 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text',
                 }}
               >
                 Achievements
               </Typography>
-              <Typography
-                variant="h6"
-                sx={{
-                  color: isDarkMode ? '#cbd5e1' : '#64748b',
-                  maxWidth: 600,
-                  mx: 'auto',
-                }}
-              >
-                Key accomplishments and milestones in my development journey
-              </Typography>
             </Box>
+            <Typography variant="h6" color="text.secondary" sx={{ maxWidth: 600, mx: 'auto' }}>
+              Key accomplishments and milestones in my development journey
+            </Typography>
           </motion.div>
+        </Box>
 
-          {/* Achievements Grid */}
-          <Grid container spacing={4} sx={{ mb: 8 }}>
-            {achievements.map((achievement, index) => (
-              <Grid item xs={12} md={6} key={achievement.id}>
-                <motion.div
-                  variants={itemVariants}
-                  initial={{ opacity: 0, y: 50 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  whileHover={{ y: -5 }}
+        {/* Achievements Grid */}
+        <Grid container spacing={4} sx={{ mb: 6 }}>
+          {achievements.map((achievement, idx) => (
+            <Grid item xs={12} md={6} key={achievement.id}>
+              <motion.div
+                initial={{ opacity: 0, y: 30, scale: 0.95 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{ duration: 0.5, delay: idx * 0.15, type: 'spring', stiffness: 120 }}
+              >
+                <Box
+                  component={motion.div}
+                  whileHover={{ y: -10, scale: 1.02 }}
+                  transition={{ type: 'spring', stiffness: 300 }}
+                  sx={{
+                    position: 'relative',
+                    height: '100%',
+                    background: isDarkMode
+                      ? 'linear-gradient(135deg, rgba(99,102,241,0.05) 0%, rgba(139,92,246,0.05) 100%)'
+                      : 'linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(249,250,251,0.9) 100%)',
+                    backdropFilter: 'blur(20px)',
+                    border: `1px solid ${isDarkMode ? 'rgba(139,92,246,0.2)' : 'rgba(139,92,246,0.15)'}`,
+                    borderRadius: 3,
+                    p: 4,
+                    boxShadow: isDarkMode
+                      ? '0 20px 60px rgba(0,0,0,0.6), 0 0 40px rgba(139,92,246,0.1)'
+                      : '0 20px 60px rgba(139,92,246,0.15), 0 10px 30px rgba(0,0,0,0.05)',
+                    overflow: 'hidden',
+                    cursor: 'pointer',
+                    '&:hover': {
+                      borderColor: isDarkMode ? 'rgba(139,92,246,0.5)' : 'rgba(139,92,246,0.3)',
+                    },
+                  }}
                 >
-                  <Card
+                  {/* Gradient accent bar */}
+                  <Box
                     sx={{
-                      height: '100%',
-                      background: isDarkMode
-                        ? 'linear-gradient(145deg, #1e293b, #334155)'
-                        : 'linear-gradient(145deg, #ffffff, #f1f5f9)',
-                      borderRadius: 3,
-                      boxShadow: isDarkMode
-                        ? '0 10px 25px rgba(0, 0, 0, 0.3)'
-                        : '0 10px 25px rgba(0, 0, 0, 0.1)',
-                      border: isDarkMode ? '1px solid #334155' : '1px solid #e2e8f0',
-                      transition: 'all 0.3s ease',
-                      '&:hover': {
-                        transform: 'translateY(-5px)',
-                        boxShadow: isDarkMode
-                          ? '0 20px 40px rgba(0, 0, 0, 0.4)'
-                          : '0 20px 40px rgba(0, 0, 0, 0.15)',
-                      },
+                      position: 'absolute',
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                      height: 4,
+                      background: achievement.gradient,
+                      borderRadius: '12px 12px 0 0',
                     }}
-                  >
-                    <CardContent sx={{ p: 4 }}>
-                      <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
-                        <Avatar
+                  />
+
+                  {/* Header with icon */}
+                  <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 2, mb: 3 }}>
+                    <Box
+                      sx={{
+                        width: 64,
+                        height: 64,
+                        borderRadius: 2,
+                        background: achievement.gradient,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        color: 'white',
+                        flexShrink: 0,
+                        boxShadow: '0 8px 24px rgba(139,92,246,0.3)',
+                      }}
+                    >
+                      {achievement.icon}
+                    </Box>
+                    <Box sx={{ flex: 1 }}>
+                      <Typography
+                        variant="h5"
+                        sx={{
+                          fontWeight: 700,
+                          mb: 1,
+                          background: achievement.gradient,
+                          WebkitBackgroundClip: 'text',
+                          WebkitTextFillColor: 'transparent',
+                          backgroundClip: 'text',
+                        }}
+                      >
+                        {achievement.title}
+                      </Typography>
+                      <Typography
+                        variant="body2"
+                        color="text.secondary"
+                        sx={{ lineHeight: 1.6 }}
+                      >
+                        {achievement.description}
+                      </Typography>
+                    </Box>
+                  </Box>
+
+                  {/* Details list */}
+                  <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
+                    {achievement.details.map((detail, detailIdx) => (
+                      <motion.div
+                        key={detailIdx}
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: idx * 0.15 + 0.3 + (0.1 * detailIdx) }}
+                      >
+                        <Box
                           sx={{
-                            background: achievement.color,
-                            mr: 2,
-                            width: 60,
-                            height: 60,
+                            display: 'flex',
+                            alignItems: 'flex-start',
+                            gap: 1.5,
+                            p: 1.5,
+                            borderRadius: 2,
+                            background: isDarkMode
+                              ? 'rgba(99,102,241,0.05)'
+                              : 'rgba(99,102,241,0.03)',
+                            transition: 'all 0.3s ease',
+                            '&:hover': {
+                              background: isDarkMode
+                                ? 'rgba(99,102,241,0.1)'
+                                : 'rgba(99,102,241,0.08)',
+                              transform: 'translateX(8px)',
+                            },
                           }}
                         >
-                          {achievement.icon}
-                        </Avatar>
-                        <Box>
-                          <Typography
-                            variant="h5"
+                          <CheckCircle
                             sx={{
-                              fontWeight: 600,
-                              color: isDarkMode ? '#e2e8f0' : '#1e293b',
-                              mb: 1,
+                              fontSize: 20,
+                              color: '#10b981',
+                              flexShrink: 0,
+                              mt: 0.2,
                             }}
-                          >
-                            {achievement.title}
-                          </Typography>
+                          />
                           <Typography
                             variant="body2"
                             sx={{
-                              color: isDarkMode ? '#cbd5e1' : '#64748b',
+                              flex: 1,
+                              lineHeight: 1.6,
                             }}
                           >
-                            {achievement.description}
+                            {detail}
                           </Typography>
                         </Box>
-                      </Box>
+                      </motion.div>
+                    ))}
+                  </Box>
+                </Box>
+              </motion.div>
+            </Grid>
+          ))}
+        </Grid>
 
-                      <List sx={{ p: 0 }}>
-                        {achievement.details.map((detail, detailIndex) => (
-                          <ListItem key={detailIndex} sx={{ px: 0, py: 0.5 }}>
-                            <ListItemIcon sx={{ minWidth: 30 }}>
-                              <CheckCircle
-                                sx={{
-                                  color: achievement.color,
-                                  fontSize: 20,
-                                }}
-                              />
-                            </ListItemIcon>
-                            <ListItemText
-                              primary={detail}
-                              sx={{
-                                '& .MuiListItemText-primary': {
-                                  color: isDarkMode ? '#cbd5e1' : '#64748b',
-                                  fontSize: '0.9rem',
-                                },
-                              }}
-                            />
-                          </ListItem>
-                        ))}
-                      </List>
-                    </CardContent>
-                  </Card>
-                </motion.div>
-              </Grid>
-            ))}
-          </Grid>
-
-          {/* Skills Section */}
-          <motion.div variants={itemVariants}>
-            <Card
+        {/* Skills Section */}
+        <motion.div
+          initial={{ opacity: 0, y: 30, scale: 0.95 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ duration: 0.5, delay: 0.6, type: 'spring', stiffness: 120 }}
+        >
+          <Box
+            sx={{
+              position: 'relative',
+              background: isDarkMode
+                ? 'linear-gradient(135deg, rgba(99,102,241,0.05) 0%, rgba(139,92,246,0.05) 100%)'
+                : 'linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(249,250,251,0.9) 100%)',
+              backdropFilter: 'blur(20px)',
+              border: `1px solid ${isDarkMode ? 'rgba(139,92,246,0.2)' : 'rgba(139,92,246,0.15)'}`,
+              borderRadius: 3,
+              p: 4,
+              mb: 6,
+              boxShadow: isDarkMode
+                ? '0 20px 60px rgba(0,0,0,0.6), 0 0 40px rgba(139,92,246,0.1)'
+                : '0 20px 60px rgba(139,92,246,0.15), 0 10px 30px rgba(0,0,0,0.05)',
+            }}
+          >
+            {/* Gradient accent bar */}
+            <Box
               sx={{
-                background: isDarkMode
-                  ? 'linear-gradient(145deg, #1e293b, #334155)'
-                  : 'linear-gradient(145deg, #ffffff, #f1f5f9)',
-                borderRadius: 3,
-                boxShadow: isDarkMode
-                  ? '0 10px 25px rgba(0, 0, 0, 0.3)'
-                  : '0 10px 25px rgba(0, 0, 0, 0.1)',
-                border: isDarkMode ? '1px solid #334155' : '1px solid #e2e8f0',
-                mb: 6,
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                right: 0,
+                height: 4,
+                background: 'linear-gradient(90deg, #6366f1, #8b5cf6, #ec4899)',
+                borderRadius: '12px 12px 0 0',
+              }}
+            />
+
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 4, justifyContent: 'center' }}>
+              <Verified
+                sx={{
+                  fontSize: 32,
+                  background: 'linear-gradient(135deg, #6366f1, #8b5cf6)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text',
+                }}
+              />
+              <Typography
+                variant="h5"
+                sx={{
+                  fontWeight: 700,
+                  background: 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text',
+                }}
+              >
+                Technical Expertise
+              </Typography>
+            </Box>
+
+            <Box
+              sx={{
+                display: 'flex',
+                flexWrap: 'wrap',
+                gap: 2,
+                justifyContent: 'center',
               }}
             >
-              <CardContent sx={{ p: 4 }}>
-                <Typography
-                  variant="h4"
-                  sx={{
-                    fontWeight: 600,
-                    color: isDarkMode ? '#e2e8f0' : '#1e293b',
-                    mb: 4,
-                    textAlign: 'center',
-                  }}
+              {skills.map((skill, idx) => (
+                <motion.div
+                  key={skill.name}
+                  initial={{ opacity: 0, scale: 0 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 0.8 + (0.05 * idx), type: 'spring', stiffness: 200 }}
+                  whileHover={{ scale: 1.1, rotate: 5 }}
                 >
-                  Technical Expertise
-                </Typography>
-                <Grid container spacing={2} justifyContent="center">
-                  {skills.map((skill, index) => (
-                    <Grid item key={skill.name}>
-                      <motion.div
-                        initial={{ opacity: 0, scale: 0 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ duration: 0.3, delay: index * 0.1 }}
-                        whileHover={{ scale: 1.1 }}
-                      >
-                        <Chip
-                          label={`${skill.icon} ${skill.name}`}
-                          sx={{
-                            background: 'linear-gradient(45deg, #6366f1, #8b5cf6)',
-                            color: 'white',
-                            fontWeight: 'bold',
-                            fontSize: '0.9rem',
-                            height: 40,
-                            '&:hover': {
-                              background: 'linear-gradient(45deg, #5855eb, #7c3aed)',
-                            },
-                          }}
-                        />
-                      </motion.div>
-                    </Grid>
-                  ))}
-                </Grid>
-              </CardContent>
-            </Card>
-          </motion.div>
-
-          {/* Statistics */}
-          <motion.div variants={itemVariants}>
-            <Grid container spacing={4}>
-              <Grid item xs={12} sm={6} md={3}>
-                <Card
-                  sx={{
-                    textAlign: 'center',
-                    p: 3,
-                    background: isDarkMode
-                      ? 'linear-gradient(145deg, #1e293b, #334155)'
-                      : 'linear-gradient(145deg, #ffffff, #f1f5f9)',
-                    borderRadius: 3,
-                    boxShadow: isDarkMode
-                      ? '0 10px 25px rgba(0, 0, 0, 0.3)'
-                      : '0 10px 25px rgba(0, 0, 0, 0.1)',
-                    border: isDarkMode ? '1px solid #334155' : '1px solid #e2e8f0',
-                  }}
-                >
-                  <Typography
-                    variant="h3"
+                  <Chip
+                    label={`${skill.icon} ${skill.name}`}
                     sx={{
+                      background: skill.gradient,
+                      color: 'white',
                       fontWeight: 700,
-                      background: 'linear-gradient(45deg, #6366f1, #8b5cf6)',
-                      WebkitBackgroundClip: 'text',
-                      WebkitTextFillColor: 'transparent',
-                      mb: 1,
+                      fontSize: '0.95rem',
+                      height: 44,
+                      px: 2,
+                      boxShadow: '0 4px 12px rgba(139,92,246,0.3)',
+                      border: 'none',
+                      cursor: 'pointer',
+                      transition: 'all 0.3s ease',
+                      '&:hover': {
+                        boxShadow: '0 8px 24px rgba(139,92,246,0.4)',
+                      },
                     }}
-                  >
-                    50+
-                  </Typography>
-                  <Typography
-                    variant="h6"
-                    sx={{
-                      color: isDarkMode ? '#e2e8f0' : '#1e293b',
-                      fontWeight: 600,
-                    }}
-                  >
-                    Projects Built
-                  </Typography>
-                </Card>
-              </Grid>
-              <Grid item xs={12} sm={6} md={3}>
-                <Card
-                  sx={{
-                    textAlign: 'center',
-                    p: 3,
-                    background: isDarkMode
-                      ? 'linear-gradient(145deg, #1e293b, #334155)'
-                      : 'linear-gradient(145deg, #ffffff, #f1f5f9)',
-                    borderRadius: 3,
-                    boxShadow: isDarkMode
-                      ? '0 10px 25px rgba(0, 0, 0, 0.3)'
-                      : '0 10px 25px rgba(0, 0, 0, 0.1)',
-                    border: isDarkMode ? '1px solid #334155' : '1px solid #e2e8f0',
-                  }}
-                >
-                  <Typography
-                    variant="h3"
-                    sx={{
-                      fontWeight: 700,
-                      background: 'linear-gradient(45deg, #6366f1, #8b5cf6)',
-                      WebkitBackgroundClip: 'text',
-                      WebkitTextFillColor: 'transparent',
-                      mb: 1,
-                    }}
-                  >
-                    500+
-                  </Typography>
-                  <Typography
-                    variant="h6"
-                    sx={{
-                      color: isDarkMode ? '#e2e8f0' : '#1e293b',
-                      fontWeight: 600,
-                    }}
-                  >
-                    GitHub Commits
-                  </Typography>
-                </Card>
-              </Grid>
-              <Grid item xs={12} sm={6} md={3}>
-                <Card
-                  sx={{
-                    textAlign: 'center',
-                    p: 3,
-                    background: isDarkMode
-                      ? 'linear-gradient(145deg, #1e293b, #334155)'
-                      : 'linear-gradient(145deg, #ffffff, #f1f5f9)',
-                    borderRadius: 3,
-                    boxShadow: isDarkMode
-                      ? '0 10px 25px rgba(0, 0, 0, 0.3)'
-                      : '0 10px 25px rgba(0, 0, 0, 0.1)',
-                    border: isDarkMode ? '1px solid #334155' : '1px solid #e2e8f0',
-                  }}
-                >
-                  <Typography
-                    variant="h3"
-                    sx={{
-                      fontWeight: 700,
-                      background: 'linear-gradient(45deg, #6366f1, #8b5cf6)',
-                      WebkitBackgroundClip: 'text',
-                      WebkitTextFillColor: 'transparent',
-                      mb: 1,
-                    }}
-                  >
-                    10+
-                  </Typography>
-                  <Typography
-                    variant="h6"
-                    sx={{
-                      color: isDarkMode ? '#e2e8f0' : '#1e293b',
-                      fontWeight: 600,
-                    }}
-                  >
-                    Technologies
-                  </Typography>
-                </Card>
-              </Grid>
-              <Grid item xs={12} sm={6} md={3}>
-                <Card
-                  sx={{
-                    textAlign: 'center',
-                    p: 3,
-                    background: isDarkMode
-                      ? 'linear-gradient(145deg, #1e293b, #334155)'
-                      : 'linear-gradient(145deg, #ffffff, #f1f5f9)',
-                    borderRadius: 3,
-                    boxShadow: isDarkMode
-                      ? '0 10px 25px rgba(0, 0, 0, 0.3)'
-                      : '0 10px 25px rgba(0, 0, 0, 0.1)',
-                    border: isDarkMode ? '1px solid #334155' : '1px solid #e2e8f0',
-                  }}
-                >
-                  <Typography
-                    variant="h3"
-                    sx={{
-                      fontWeight: 700,
-                      background: 'linear-gradient(45deg, #6366f1, #8b5cf6)',
-                      WebkitBackgroundClip: 'text',
-                      WebkitTextFillColor: 'transparent',
-                      mb: 1,
-                    }}
-                  >
-                    5+
-                  </Typography>
-                  <Typography
-                    variant="h6"
-                    sx={{
-                      color: isDarkMode ? '#e2e8f0' : '#1e293b',
-                      fontWeight: 600,
-                    }}
-                  >
-                    Competitions
-                  </Typography>
-                </Card>
-              </Grid>
-            </Grid>
-          </motion.div>
+                  />
+                </motion.div>
+              ))}
+            </Box>
+          </Box>
         </motion.div>
-      </Container>
-    </Box>
+
+        {/* Statistics Cards */}
+        <Grid container spacing={3}>
+          {stats.map((stat, idx) => (
+            <Grid item xs={12} sm={6} md={3} key={stat.label}>
+              <motion.div
+                initial={{ opacity: 0, y: 30, scale: 0.95 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{ duration: 0.5, delay: 1.2 + (idx * 0.1), type: 'spring', stiffness: 120 }}
+              >
+                <Box
+                  component={motion.div}
+                  whileHover={{ y: -8, scale: 1.05 }}
+                  transition={{ type: 'spring', stiffness: 300 }}
+                  sx={{
+                    position: 'relative',
+                    textAlign: 'center',
+                    background: isDarkMode
+                      ? 'linear-gradient(135deg, rgba(99,102,241,0.05) 0%, rgba(139,92,246,0.05) 100%)'
+                      : 'linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(249,250,251,0.9) 100%)',
+                    backdropFilter: 'blur(20px)',
+                    border: `1px solid ${isDarkMode ? 'rgba(139,92,246,0.2)' : 'rgba(139,92,246,0.15)'}`,
+                    borderRadius: 3,
+                    p: 4,
+                    boxShadow: isDarkMode
+                      ? '0 20px 60px rgba(0,0,0,0.6), 0 0 40px rgba(139,92,246,0.1)'
+                      : '0 20px 60px rgba(139,92,246,0.15), 0 10px 30px rgba(0,0,0,0.05)',
+                    cursor: 'pointer',
+                    overflow: 'hidden',
+                    '&:hover': {
+                      borderColor: isDarkMode ? 'rgba(139,92,246,0.5)' : 'rgba(139,92,246,0.3)',
+                    },
+                  }}
+                >
+                  {/* Gradient accent bar */}
+                  <Box
+                    sx={{
+                      position: 'absolute',
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                      height: 4,
+                      background: stat.gradient,
+                      borderRadius: '12px 12px 0 0',
+                    }}
+                  />
+
+                  {/* Animated background circle */}
+                  <Box
+                    component={motion.div}
+                    animate={{
+                      scale: [1, 1.2, 1],
+                      opacity: [0.1, 0.2, 0.1],
+                    }}
+                    transition={{
+                      duration: 3,
+                      repeat: Infinity,
+                      ease: 'easeInOut',
+                    }}
+                    sx={{
+                      position: 'absolute',
+                      top: '50%',
+                      left: '50%',
+                      transform: 'translate(-50%, -50%)',
+                      width: 120,
+                      height: 120,
+                      borderRadius: '50%',
+                      background: stat.gradient,
+                      filter: 'blur(30px)',
+                      zIndex: 0,
+                    }}
+                  />
+
+                  <Box sx={{ position: 'relative', zIndex: 1 }}>
+                    <Box
+                      sx={{
+                        width: 64,
+                        height: 64,
+                        borderRadius: '50%',
+                        background: stat.gradient,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        color: 'white',
+                        mx: 'auto',
+                        mb: 2,
+                        boxShadow: '0 8px 24px rgba(139,92,246,0.3)',
+                      }}
+                    >
+                      {stat.icon}
+                    </Box>
+
+                    <Typography
+                      variant="h3"
+                      sx={{
+                        fontWeight: 700,
+                        mb: 1,
+                        background: stat.gradient,
+                        WebkitBackgroundClip: 'text',
+                        WebkitTextFillColor: 'transparent',
+                        backgroundClip: 'text',
+                      }}
+                    >
+                      {stat.number}
+                    </Typography>
+                    <Typography variant="h6" sx={{ fontWeight: 600 }}>
+                      {stat.label}
+                    </Typography>
+                  </Box>
+                </Box>
+              </motion.div>
+            </Grid>
+          ))}
+        </Grid>
+      </Box>
+    </motion.div>
   );
 };
 

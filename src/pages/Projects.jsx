@@ -1,14 +1,9 @@
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from '../contexts/ThemeContext';
 import {
   Box,
   Typography,
-  Container,
-  Grid,
-  Card,
-  CardContent,
-  CardMedia,
   Button,
   Chip,
   IconButton,
@@ -40,7 +35,7 @@ const Projects = () => {
       image: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
       github: 'https://github.com/sureshnenavath/nxttrenz-app',
       demo: 'https://nxttrenz.dpdns.org/',
-      color: '#e91e63',
+      gradient: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
     },
     {
       id: 2,
@@ -52,7 +47,7 @@ const Projects = () => {
       image: 'https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
       github: 'https://github.com/sureshnenavath/Jobby-App',
       demo: 'https://jobbyjobfinder.netlify.app',
-      color: '#2196f3',
+      gradient: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
     },
     {
       id: 3,
@@ -64,7 +59,7 @@ const Projects = () => {
       image: 'https://images.unsplash.com/photo-1563013544-824ae1b704d3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
       github: 'https://github.com/sureshnenavath/Subscribely',
       demo: 'https://subscribely.netlify.app/',
-      color: '#8b5cf6',
+      gradient: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
     },
     {
       id: 4,
@@ -76,7 +71,7 @@ const Projects = () => {
       image: 'https://images.unsplash.com/photo-1586281380349-632531db7ed4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
       github: 'https://github.com/sureshnenavath/resumeai',
       demo: 'https://resumeaianalyser.netlify.app',
-      color: '#00bcd4',
+      gradient: 'linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)',
     },
     {
       id: 5,
@@ -88,31 +83,10 @@ const Projects = () => {
       image: 'https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
       github: 'https://github.com/sureshnenavath/task-tracker',
       demo: 'https://tasktrackerwebapp.netlify.app',
-      color: '#ff9800',
+      gradient: 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)',
     },
   ];
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        delayChildren: 0.3,
-        staggerChildren: 0.2
-      }
-    }
-  };
-
-  const itemVariants = {
-    hidden: { y: 20, opacity: 0 },
-    visible: {
-      y: 0,
-      opacity: 1,
-      transition: {
-        duration: 0.5
-      }
-    }
-  };
 
   const handleOpenModal = (project) => {
     setSelectedProject(project);
@@ -123,381 +97,469 @@ const Projects = () => {
   };
 
   return (
-    <Box
-      sx={{
-        minHeight: '100vh',
-        py: 8,
-        background: isDarkMode
-          ? 'linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%)'
-          : 'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)',
-      }}
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -20 }}
+      transition={{ duration: 0.5 }}
     >
-      <Container maxWidth="lg">
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-        >
-          {/* Header */}
-          <motion.div variants={itemVariants}>
-            <Box sx={{ textAlign: 'center', mb: 8 }}>
-              <Typography
-                variant="h2"
-                sx={{
-                  fontWeight: 700,
-                  background: 'linear-gradient(45deg, #6366f1, #8b5cf6)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  mb: 2,
-                }}
-              >
-                My Projects
-              </Typography>
-              <Typography
-                variant="h6"
-                sx={{
-                  color: isDarkMode ? '#cbd5e1' : '#64748b',
-                  maxWidth: 600,
-                  mx: 'auto',
-                }}
-              >
-                Explore my portfolio of web applications and software projects
-              </Typography>
-            </Box>
-          </motion.div>
-
-          {/* Projects Grid */}
-          <Box
-            component="div"
-            sx={{
-              display: 'grid',
-              gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, minmax(0, 1fr))' },
-              gap: 3,
-              alignItems: 'stretch',
-              width: '100%',
-              margin: 0,
-            }}
+      <Box sx={{ maxWidth: 1200, mx: 'auto', px: { xs: 2, md: 4 }, py: { xs: 4, md: 8 } }}>
+        {/* Header Section */}
+        <Box sx={{ textAlign: 'center', mb: 8 }}>
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2, duration: 0.5 }}
           >
-            {projects.map((project, index) => (
+            <Typography
+              variant="h3"
+              sx={{
+                fontWeight: 800,
+                mb: 2,
+                background: 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text',
+              }}
+            >
+              My Projects
+            </Typography>
+            <Typography variant="h6" color="text.secondary" sx={{ maxWidth: 600, mx: 'auto' }}>
+              Explore my portfolio of web applications and software projects
+            </Typography>
+          </motion.div>
+        </Box>
+
+        {/* Projects Grid */}
+        <Box
+          sx={{
+            display: 'grid',
+            gridTemplateColumns: {
+              xs: '1fr',
+              sm: 'repeat(2, 1fr)',
+              lg: 'repeat(3, 1fr)',
+            },
+            gap: 4,
+          }}
+        >
+          {projects.map((project, idx) => (
+            <motion.div
+              key={project.id}
+              initial={{ opacity: 0, y: 30, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{ duration: 0.5, delay: idx * 0.15, type: 'spring', stiffness: 120 }}
+            >
               <Box
-                key={project.id}
-                sx={{ display: 'flex', alignItems: 'stretch', width: '100%' }}
+                onClick={() => handleOpenModal(project)}
+                component={motion.div}
+                whileHover={{ y: -12, scale: 1.02 }}
+                transition={{ type: 'spring', stiffness: 300 }}
+                sx={{
+                  position: 'relative',
+                  height: '100%',
+                  minHeight: 480,
+                  cursor: 'pointer',
+                  background: isDarkMode
+                    ? 'linear-gradient(135deg, rgba(99,102,241,0.05) 0%, rgba(139,92,246,0.05) 100%)'
+                    : 'linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(249,250,251,0.9) 100%)',
+                  backdropFilter: 'blur(20px)',
+                  border: `1px solid ${isDarkMode ? 'rgba(139,92,246,0.2)' : 'rgba(139,92,246,0.15)'}`,
+                  borderRadius: 3,
+                  overflow: 'hidden',
+                  boxShadow: isDarkMode
+                    ? '0 20px 60px rgba(0,0,0,0.6), 0 0 40px rgba(139,92,246,0.1)'
+                    : '0 20px 60px rgba(139,92,246,0.15), 0 10px 30px rgba(0,0,0,0.05)',
+                  transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                  '&:hover': {
+                    borderColor: isDarkMode ? 'rgba(139,92,246,0.5)' : 'rgba(139,92,246,0.3)',
+                    boxShadow: isDarkMode
+                      ? '0 25px 70px rgba(0,0,0,0.7), 0 0 60px rgba(139,92,246,0.2)'
+                      : '0 25px 70px rgba(139,92,246,0.2), 0 10px 40px rgba(0,0,0,0.08)',
+                    '& .project-image': {
+                      transform: 'scale(1.1)',
+                    },
+                    '& .project-overlay': {
+                      opacity: 0.3,
+                    },
+                  },
+                }}
               >
-                <motion.div
-                  variants={itemVariants}
-                  initial={{ opacity: 0, y: 50 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  whileHover={{ y: -10 }}
-                  style={{ width: '100%', display: 'flex' }}
+                {/* Gradient accent bar */}
+                <Box
+                  sx={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    height: 4,
+                    background: project.gradient,
+                    zIndex: 2,
+                  }}
+                />
+
+                {/* Project Image with Overlay */}
+                <Box
+                  sx={{
+                    position: 'relative',
+                    height: 200,
+                    overflow: 'hidden',
+                  }}
                 >
-                  <Card
+                  <Box
+                    component="img"
+                    src={project.image}
+                    alt={project.name}
+                    className="project-image"
                     sx={{
                       width: '100%',
                       height: '100%',
-                      minHeight: 480,
-                      display: 'flex',
-                      flexDirection: 'column',
-                      flex: '1 1 auto',
-                      background: isDarkMode
-                        ? 'linear-gradient(145deg, #1e293b, #334155)'
-                        : 'linear-gradient(145deg, #ffffff, #f1f5f9)',
-                      borderRadius: 3,
-                      boxShadow: isDarkMode
-                        ? '0 10px 25px rgba(0, 0, 0, 0.3)'
-                        : '0 10px 25px rgba(0, 0, 0, 0.1)',
-                      border: isDarkMode ? '1px solid #334155' : '1px solid #e2e8f0',
-                      cursor: 'pointer',
-                      transition: 'all 0.3s ease',
-                      '&:hover': {
-                        transform: 'translateY(-5px)',
-                        boxShadow: isDarkMode
-                          ? '0 20px 40px rgba(0, 0, 0, 0.4)'
-                          : '0 20px 40px rgba(0, 0, 0, 0.15)',
-                      },
-                    }}
-                    onClick={() => handleOpenModal(project)}
-                  >
-                    <Box sx={{ position: 'relative', overflow: 'hidden', height: '200px', flexShrink: 0 }}>
-                      <CardMedia
-                        component="img"
-                        height="200"
-                        image={project.image}
-                        alt={project.name}
-                        sx={{
-                          width: '100%',
-                          height: '100%',
-                          objectFit: 'cover',
-                          transition: 'transform 0.3s ease',
-                          '&:hover': {
-                            transform: 'scale(1.05)',
-                          },
-                        }}
-                      />
-                      <Box
-                        sx={{
-                          position: 'absolute',
-                          top: 16,
-                          right: 16,
-                          background: project.color,
-                          borderRadius: '50%',
-                          p: 1,
-                          color: 'white',
-                        }}
-                      >
-                        {project.icon}
-                      </Box>
-                    </Box>
-                    
-                    <CardContent sx={{ 
-                      p: 3, 
-                      flexGrow: 1, 
-                      display: 'flex', 
-                      flexDirection: 'column',
-                    }}>
-                      <Typography
-                        variant="h5"
-                        sx={{
-                          fontWeight: 600,
-                          color: isDarkMode ? '#e2e8f0' : '#1e293b',
-                          mb: 2,
-                          fontSize: '1.25rem',
-                          lineHeight: 1.2,
-                          height: '2.4rem',
-                          overflow: 'hidden',
-                          display: '-webkit-box',
-                          WebkitLineClamp: 2,
-                          WebkitBoxOrient: 'vertical',
-                        }}
-                      >
-                        {project.name}
-                      </Typography>
-                      
-                      <Typography
-                        variant="body2"
-                        sx={{
-                          color: isDarkMode ? '#cbd5e1' : '#64748b',
-                          mb: 3,
-                          lineHeight: 1.4,
-                          height: '5.6rem',
-                          overflow: 'hidden',
-                          display: '-webkit-box',
-                          WebkitLineClamp: 4,
-                          WebkitBoxOrient: 'vertical',
-                        }}
-                      >
-                        {project.description}
-                      </Typography>
-                      
-                      <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, mb: 3, minHeight: '2.5rem' }}>
-                        {project.techStack.slice(0, 2).map((tech) => (
-                          <Chip
-                            key={tech}
-                            label={tech}
-                            size="small"
-                            sx={{
-                              background: `${project.color}20`,
-                              color: project.color,
-                              fontWeight: 'bold',
-                              fontSize: '0.75rem',
-                            }}
-                          />
-                        ))}
-                        {project.techStack.length > 2 && (
-                          <Chip
-                            label={`+${project.techStack.length - 2}`}
-                            size="small"
-                            sx={{
-                              background: isDarkMode ? '#334155' : '#e2e8f0',
-                              color: isDarkMode ? '#cbd5e1' : '#64748b',
-                              fontSize: '0.75rem',
-                            }}
-                          />
-                        )}
-                      </Box>
-                      
-                      <Box sx={{ display: 'flex', gap: 1, mt: 'auto' }}>
-                        <Button
-                          variant="outlined"
-                          size="medium"
-                          startIcon={<GitHub />}
-                          href={project.github}
-                          target="_blank"
-                          onClick={(e) => e.stopPropagation()}
-                          sx={{
-                            borderColor: project.color,
-                            color: project.color,
-                            flex: 1,
-                            py: 1,
-                            '&:hover': {
-                              borderColor: project.color,
-                              background: `${project.color}10`,
-                            },
-                          }}
-                        >
-                          CODE
-                        </Button>
-                        <Button
-                          variant="contained"
-                          size="medium"
-                          startIcon={<Launch />}
-                          href={project.demo}
-                          target="_blank"
-                          onClick={(e) => e.stopPropagation()}
-                          sx={{
-                            background: project.color,
-                            flex: 1,
-                            py: 1,
-                            '&:hover': {
-                              background: project.color,
-                              opacity: 0.9,
-                            },
-                          }}
-                        >
-                          DEMO
-                        </Button>
-                      </Box>
-                    </CardContent>
-                  </Card>
-                </motion.div>
-              </Box>
-            ))}
-          </Box>
-        </motion.div>
-
-        {/* Project Detail Modal */}
-        <Modal
-          open={Boolean(selectedProject)}
-          onClose={handleCloseModal}
-          closeAfterTransition
-          BackdropComponent={Backdrop}
-          BackdropProps={{
-            timeout: 500,
-            sx: {
-              backgroundColor: 'rgba(0, 0, 0, 0.8)',
-            },
-          }}
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            p: { xs: 2, sm: 3 },
-          }}
-        >
-          <motion.div
-            initial={{ opacity: 0, scale: 0.5 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.5 }}
-            transition={{ duration: 0.3 }}
-            style={{
-              width: '100%',
-              maxWidth: '800px',
-              maxHeight: '90vh',
-              outline: 'none',
-            }}
-          >
-            {selectedProject && (
-              <Card
-                sx={{
-                  width: '100%',
-                  maxHeight: '90vh',
-                  overflow: 'auto',
-                  background: isDarkMode
-                    ? 'linear-gradient(145deg, #1e293b, #334155)'
-                    : 'linear-gradient(145deg, #ffffff, #f1f5f9)',
-                  borderRadius: 3,
-                  border: isDarkMode ? '1px solid #334155' : '1px solid #e2e8f0',
-                  position: 'relative',
-                  boxShadow: isDarkMode
-                    ? '0 25px 50px rgba(0, 0, 0, 0.5)'
-                    : '0 25px 50px rgba(0, 0, 0, 0.2)',
-                }}
-              >
-                <Box sx={{ position: 'relative' }}>
-                  <CardMedia
-                    component="img"
-                    height="300"
-                    image={selectedProject.image}
-                    alt={selectedProject.name}
-                    sx={{
                       objectFit: 'cover',
+                      transition: 'transform 0.5s ease',
                     }}
                   />
-                  <IconButton
-                    onClick={handleCloseModal}
+                  <Box
+                    className="project-overlay"
+                    sx={{
+                      position: 'absolute',
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                      bottom: 0,
+                      background: project.gradient,
+                      opacity: 0.15,
+                      transition: 'opacity 0.3s ease',
+                    }}
+                  />
+                  
+                  {/* Icon Badge */}
+                  <Box
                     sx={{
                       position: 'absolute',
                       top: 16,
                       right: 16,
-                      background: 'rgba(0, 0, 0, 0.7)',
+                      width: 56,
+                      height: 56,
+                      borderRadius: '50%',
+                      background: project.gradient,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
                       color: 'white',
-                      '&:hover': {
-                        background: 'rgba(0, 0, 0, 0.9)',
-                      },
-                      zIndex: 1,
+                      boxShadow: '0 8px 24px rgba(0,0,0,0.3)',
+                      border: `3px solid ${isDarkMode ? '#0a0a0a' : '#ffffff'}`,
                     }}
                   >
-                    <Close />
-                  </IconButton>
+                    {project.icon}
+                  </Box>
                 </Box>
-                
-                <CardContent sx={{ p: { xs: 3, sm: 4 } }}>
+
+                {/* Content */}
+                <Box sx={{ p: 3, display: 'flex', flexDirection: 'column', height: 'calc(100% - 200px)' }}>
                   <Typography
-                    variant="h4"
+                    variant="h5"
                     sx={{
-                      fontWeight: 600,
-                      color: isDarkMode ? '#e2e8f0' : '#1e293b',
-                      mb: 3,
-                      fontSize: { xs: '1.75rem', sm: '2rem' },
+                      fontWeight: 700,
+                      mb: 2,
+                      background: project.gradient,
+                      WebkitBackgroundClip: 'text',
+                      WebkitTextFillColor: 'transparent',
+                      backgroundClip: 'text',
                     }}
                   >
-                    {selectedProject.name}
+                    {project.name}
                   </Typography>
-                  
+
+                  <Typography
+                    variant="body2"
+                    sx={{
+                      mb: 3,
+                      lineHeight: 1.7,
+                      flex: 1,
+                      display: '-webkit-box',
+                      WebkitLineClamp: 3,
+                      WebkitBoxOrient: 'vertical',
+                      overflow: 'hidden',
+                    }}
+                  >
+                    {project.description}
+                  </Typography>
+
+                  {/* Tech Stack */}
+                  <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, mb: 3 }}>
+                    {project.techStack.slice(0, 3).map((tech, i) => (
+                      <Chip
+                        key={i}
+                        label={tech}
+                        size="small"
+                        sx={{
+                          background: isDarkMode
+                            ? 'linear-gradient(135deg, rgba(99,102,241,0.15), rgba(139,92,246,0.15))'
+                            : 'linear-gradient(135deg, rgba(99,102,241,0.1), rgba(139,92,246,0.1))',
+                          color: '#8b5cf6',
+                          fontWeight: 600,
+                          fontSize: '0.7rem',
+                          border: `1px solid ${isDarkMode ? 'rgba(139,92,246,0.3)' : 'rgba(139,92,246,0.2)'}`,
+                        }}
+                      />
+                    ))}
+                    {project.techStack.length > 3 && (
+                      <Chip
+                        label={`+${project.techStack.length - 3}`}
+                        size="small"
+                        sx={{
+                          background: isDarkMode ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)',
+                          fontWeight: 600,
+                          fontSize: '0.7rem',
+                        }}
+                      />
+                    )}
+                  </Box>
+
+                  {/* Action Buttons */}
+                  <Box sx={{ display: 'flex', gap: 1.5 }}>
+                    <Button
+                      variant="outlined"
+                      size="small"
+                      startIcon={<GitHub fontSize="small" />}
+                      href={project.github}
+                      target="_blank"
+                      onClick={(e) => e.stopPropagation()}
+                      sx={{
+                        flex: 1,
+                        borderColor: isDarkMode ? 'rgba(139,92,246,0.5)' : 'rgba(139,92,246,0.3)',
+                        color: '#8b5cf6',
+                        py: 1,
+                        fontSize: '0.8rem',
+                        fontWeight: 600,
+                        '&:hover': {
+                          borderColor: '#8b5cf6',
+                          background: 'rgba(139,92,246,0.1)',
+                        },
+                      }}
+                    >
+                      Code
+                    </Button>
+                    <Button
+                      variant="contained"
+                      size="small"
+                      startIcon={<Launch fontSize="small" />}
+                      href={project.demo}
+                      target="_blank"
+                      onClick={(e) => e.stopPropagation()}
+                      sx={{
+                        flex: 1,
+                        background: project.gradient,
+                        py: 1,
+                        fontSize: '0.8rem',
+                        fontWeight: 600,
+                        boxShadow: '0 4px 14px rgba(139,92,246,0.3)',
+                        '&:hover': {
+                          boxShadow: '0 6px 20px rgba(139,92,246,0.4)',
+                        },
+                      }}
+                    >
+                      Demo
+                    </Button>
+                  </Box>
+                </Box>
+              </Box>
+            </motion.div>
+          ))}
+        </Box>
+      </Box>
+
+      {/* Project Detail Modal */}
+      <AnimatePresence>
+        {selectedProject && (
+          <Modal
+            open={Boolean(selectedProject)}
+            onClose={handleCloseModal}
+            closeAfterTransition
+            slots={{ backdrop: Backdrop }}
+            slotProps={{
+              backdrop: {
+                timeout: 500,
+                sx: {
+                  backgroundColor: 'rgba(0, 0, 0, 0.85)',
+                  backdropFilter: 'blur(8px)',
+                },
+              },
+            }}
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              p: { xs: 2, sm: 3 },
+            }}
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8, y: 50 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.8, y: 50 }}
+              transition={{ duration: 0.3, type: 'spring' }}
+              style={{
+                width: '100%',
+                maxWidth: '900px',
+                maxHeight: '90vh',
+                outline: 'none',
+              }}
+            >
+              <Box
+                sx={{
+                  position: 'relative',
+                  width: '100%',
+                  maxHeight: '90vh',
+                  overflow: 'auto',
+                  background: isDarkMode
+                    ? 'linear-gradient(135deg, rgba(26,26,26,0.98) 0%, rgba(42,42,42,0.98) 100%)'
+                    : 'linear-gradient(135deg, rgba(255,255,255,0.98) 0%, rgba(249,250,251,0.98) 100%)',
+                  backdropFilter: 'blur(20px)',
+                  border: `1px solid ${isDarkMode ? 'rgba(139,92,246,0.3)' : 'rgba(139,92,246,0.2)'}`,
+                  borderRadius: 3,
+                  boxShadow: '0 25px 50px rgba(0,0,0,0.5)',
+                }}
+              >
+                {/* Gradient accent bar */}
+                <Box
+                  sx={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    height: 4,
+                    background: selectedProject.gradient,
+                    zIndex: 2,
+                  }}
+                />
+
+                {/* Close Button */}
+                <IconButton
+                  onClick={handleCloseModal}
+                  sx={{
+                    position: 'absolute',
+                    top: 16,
+                    right: 16,
+                    zIndex: 3,
+                    background: 'rgba(0, 0, 0, 0.7)',
+                    color: 'white',
+                    backdropFilter: 'blur(10px)',
+                    '&:hover': {
+                      background: 'rgba(0, 0, 0, 0.9)',
+                    },
+                  }}
+                >
+                  <Close />
+                </IconButton>
+
+                {/* Image Header */}
+                <Box
+                  sx={{
+                    position: 'relative',
+                    height: 300,
+                    overflow: 'hidden',
+                  }}
+                >
+                  <Box
+                    component="img"
+                    src={selectedProject.image}
+                    alt={selectedProject.name}
+                    sx={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                    }}
+                  />
+                  <Box
+                    sx={{
+                      position: 'absolute',
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                      bottom: 0,
+                      background: `linear-gradient(180deg, transparent 0%, ${isDarkMode ? 'rgba(26,26,26,0.8)' : 'rgba(0,0,0,0.5)'} 100%)`,
+                    }}
+                  />
+                </Box>
+
+                {/* Content */}
+                <Box sx={{ p: { xs: 3, sm: 4 } }}>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 3 }}>
+                    <Box
+                      sx={{
+                        width: 64,
+                        height: 64,
+                        borderRadius: '50%',
+                        background: selectedProject.gradient,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        color: 'white',
+                        boxShadow: '0 8px 24px rgba(139,92,246,0.3)',
+                      }}
+                    >
+                      {selectedProject.icon}
+                    </Box>
+                    <Box>
+                      <Typography
+                        variant="h4"
+                        sx={{
+                          fontWeight: 700,
+                          background: selectedProject.gradient,
+                          WebkitBackgroundClip: 'text',
+                          WebkitTextFillColor: 'transparent',
+                          backgroundClip: 'text',
+                        }}
+                      >
+                        {selectedProject.name}
+                      </Typography>
+                    </Box>
+                  </Box>
+
                   <Typography
                     variant="body1"
                     sx={{
-                      color: isDarkMode ? '#cbd5e1' : '#64748b',
                       mb: 4,
-                      lineHeight: 1.6,
-                      fontSize: { xs: '0.95rem', sm: '1rem' },
+                      lineHeight: 1.8,
+                      fontSize: '1.05rem',
                     }}
                   >
                     {selectedProject.fullDescription}
                   </Typography>
-                  
+
                   <Typography
                     variant="h6"
                     sx={{
-                      fontWeight: 600,
-                      color: isDarkMode ? '#e2e8f0' : '#1e293b',
+                      fontWeight: 700,
                       mb: 2,
-                      fontSize: { xs: '1.125rem', sm: '1.25rem' },
+                      background: 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%)',
+                      WebkitBackgroundClip: 'text',
+                      WebkitTextFillColor: 'transparent',
+                      backgroundClip: 'text',
                     }}
                   >
                     Technologies Used
                   </Typography>
-                  
-                  <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, mb: 4 }}>
-                    {selectedProject.techStack.map((tech) => (
+
+                  <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1.5, mb: 4 }}>
+                    {selectedProject.techStack.map((tech, i) => (
                       <Chip
-                        key={tech}
+                        key={i}
                         label={tech}
                         sx={{
-                          background: `${selectedProject.color}20`,
-                          color: selectedProject.color,
-                          fontWeight: 'bold',
-                          fontSize: { xs: '0.75rem', sm: '0.8rem' },
+                          background: isDarkMode
+                            ? 'linear-gradient(135deg, rgba(99,102,241,0.2), rgba(139,92,246,0.2))'
+                            : 'linear-gradient(135deg, rgba(99,102,241,0.15), rgba(139,92,246,0.15))',
+                          color: '#8b5cf6',
+                          fontWeight: 700,
+                          fontSize: '0.85rem',
+                          px: 1,
+                          border: `1px solid ${isDarkMode ? 'rgba(139,92,246,0.4)' : 'rgba(139,92,246,0.3)'}`,
                         }}
                       />
                     ))}
                   </Box>
-                  
-                  <Box sx={{ 
-                    display: 'flex', 
-                    flexDirection: { xs: 'column', sm: 'row' },
-                    gap: 2 
-                  }}>
+
+                  <Box sx={{ display: 'flex', gap: 2, flexDirection: { xs: 'column', sm: 'row' } }}>
                     <Button
                       variant="outlined"
                       size="large"
@@ -506,17 +568,18 @@ const Projects = () => {
                       target="_blank"
                       fullWidth
                       sx={{
-                        borderColor: selectedProject.color,
-                        color: selectedProject.color,
+                        borderColor: isDarkMode ? 'rgba(139,92,246,0.5)' : 'rgba(139,92,246,0.3)',
+                        color: '#8b5cf6',
                         py: 1.5,
-                        fontSize: { xs: '0.9rem', sm: '1rem' },
+                        fontWeight: 700,
+                        fontSize: '1rem',
                         '&:hover': {
-                          borderColor: selectedProject.color,
-                          background: `${selectedProject.color}10`,
+                          borderColor: '#8b5cf6',
+                          background: 'rgba(139,92,246,0.1)',
                         },
                       }}
                     >
-                      View Code
+                      View Source Code
                     </Button>
                     <Button
                       variant="contained"
@@ -526,25 +589,26 @@ const Projects = () => {
                       target="_blank"
                       fullWidth
                       sx={{
-                        background: selectedProject.color,
+                        background: selectedProject.gradient,
                         py: 1.5,
-                        fontSize: { xs: '0.9rem', sm: '1rem' },
+                        fontWeight: 700,
+                        fontSize: '1rem',
+                        boxShadow: '0 8px 24px rgba(139,92,246,0.4)',
                         '&:hover': {
-                          background: selectedProject.color,
-                          opacity: 0.9,
+                          boxShadow: '0 12px 32px rgba(139,92,246,0.5)',
                         },
                       }}
                     >
-                      Live Demo
+                      View Live Demo
                     </Button>
                   </Box>
-                </CardContent>
-              </Card>
-            )}
-          </motion.div>
-        </Modal>
-      </Container>
-    </Box>
+                </Box>
+              </Box>
+            </motion.div>
+          </Modal>
+        )}
+      </AnimatePresence>
+    </motion.div>
   );
 };
 

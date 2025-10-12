@@ -10,6 +10,7 @@ import Projects from "./pages/Projects";
 import Education from "./pages/Education";
 import Achievements from "./pages/Achievements";
 import Contact from "./pages/Contact";
+import Experience from "./pages/Experience";
 import { AnimatePresence,motion} from "framer-motion";
 import "./App.css";
 
@@ -112,6 +113,20 @@ const AnimatedRoutes = () => {
           }
         />
         <Route
+          path="/experience"
+          element={
+            <motion.div
+              variants={pageVariants}
+              initial="initial"
+              animate="in"
+              exit="out"
+              transition={pageTransition}
+            >
+              <Experience />
+            </motion.div>
+          }
+        />
+        <Route
           path="/contact"
           element={
             <motion.div
@@ -165,7 +180,7 @@ const AppContent = () => {
           }}
         >
           <Navbar />
-          <Box sx={{ pt: 8 }}>
+          <Box>
             <AnimatedRoutes />
           </Box>
         </Box>
