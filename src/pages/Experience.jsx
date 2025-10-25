@@ -12,7 +12,7 @@ const Experience = () => {
     {
       title: 'Full Stack Developer Intern',
       company: 'Vedlogy Learnings',
-      date: 'September 2024 — Present',
+      date: 'September 2025 — Present',
       description: 'Building modern web applications with cutting-edge technologies and contributing to real-world projects.',
       logo: 'https://media.licdn.com/dms/image/v2/C560BAQHl6afgMryw9g/company-logo_200_200/company-logo_200_200/0/1630668765258?e=1762992000&v=beta&t=oDVfr5wOCgPMfzLNonhB1Wp2gWyOKvDtCP1fQ1Vpq2w',
       type: 'work',
