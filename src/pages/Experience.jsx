@@ -4,6 +4,8 @@ import { motion } from 'framer-motion';
 import { useTheme } from '../contexts/ThemeContext';
 import { Work, School, Code } from '@mui/icons-material';
 
+import vedlogyLogo from '../assets/vedlogy_logo.png';
+
 const Experience = () => {
   const { isDarkMode } = useTheme();
 
@@ -13,7 +15,7 @@ const Experience = () => {
       company: 'Vedlogy Learnings',
       date: 'September 2024 — Present',
       description: 'Building modern web applications with cutting-edge technologies and contributing to real-world projects.',
-      logo: 'src\\assets\\vedlogy_logo.png',
+      logo: vedlogyLogo,
       type: 'work',
       skills: [
         'React',
