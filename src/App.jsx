@@ -4,6 +4,8 @@ import { ThemeProvider as MuiThemeProvider, createTheme } from "@mui/material/st
 import { CssBaseline, Box } from "@mui/material";
 import { ThemeProvider, useTheme } from "./contexts/ThemeContext";
 import Navbar from "./components/Navbar";
+import Background from "./components/Background";
+import Footer from "./components/Footer";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Projects from "./pages/Projects";
@@ -11,23 +13,14 @@ import Education from "./pages/Education";
 import Achievements from "./pages/Achievements";
 import Contact from "./pages/Contact";
 import Experience from "./pages/Experience";
-import { AnimatePresence,motion} from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import "./App.css";
 
 // 🔹 Page transition variants
 const pageVariants = {
-  initial: {
-    opacity: 0,
-    y: 20,
-  },
-  in: {
-    opacity: 1,
-    y: 0,
-  },
-  out: {
-    opacity: 0,
-    y: -20,
-  },
+  initial: { opacity: 0, y: 20 },
+  in: { opacity: 1, y: 0 },
+  out: { opacity: 0, y: -20 },
 };
 
 const pageTransition = {
@@ -42,104 +35,31 @@ const AnimatedRoutes = () => {
   return (
     <AnimatePresence mode="wait">
       <Routes location={location} key={location.pathname}>
-        <Route
-          path="/"
-          element={
-            <motion.div
-              variants={pageVariants}
-              initial="initial"
-              animate="in"
-              exit="out"
-              transition={pageTransition}
-            >
-              <Home />
-            </motion.div>
-          }
-        />
-        <Route
-          path="/about"
-          element={
-            <motion.div
-              variants={pageVariants}
-              initial="initial"
-              animate="in"
-              exit="out"
-              transition={pageTransition}
-            >
-              <About />
-            </motion.div>
-          }
-        />
-        <Route
-          path="/projects"
-          element={
-            <motion.div
-              variants={pageVariants}
-              initial="initial"
-              animate="in"
-              exit="out"
-              transition={pageTransition}
-            >
-              <Projects />
-            </motion.div>
-          }
-        />
-        <Route
-          path="/education"
-          element={
-            <motion.div
-              variants={pageVariants}
-              initial="initial"
-              animate="in"
-              exit="out"
-              transition={pageTransition}
-            >
-              <Education />
-            </motion.div>
-          }
-        />
-        <Route
-          path="/achievements"
-          element={
-            <motion.div
-              variants={pageVariants}
-              initial="initial"
-              animate="in"
-              exit="out"
-              transition={pageTransition}
-            >
-              <Achievements />
-            </motion.div>
-          }
-        />
-        <Route
-          path="/experience"
-          element={
-            <motion.div
-              variants={pageVariants}
-              initial="initial"
-              animate="in"
-              exit="out"
-              transition={pageTransition}
-            >
-              <Experience />
-            </motion.div>
-          }
-        />
-        <Route
-          path="/contact"
-          element={
-            <motion.div
-              variants={pageVariants}
-              initial="initial"
-              animate="in"
-              exit="out"
-              transition={pageTransition}
-            >
-              <Contact />
-            </motion.div>
-          }
-        />
+        {[
+          { path: "/", element: <Home /> },
+          { path: "/about", element: <About /> },
+          { path: "/projects", element: <Projects /> },
+          { path: "/education", element: <Education /> },
+          { path: "/achievements", element: <Achievements /> },
+          { path: "/experience", element: <Experience /> },
+          { path: "/contact", element: <Contact /> },
+        ].map((route) => (
+          <Route
+            key={route.path}
+            path={route.path}
+            element={
+              <motion.div
+                variants={pageVariants}
+                initial="initial"
+                animate="in"
+                exit="out"
+                transition={pageTransition}
+              >
+                {route.element}
+              </motion.div>
+            }
+          />
+        ))}
       </Routes>
     </AnimatePresence>
   );
@@ -150,39 +70,38 @@ const AppContent = () => {
 
   const theme = createTheme({
     palette: {
-      mode: isDarkMode ? "dark" : "light",
-      primary: {
-        main: "#6366f1",
-      },
-      secondary: {
-        main: "#8b5cf6",
-      },
+      mode: isDarkMode ? 'dark' : 'light',
+      primary: { main: "#6366f1" },
+      secondary: { main: "#ec4899" },
       background: {
-        default: isDarkMode ? "#0a0a0a" : "#ffffff",
-        paper: isDarkMode ? "#1a1a1a" : "#ffffff",
+        default: "transparent",
+        paper: isDarkMode ? "rgba(30, 41, 59, 0.7)" : "rgba(255, 255, 255, 0.7)",
       },
     },
     typography: {
-      fontFamily: '"Inter", "Roboto", "Helvetica", "Arial", sans-serif',
+      fontFamily: '"Outfit", "Inter", sans-serif',
     },
   });
 
   return (
     <MuiThemeProvider theme={theme}>
       <CssBaseline />
+      <Background />
       <Router>
         <Box
           sx={{
+            display: 'flex',
+            flexDirection: 'column',
             minHeight: "100vh",
-            background: isDarkMode
-              ? "linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%)"
-              : "linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)",
+            position: "relative",
+            zIndex: 1,
           }}
         >
-          <Navbar />
-          <Box>
+          <Box sx={{ flexGrow: 1, pt: 10, pb: 4 }}> {/* Padding for top navbar */}
             <AnimatedRoutes />
           </Box>
+          <Footer />
+          <Navbar />
         </Box>
       </Router>
     </MuiThemeProvider>

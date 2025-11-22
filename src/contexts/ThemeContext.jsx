@@ -11,19 +11,20 @@ export const useTheme = () => {
 };
 
 export const ThemeProvider = ({ children }) => {
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(true);
 
   useEffect(() => {
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme) {
-      setIsDarkMode(savedTheme === 'dark');
-    }
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    setIsDarkMode(savedTheme === 'dark');
+    document.documentElement.setAttribute('data-theme', savedTheme);
   }, []);
 
   const toggleTheme = () => {
     const newTheme = !isDarkMode;
     setIsDarkMode(newTheme);
-    localStorage.setItem('theme', newTheme ? 'dark' : 'light');
+    const themeValue = newTheme ? 'dark' : 'light';
+    localStorage.setItem('theme', themeValue);
+    document.documentElement.setAttribute('data-theme', themeValue);
   };
 
   const value = {

@@ -1,12 +1,11 @@
 import React from 'react';
-import { Box, Typography, Avatar, Chip, useTheme as useMuiTheme } from '@mui/material';
+import { Box, Typography, Avatar, Chip } from '@mui/material';
 import { motion } from 'framer-motion';
 import { useTheme } from '../contexts/ThemeContext';
 import { Work, School, Code } from '@mui/icons-material';
 
 const Experience = () => {
   const { isDarkMode } = useTheme();
-  const muiTheme = useMuiTheme();
 
   const experiences = [
     {
@@ -17,17 +16,17 @@ const Experience = () => {
       logo: 'https://media.licdn.com/dms/image/v2/C560BAQHl6afgMryw9g/company-logo_200_200/company-logo_200_200/0/1630668765258?e=1762992000&v=beta&t=oDVfr5wOCgPMfzLNonhB1Wp2gWyOKvDtCP1fQ1Vpq2w',
       type: 'work',
       skills: [
-                'React',
-                'Django',
-                'Django REST Framework',
-                'SQLite',
-                'JWT Authentication',
-                'Google OAuth',
-                'LangChain',
-                'Generative AI Integration',
-                'RESTful API',
-                'Cryptography'
-                ],
+        'React',
+        'Django',
+        'Django REST Framework',
+        'SQLite',
+        'JWT Authentication',
+        'Google OAuth',
+        'LangChain',
+        'Generative AI Integration',
+        'RESTful API',
+        'Cryptography'
+      ],
     },
     // Add more experiences here as needed
   ];
@@ -50,7 +49,7 @@ const Experience = () => {
       exit={{ opacity: 0, y: -20 }}
       transition={{ duration: 0.5 }}
     >
-      <Box sx={{ maxWidth: 1100, mx: 'auto', px: { xs: 2, md: 4 }, py: { xs: 4, md: 8 } }}>
+      <Box sx={{ maxWidth: 1100, mx: 'auto', px: { xs: 2, md: 4 }, pb: { xs: 4, md: 8 }, pt: { xs: 2, md: 4 } }}>
         {/* Header Section */}
         <Box sx={{ textAlign: 'center', mb: 8 }}>
           <motion.div
@@ -63,15 +62,16 @@ const Experience = () => {
               sx={{
                 fontWeight: 800,
                 mb: 2,
-                background: 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%)',
+                background: 'var(--gradient-main)',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
                 backgroundClip: 'text',
+                fontFamily: 'var(--font-display)',
               }}
             >
               My Journey
             </Typography>
-            <Typography variant="h6" color="text.secondary" sx={{ maxWidth: 600, mx: 'auto' }}>
+            <Typography variant="h6" sx={{ color: 'var(--text-secondary)', maxWidth: 600, mx: 'auto' }}>
               Explore my professional experience and the skills I've developed along the way
             </Typography>
           </motion.div>
@@ -87,9 +87,7 @@ const Experience = () => {
               top: 0,
               bottom: 0,
               width: 3,
-              background: isDarkMode
-                ? 'linear-gradient(180deg, #6366f1 0%, #8b5cf6 50%, rgba(139,92,246,0.2) 100%)'
-                : 'linear-gradient(180deg, #6366f1 0%, #8b5cf6 50%, rgba(139,92,246,0.3) 100%)',
+              background: 'linear-gradient(180deg, #6366f1 0%, #8b5cf6 50%, rgba(139,92,246,0.2) 100%)',
               transform: { xs: 'none', md: 'translateX(-50%)' },
               borderRadius: 2,
             }}
@@ -125,24 +123,15 @@ const Experience = () => {
                     transition={{ type: 'spring', stiffness: 300 }}
                   >
                     <Box
+                      className="glass-card"
                       sx={{
                         position: 'relative',
-                        background: isDarkMode
-                          ? 'linear-gradient(135deg, rgba(99,102,241,0.05) 0%, rgba(139,92,246,0.05) 100%)'
-                          : 'linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(249,250,251,0.9) 100%)',
-                        backdropFilter: 'blur(20px)',
-                        border: `1px solid ${isDarkMode ? 'rgba(139,92,246,0.2)' : 'rgba(139,92,246,0.15)'}`,
-                        borderRadius: 3,
+                        borderRadius: '24px',
                         p: 3,
-                        boxShadow: isDarkMode
-                          ? '0 20px 60px rgba(0,0,0,0.6), 0 0 40px rgba(139,92,246,0.1)'
-                          : '0 20px 60px rgba(139,92,246,0.15), 0 10px 30px rgba(0,0,0,0.05)',
                         transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                         '&:hover': {
-                          borderColor: isDarkMode ? 'rgba(139,92,246,0.5)' : 'rgba(139,92,246,0.3)',
-                          boxShadow: isDarkMode
-                            ? '0 25px 70px rgba(0,0,0,0.7), 0 0 60px rgba(139,92,246,0.2)'
-                            : '0 25px 70px rgba(139,92,246,0.2), 0 10px 40px rgba(0,0,0,0.08)',
+                          borderColor: 'var(--primary)',
+                          boxShadow: '0 25px 70px rgba(99, 102, 241, 0.2)',
                         },
                       }}
                     >
@@ -155,7 +144,7 @@ const Experience = () => {
                           right: 0,
                           height: 4,
                           background: 'linear-gradient(90deg, #6366f1, #8b5cf6, #ec4899)',
-                          borderRadius: '12px 12px 0 0',
+                          borderRadius: '24px 24px 0 0',
                         }}
                       />
 
@@ -166,15 +155,15 @@ const Experience = () => {
                           sx={{
                             width: 64,
                             height: 64,
-                            border: `3px solid ${isDarkMode ? 'rgba(139,92,246,0.3)' : 'rgba(139,92,246,0.2)'}`,
+                            border: '3px solid rgba(139,92,246,0.3)',
                             boxShadow: '0 8px 24px rgba(139,92,246,0.2)',
                           }}
                         />
                         <Box sx={{ flex: 1 }}>
-                          <Typography variant="h5" sx={{ fontWeight: 700, mb: 0.5 }}>
+                          <Typography variant="h5" sx={{ fontWeight: 700, mb: 0.5, fontFamily: 'var(--font-display)' }}>
                             {exp.title}
                           </Typography>
-                          <Typography variant="subtitle1" sx={{ color: '#8b5cf6', fontWeight: 600 }}>
+                          <Typography variant="subtitle1" sx={{ color: 'var(--primary)', fontWeight: 600 }}>
                             {exp.company}
                           </Typography>
                         </Box>
@@ -183,7 +172,7 @@ const Experience = () => {
                       <Typography
                         variant="body2"
                         sx={{
-                          color: isDarkMode ? '#a0aec0' : '#64748b',
+                          color: 'var(--text-secondary)',
                           mb: 2,
                           fontWeight: 500,
                         }}
@@ -203,16 +192,12 @@ const Experience = () => {
                             label={skill}
                             size="small"
                             sx={{
-                              background: isDarkMode
-                                ? 'linear-gradient(135deg, rgba(99,102,241,0.15), rgba(139,92,246,0.15))'
-                                : 'linear-gradient(135deg, rgba(99,102,241,0.1), rgba(139,92,246,0.1))',
-                              color: '#8b5cf6',
+                              background: 'rgba(99, 102, 241, 0.1)',
+                              color: 'var(--accent)',
                               fontWeight: 600,
-                              border: `1px solid ${isDarkMode ? 'rgba(139,92,246,0.3)' : 'rgba(139,92,246,0.2)'}`,
+                              border: '1px solid rgba(99, 102, 241, 0.2)',
                               '&:hover': {
-                                background: isDarkMode
-                                  ? 'linear-gradient(135deg, rgba(99,102,241,0.25), rgba(139,92,246,0.25))'
-                                  : 'linear-gradient(135deg, rgba(99,102,241,0.15), rgba(139,92,246,0.15))',
+                                background: 'rgba(99, 102, 241, 0.2)',
                               },
                             }}
                           />
@@ -243,7 +228,7 @@ const Experience = () => {
                         height: 48,
                         borderRadius: '50%',
                         background: 'linear-gradient(135deg, #6366f1, #8b5cf6)',
-                        border: `4px solid ${isDarkMode ? '#0a0a0a' : '#ffffff'}`,
+                        border: '4px solid #030014',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',

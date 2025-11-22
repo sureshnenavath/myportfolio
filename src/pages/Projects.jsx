@@ -87,7 +87,6 @@ const Projects = () => {
     },
   ];
 
-
   const handleOpenModal = (project) => {
     setSelectedProject(project);
   };
@@ -103,7 +102,7 @@ const Projects = () => {
       exit={{ opacity: 0, y: -20 }}
       transition={{ duration: 0.5 }}
     >
-      <Box sx={{ maxWidth: 1200, mx: 'auto', px: { xs: 2, md: 4 }, py: { xs: 4, md: 8 } }}>
+      <Box sx={{ maxWidth: 1200, mx: 'auto', px: { xs: 2, md: 4 }, pb: { xs: 4, md: 8 }, pt: { xs: 2, md: 4 } }}>
         {/* Header Section */}
         <Box sx={{ textAlign: 'center', mb: 8 }}>
           <motion.div
@@ -116,15 +115,16 @@ const Projects = () => {
               sx={{
                 fontWeight: 800,
                 mb: 2,
-                background: 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%)',
+                background: 'var(--gradient-main)',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
                 backgroundClip: 'text',
+                fontFamily: 'var(--font-display)',
               }}
             >
               My Projects
             </Typography>
-            <Typography variant="h6" color="text.secondary" sx={{ maxWidth: 600, mx: 'auto' }}>
+            <Typography variant="h6" sx={{ color: 'var(--text-secondary)', maxWidth: 600, mx: 'auto' }}>
               Explore my portfolio of web applications and software projects
             </Typography>
           </motion.div>
@@ -154,27 +154,18 @@ const Projects = () => {
                 component={motion.div}
                 whileHover={{ y: -12, scale: 1.02 }}
                 transition={{ type: 'spring', stiffness: 300 }}
+                className="glass-card"
                 sx={{
                   position: 'relative',
                   height: '100%',
                   minHeight: 480,
                   cursor: 'pointer',
-                  background: isDarkMode
-                    ? 'linear-gradient(135deg, rgba(99,102,241,0.05) 0%, rgba(139,92,246,0.05) 100%)'
-                    : 'linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(249,250,251,0.9) 100%)',
-                  backdropFilter: 'blur(20px)',
-                  border: `1px solid ${isDarkMode ? 'rgba(139,92,246,0.2)' : 'rgba(139,92,246,0.15)'}`,
-                  borderRadius: 3,
+                  borderRadius: '24px',
                   overflow: 'hidden',
-                  boxShadow: isDarkMode
-                    ? '0 20px 60px rgba(0,0,0,0.6), 0 0 40px rgba(139,92,246,0.1)'
-                    : '0 20px 60px rgba(139,92,246,0.15), 0 10px 30px rgba(0,0,0,0.05)',
                   transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                   '&:hover': {
-                    borderColor: isDarkMode ? 'rgba(139,92,246,0.5)' : 'rgba(139,92,246,0.3)',
-                    boxShadow: isDarkMode
-                      ? '0 25px 70px rgba(0,0,0,0.7), 0 0 60px rgba(139,92,246,0.2)'
-                      : '0 25px 70px rgba(139,92,246,0.2), 0 10px 40px rgba(0,0,0,0.08)',
+                    borderColor: 'var(--primary)',
+                    boxShadow: '0 25px 70px rgba(99, 102, 241, 0.2)',
                     '& .project-image': {
                       transform: 'scale(1.1)',
                     },
@@ -230,7 +221,7 @@ const Projects = () => {
                       transition: 'opacity 0.3s ease',
                     }}
                   />
-                  
+
                   {/* Icon Badge */}
                   <Box
                     sx={{
@@ -246,7 +237,7 @@ const Projects = () => {
                       justifyContent: 'center',
                       color: 'white',
                       boxShadow: '0 8px 24px rgba(0,0,0,0.3)',
-                      border: `3px solid ${isDarkMode ? '#0a0a0a' : '#ffffff'}`,
+                      border: '3px solid rgba(255, 255, 255, 0.1)',
                     }}
                   >
                     {project.icon}
@@ -264,6 +255,7 @@ const Projects = () => {
                       WebkitBackgroundClip: 'text',
                       WebkitTextFillColor: 'transparent',
                       backgroundClip: 'text',
+                      fontFamily: 'var(--font-display)',
                     }}
                   >
                     {project.name}
@@ -275,6 +267,7 @@ const Projects = () => {
                       mb: 3,
                       lineHeight: 1.7,
                       flex: 1,
+                      color: 'var(--text-secondary)',
                       display: '-webkit-box',
                       WebkitLineClamp: 3,
                       WebkitBoxOrient: 'vertical',
@@ -292,13 +285,11 @@ const Projects = () => {
                         label={tech}
                         size="small"
                         sx={{
-                          background: isDarkMode
-                            ? 'linear-gradient(135deg, rgba(99,102,241,0.15), rgba(139,92,246,0.15))'
-                            : 'linear-gradient(135deg, rgba(99,102,241,0.1), rgba(139,92,246,0.1))',
-                          color: '#8b5cf6',
+                          background: 'rgba(99, 102, 241, 0.1)',
+                          color: 'var(--accent)',
                           fontWeight: 600,
                           fontSize: '0.7rem',
-                          border: `1px solid ${isDarkMode ? 'rgba(139,92,246,0.3)' : 'rgba(139,92,246,0.2)'}`,
+                          border: '1px solid rgba(99, 102, 241, 0.2)',
                         }}
                       />
                     ))}
@@ -307,7 +298,8 @@ const Projects = () => {
                         label={`+${project.techStack.length - 3}`}
                         size="small"
                         sx={{
-                          background: isDarkMode ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)',
+                          background: 'rgba(255,255,255,0.05)',
+                          color: 'var(--text-secondary)',
                           fontWeight: 600,
                           fontSize: '0.7rem',
                         }}
@@ -326,13 +318,13 @@ const Projects = () => {
                       onClick={(e) => e.stopPropagation()}
                       sx={{
                         flex: 1,
-                        borderColor: isDarkMode ? 'rgba(139,92,246,0.5)' : 'rgba(139,92,246,0.3)',
-                        color: '#8b5cf6',
+                        borderColor: 'rgba(139,92,246,0.3)',
+                        color: 'var(--primary)',
                         py: 1,
                         fontSize: '0.8rem',
                         fontWeight: 600,
                         '&:hover': {
-                          borderColor: '#8b5cf6',
+                          borderColor: 'var(--primary)',
                           background: 'rgba(139,92,246,0.1)',
                         },
                       }}
@@ -405,18 +397,14 @@ const Projects = () => {
               }}
             >
               <Box
+                className="glass-card"
                 sx={{
                   position: 'relative',
                   width: '100%',
                   maxHeight: '90vh',
                   overflow: 'auto',
-                  background: isDarkMode
-                    ? 'linear-gradient(135deg, rgba(26,26,26,0.98) 0%, rgba(42,42,42,0.98) 100%)'
-                    : 'linear-gradient(135deg, rgba(255,255,255,0.98) 0%, rgba(249,250,251,0.98) 100%)',
-                  backdropFilter: 'blur(20px)',
-                  border: `1px solid ${isDarkMode ? 'rgba(139,92,246,0.3)' : 'rgba(139,92,246,0.2)'}`,
-                  borderRadius: 3,
-                  boxShadow: '0 25px 50px rgba(0,0,0,0.5)',
+                  borderRadius: '24px',
+                  background: 'rgba(10, 10, 20, 0.95)',
                 }}
               >
                 {/* Gradient accent bar */}
@@ -476,7 +464,7 @@ const Projects = () => {
                       left: 0,
                       right: 0,
                       bottom: 0,
-                      background: `linear-gradient(180deg, transparent 0%, ${isDarkMode ? 'rgba(26,26,26,0.8)' : 'rgba(0,0,0,0.5)'} 100%)`,
+                      background: 'linear-gradient(180deg, transparent 0%, rgba(10,10,20,0.9) 100%)',
                     }}
                   />
                 </Box>
@@ -508,6 +496,7 @@ const Projects = () => {
                           WebkitBackgroundClip: 'text',
                           WebkitTextFillColor: 'transparent',
                           backgroundClip: 'text',
+                          fontFamily: 'var(--font-display)',
                         }}
                       >
                         {selectedProject.name}
@@ -521,6 +510,7 @@ const Projects = () => {
                       mb: 4,
                       lineHeight: 1.8,
                       fontSize: '1.05rem',
+                      color: 'var(--text-secondary)',
                     }}
                   >
                     {selectedProject.fullDescription}
@@ -531,10 +521,8 @@ const Projects = () => {
                     sx={{
                       fontWeight: 700,
                       mb: 2,
-                      background: 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%)',
-                      WebkitBackgroundClip: 'text',
-                      WebkitTextFillColor: 'transparent',
-                      backgroundClip: 'text',
+                      color: 'var(--text-primary)',
+                      fontFamily: 'var(--font-display)',
                     }}
                   >
                     Technologies Used
@@ -546,14 +534,12 @@ const Projects = () => {
                         key={i}
                         label={tech}
                         sx={{
-                          background: isDarkMode
-                            ? 'linear-gradient(135deg, rgba(99,102,241,0.2), rgba(139,92,246,0.2))'
-                            : 'linear-gradient(135deg, rgba(99,102,241,0.15), rgba(139,92,246,0.15))',
-                          color: '#8b5cf6',
+                          background: 'rgba(99, 102, 241, 0.1)',
+                          color: 'var(--accent)',
                           fontWeight: 700,
                           fontSize: '0.85rem',
                           px: 1,
-                          border: `1px solid ${isDarkMode ? 'rgba(139,92,246,0.4)' : 'rgba(139,92,246,0.3)'}`,
+                          border: '1px solid rgba(99, 102, 241, 0.2)',
                         }}
                       />
                     ))}
@@ -568,13 +554,13 @@ const Projects = () => {
                       target="_blank"
                       fullWidth
                       sx={{
-                        borderColor: isDarkMode ? 'rgba(139,92,246,0.5)' : 'rgba(139,92,246,0.3)',
-                        color: '#8b5cf6',
+                        borderColor: 'rgba(139,92,246,0.3)',
+                        color: 'var(--primary)',
                         py: 1.5,
                         fontWeight: 700,
                         fontSize: '1rem',
                         '&:hover': {
-                          borderColor: '#8b5cf6',
+                          borderColor: 'var(--primary)',
                           background: 'rgba(139,92,246,0.1)',
                         },
                       }}

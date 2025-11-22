@@ -1,24 +1,10 @@
+import React from 'react';
 import { motion } from 'framer-motion';
-import { useTheme } from '../contexts/ThemeContext';
-import {
-  Box,
-  Typography,
-  Grid,
-  Chip,
-} from '@mui/material';
-import {
-  EmojiEvents,
-  GitHub,
-  TrendingUp,
-  Build,
-  CheckCircle,
-  WorkspacePremium,
-  Verified,
-} from '@mui/icons-material';
+import { Box, Typography, Container, Grid, Chip } from '@mui/material';
+import { EmojiEvents, GitHub, TrendingUp, Build, CheckCircle, WorkspacePremium, Verified } from '@mui/icons-material';
+import Spotlight from '../components/Spotlight';
 
 const Achievements = () => {
-  const { isDarkMode } = useTheme();
-
   const achievements = [
     {
       id: 1,
@@ -112,408 +98,224 @@ const Achievements = () => {
     },
   ];
 
-
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -20 }}
-      transition={{ duration: 0.5 }}
-    >
-      <Box sx={{ maxWidth: 1200, mx: 'auto', px: { xs: 2, md: 4 }, py: { xs: 4, md: 8 } }}>
-        {/* Header Section */}
-        <Box sx={{ textAlign: 'center', mb: 8 }}>
+    <Spotlight className="min-h-screen flex items-center justify-center pb-20 pt-24">
+      <Container maxWidth="lg">
+        <Box sx={{ textAlign: 'center', mx: 'auto' }}>
           <motion.div
-            initial={{ opacity: 0, y: -20 }}
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2, duration: 0.5 }}
+            transition={{ duration: 0.8 }}
           >
-            <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 2, mb: 2 }}>
-              <EmojiEvents
-                sx={{
-                  fontSize: 48,
-                  background: 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  backgroundClip: 'text',
-                }}
-              />
-              <Typography
-                variant="h3"
-                sx={{
-                  fontWeight: 800,
-                  background: 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  backgroundClip: 'text',
-                }}
-              >
-                Achievements
-              </Typography>
-            </Box>
-            <Typography variant="h6" color="text.secondary" sx={{ maxWidth: 600, mx: 'auto' }}>
-              Key accomplishments and milestones in my development journey
-            </Typography>
-          </motion.div>
-        </Box>
-
-        {/* Achievements Grid */}
-        <Grid container spacing={4} sx={{ mb: 6 }}>
-          {achievements.map((achievement, idx) => (
-            <Grid item xs={12} md={6} key={achievement.id}>
-              <motion.div
-                initial={{ opacity: 0, y: 30, scale: 0.95 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                transition={{ duration: 0.5, delay: idx * 0.15, type: 'spring', stiffness: 120 }}
-              >
-                <Box
-                  component={motion.div}
-                  whileHover={{ y: -10, scale: 1.02 }}
-                  transition={{ type: 'spring', stiffness: 300 }}
-                  sx={{
-                    position: 'relative',
-                    height: '100%',
-                    background: isDarkMode
-                      ? 'linear-gradient(135deg, rgba(99,102,241,0.05) 0%, rgba(139,92,246,0.05) 100%)'
-                      : 'linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(249,250,251,0.9) 100%)',
-                    backdropFilter: 'blur(20px)',
-                    border: `1px solid ${isDarkMode ? 'rgba(139,92,246,0.2)' : 'rgba(139,92,246,0.15)'}`,
-                    borderRadius: 3,
-                    p: 4,
-                    boxShadow: isDarkMode
-                      ? '0 20px 60px rgba(0,0,0,0.6), 0 0 40px rgba(139,92,246,0.1)'
-                      : '0 20px 60px rgba(139,92,246,0.15), 0 10px 30px rgba(0,0,0,0.05)',
-                    overflow: 'hidden',
-                    cursor: 'pointer',
-                    '&:hover': {
-                      borderColor: isDarkMode ? 'rgba(139,92,246,0.5)' : 'rgba(139,92,246,0.3)',
-                    },
-                  }}
-                >
-                  {/* Gradient accent bar */}
-                  <Box
-                    sx={{
-                      position: 'absolute',
-                      top: 0,
-                      left: 0,
-                      right: 0,
-                      height: 4,
-                      background: achievement.gradient,
-                      borderRadius: '12px 12px 0 0',
-                    }}
-                  />
-
-                  {/* Header with icon */}
-                  <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 2, mb: 3 }}>
-                    <Box
-                      sx={{
-                        width: 64,
-                        height: 64,
-                        borderRadius: 2,
-                        background: achievement.gradient,
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        color: 'white',
-                        flexShrink: 0,
-                        boxShadow: '0 8px 24px rgba(139,92,246,0.3)',
-                      }}
-                    >
-                      {achievement.icon}
-                    </Box>
-                    <Box sx={{ flex: 1 }}>
-                      <Typography
-                        variant="h5"
-                        sx={{
-                          fontWeight: 700,
-                          mb: 1,
-                          background: achievement.gradient,
-                          WebkitBackgroundClip: 'text',
-                          WebkitTextFillColor: 'transparent',
-                          backgroundClip: 'text',
-                        }}
-                      >
-                        {achievement.title}
-                      </Typography>
-                      <Typography
-                        variant="body2"
-                        color="text.secondary"
-                        sx={{ lineHeight: 1.6 }}
-                      >
-                        {achievement.description}
-                      </Typography>
-                    </Box>
-                  </Box>
-
-                  {/* Details list */}
-                  <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
-                    {achievement.details.map((detail, detailIdx) => (
-                      <motion.div
-                        key={detailIdx}
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: idx * 0.15 + 0.3 + (0.1 * detailIdx) }}
-                      >
-                        <Box
-                          sx={{
-                            display: 'flex',
-                            alignItems: 'flex-start',
-                            gap: 1.5,
-                            p: 1.5,
-                            borderRadius: 2,
-                            background: isDarkMode
-                              ? 'rgba(99,102,241,0.05)'
-                              : 'rgba(99,102,241,0.03)',
-                            transition: 'all 0.3s ease',
-                            '&:hover': {
-                              background: isDarkMode
-                                ? 'rgba(99,102,241,0.1)'
-                                : 'rgba(99,102,241,0.08)',
-                              transform: 'translateX(8px)',
-                            },
-                          }}
-                        >
-                          <CheckCircle
-                            sx={{
-                              fontSize: 20,
-                              color: '#10b981',
-                              flexShrink: 0,
-                              mt: 0.2,
-                            }}
-                          />
-                          <Typography
-                            variant="body2"
-                            sx={{
-                              flex: 1,
-                              lineHeight: 1.6,
-                            }}
-                          >
-                            {detail}
-                          </Typography>
-                        </Box>
-                      </motion.div>
-                    ))}
-                  </Box>
-                </Box>
-              </motion.div>
-            </Grid>
-          ))}
-        </Grid>
-
-        {/* Skills Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 30, scale: 0.95 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          transition={{ duration: 0.5, delay: 0.6, type: 'spring', stiffness: 120 }}
-        >
-          <Box
-            sx={{
-              position: 'relative',
-              background: isDarkMode
-                ? 'linear-gradient(135deg, rgba(99,102,241,0.05) 0%, rgba(139,92,246,0.05) 100%)'
-                : 'linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(249,250,251,0.9) 100%)',
-              backdropFilter: 'blur(20px)',
-              border: `1px solid ${isDarkMode ? 'rgba(139,92,246,0.2)' : 'rgba(139,92,246,0.15)'}`,
-              borderRadius: 3,
-              p: 4,
-              mb: 6,
-              boxShadow: isDarkMode
-                ? '0 20px 60px rgba(0,0,0,0.6), 0 0 40px rgba(139,92,246,0.1)'
-                : '0 20px 60px rgba(139,92,246,0.15), 0 10px 30px rgba(0,0,0,0.05)',
-            }}
-          >
-            {/* Gradient accent bar */}
-            <Box
+            <Typography
+              variant="h2"
               sx={{
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                right: 0,
-                height: 4,
-                background: 'linear-gradient(90deg, #6366f1, #8b5cf6, #ec4899)',
-                borderRadius: '12px 12px 0 0',
-              }}
-            />
-
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 4, justifyContent: 'center' }}>
-              <Verified
-                sx={{
-                  fontSize: 32,
-                  background: 'linear-gradient(135deg, #6366f1, #8b5cf6)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  backgroundClip: 'text',
-                }}
-              />
-              <Typography
-                variant="h5"
-                sx={{
-                  fontWeight: 700,
-                  background: 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  backgroundClip: 'text',
-                }}
-              >
-                Technical Expertise
-              </Typography>
-            </Box>
-
-            <Box
-              sx={{
-                display: 'flex',
-                flexWrap: 'wrap',
-                gap: 2,
-                justifyContent: 'center',
+                fontWeight: 800,
+                fontFamily: 'var(--font-display)',
+                mb: 3,
+                background: 'var(--gradient-text)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                fontSize: { xs: '2.5rem', md: '3.5rem' },
               }}
             >
+              Achievements
+            </Typography>
+
+            <Typography
+              variant="h6"
+              sx={{
+                color: 'var(--text-secondary)',
+                fontWeight: 300,
+                lineHeight: 1.8,
+                mb: 8,
+                mx: 'auto',
+                maxWidth: '800px',
+              }}
+            >
+              Key accomplishments and milestones in my development journey, from building complex applications to contributing to open source.
+            </Typography>
+
+            {/* Stats Row */}
+            <Grid container spacing={4} justifyContent="center" sx={{ mb: 10 }}>
+              {stats.map((stat, idx) => (
+                <Grid item xs={6} md={3} key={idx}>
+                  <motion.div
+                    whileHover={{ y: -5 }}
+                    transition={{ type: 'spring', stiffness: 300 }}
+                  >
+                    <Box
+                      sx={{
+                        p: 3,
+                        borderRadius: '20px',
+                        background: 'rgba(255,255,255,0.03)',
+                        border: '1px solid rgba(255,255,255,0.05)',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        gap: 1,
+                        transition: 'all 0.3s ease',
+                        '&:hover': {
+                          background: 'rgba(255,255,255,0.05)',
+                          borderColor: 'var(--primary)',
+                          boxShadow: '0 10px 30px rgba(0,0,0,0.1)',
+                        },
+                      }}
+                    >
+                      <Box
+                        sx={{
+                          color: 'white',
+                          background: stat.gradient,
+                          p: 1.5,
+                          borderRadius: '12px',
+                          mb: 1,
+                          display: 'flex',
+                          boxShadow: '0 4px 12px rgba(0,0,0,0.2)',
+                        }}
+                      >
+                        {stat.icon}
+                      </Box>
+                      <Typography variant="h4" sx={{ fontWeight: 700, color: 'var(--text-primary)', fontFamily: 'var(--font-display)' }}>
+                        {stat.number}
+                      </Typography>
+                      <Typography variant="body2" sx={{ color: 'var(--text-secondary)' }}>
+                        {stat.label}
+                      </Typography>
+                    </Box>
+                  </motion.div>
+                </Grid>
+              ))}
+            </Grid>
+
+            {/* Achievements Grid */}
+            <Typography
+              variant="h4"
+              sx={{
+                fontWeight: 700,
+                mb: 6,
+                fontFamily: 'var(--font-display)',
+                color: 'var(--text-primary)',
+              }}
+            >
+              Major Milestones
+            </Typography>
+
+            <Grid container spacing={4} justifyContent="center" sx={{ mb: 10 }}>
+              {achievements.map((achievement, idx) => (
+                <Grid item xs={12} md={6} key={achievement.id}>
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: idx * 0.1 }}
+                  >
+                    <Box
+                      className="glass-card"
+                      sx={{
+                        p: 4,
+                        height: '100%',
+                        borderRadius: '24px',
+                        textAlign: 'left',
+                        position: 'relative',
+                        overflow: 'hidden',
+                        transition: 'all 0.3s ease',
+                        '&:hover': {
+                          transform: 'translateY(-5px)',
+                          borderColor: 'var(--primary)',
+                        },
+                      }}
+                    >
+                      <Box
+                        sx={{
+                          position: 'absolute',
+                          top: 0,
+                          left: 0,
+                          right: 0,
+                          height: 4,
+                          background: achievement.gradient,
+                        }}
+                      />
+
+                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 3 }}>
+                        <Box
+                          sx={{
+                            p: 1.5,
+                            borderRadius: '12px',
+                            background: achievement.gradient,
+                            color: 'white',
+                            display: 'flex',
+                          }}
+                        >
+                          {achievement.icon}
+                        </Box>
+                        <Typography variant="h5" sx={{ fontWeight: 700, fontFamily: 'var(--font-display)' }}>
+                          {achievement.title}
+                        </Typography>
+                      </Box>
+
+                      <Typography variant="body1" sx={{ color: 'var(--text-secondary)', mb: 3 }}>
+                        {achievement.description}
+                      </Typography>
+
+                      <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
+                        {achievement.details.map((detail, i) => (
+                          <Box key={i} sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+                            <CheckCircle sx={{ fontSize: 18, color: 'var(--primary)', opacity: 0.8 }} />
+                            <Typography variant="body2" sx={{ color: 'var(--text-primary)' }}>
+                              {detail}
+                            </Typography>
+                          </Box>
+                        ))}
+                      </Box>
+                    </Box>
+                  </motion.div>
+                </Grid>
+              ))}
+            </Grid>
+
+            {/* Skills Chips */}
+            <Typography
+              variant="h4"
+              sx={{
+                fontWeight: 700,
+                mb: 6,
+                fontFamily: 'var(--font-display)',
+                color: 'var(--text-primary)',
+              }}
+            >
+              Technologies
+            </Typography>
+
+            <Box sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 2 }}>
               {skills.map((skill, idx) => (
                 <motion.div
-                  key={skill.name}
-                  initial={{ opacity: 0, scale: 0 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: 0.8 + (0.05 * idx), type: 'spring', stiffness: 200 }}
-                  whileHover={{ scale: 1.1, rotate: 5 }}
+                  key={idx}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
                 >
                   <Chip
                     label={`${skill.icon} ${skill.name}`}
                     sx={{
-                      background: skill.gradient,
-                      color: 'white',
-                      fontWeight: 700,
+                      background: 'rgba(255,255,255,0.03)',
+                      border: '1px solid rgba(255,255,255,0.1)',
+                      color: 'var(--text-primary)',
                       fontSize: '0.95rem',
-                      height: 44,
-                      px: 2,
-                      boxShadow: '0 4px 12px rgba(139,92,246,0.3)',
-                      border: 'none',
-                      cursor: 'pointer',
-                      transition: 'all 0.3s ease',
+                      height: 40,
+                      px: 1,
                       '&:hover': {
-                        boxShadow: '0 8px 24px rgba(139,92,246,0.4)',
+                        background: 'rgba(255,255,255,0.08)',
+                        borderColor: 'var(--primary)',
                       },
                     }}
                   />
                 </motion.div>
               ))}
             </Box>
-          </Box>
-        </motion.div>
 
-        {/* Statistics Cards */}
-        <Grid container spacing={3}>
-          {stats.map((stat, idx) => (
-            <Grid item xs={12} sm={6} md={3} key={stat.label}>
-              <motion.div
-                initial={{ opacity: 0, y: 30, scale: 0.95 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                transition={{ duration: 0.5, delay: 1.2 + (idx * 0.1), type: 'spring', stiffness: 120 }}
-              >
-                <Box
-                  component={motion.div}
-                  whileHover={{ y: -8, scale: 1.05 }}
-                  transition={{ type: 'spring', stiffness: 300 }}
-                  sx={{
-                    position: 'relative',
-                    textAlign: 'center',
-                    background: isDarkMode
-                      ? 'linear-gradient(135deg, rgba(99,102,241,0.05) 0%, rgba(139,92,246,0.05) 100%)'
-                      : 'linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(249,250,251,0.9) 100%)',
-                    backdropFilter: 'blur(20px)',
-                    border: `1px solid ${isDarkMode ? 'rgba(139,92,246,0.2)' : 'rgba(139,92,246,0.15)'}`,
-                    borderRadius: 3,
-                    p: 4,
-                    boxShadow: isDarkMode
-                      ? '0 20px 60px rgba(0,0,0,0.6), 0 0 40px rgba(139,92,246,0.1)'
-                      : '0 20px 60px rgba(139,92,246,0.15), 0 10px 30px rgba(0,0,0,0.05)',
-                    cursor: 'pointer',
-                    overflow: 'hidden',
-                    '&:hover': {
-                      borderColor: isDarkMode ? 'rgba(139,92,246,0.5)' : 'rgba(139,92,246,0.3)',
-                    },
-                  }}
-                >
-                  {/* Gradient accent bar */}
-                  <Box
-                    sx={{
-                      position: 'absolute',
-                      top: 0,
-                      left: 0,
-                      right: 0,
-                      height: 4,
-                      background: stat.gradient,
-                      borderRadius: '12px 12px 0 0',
-                    }}
-                  />
-
-                  {/* Animated background circle */}
-                  <Box
-                    component={motion.div}
-                    animate={{
-                      scale: [1, 1.2, 1],
-                      opacity: [0.1, 0.2, 0.1],
-                    }}
-                    transition={{
-                      duration: 3,
-                      repeat: Infinity,
-                      ease: 'easeInOut',
-                    }}
-                    sx={{
-                      position: 'absolute',
-                      top: '50%',
-                      left: '50%',
-                      transform: 'translate(-50%, -50%)',
-                      width: 120,
-                      height: 120,
-                      borderRadius: '50%',
-                      background: stat.gradient,
-                      filter: 'blur(30px)',
-                      zIndex: 0,
-                    }}
-                  />
-
-                  <Box sx={{ position: 'relative', zIndex: 1 }}>
-                    <Box
-                      sx={{
-                        width: 64,
-                        height: 64,
-                        borderRadius: '50%',
-                        background: stat.gradient,
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        color: 'white',
-                        mx: 'auto',
-                        mb: 2,
-                        boxShadow: '0 8px 24px rgba(139,92,246,0.3)',
-                      }}
-                    >
-                      {stat.icon}
-                    </Box>
-
-                    <Typography
-                      variant="h3"
-                      sx={{
-                        fontWeight: 700,
-                        mb: 1,
-                        background: stat.gradient,
-                        WebkitBackgroundClip: 'text',
-                        WebkitTextFillColor: 'transparent',
-                        backgroundClip: 'text',
-                      }}
-                    >
-                      {stat.number}
-                    </Typography>
-                    <Typography variant="h6" sx={{ fontWeight: 600 }}>
-                      {stat.label}
-                    </Typography>
-                  </Box>
-                </Box>
-              </motion.div>
-            </Grid>
-          ))}
-        </Grid>
-      </Box>
-    </motion.div>
+          </motion.div>
+        </Box>
+      </Container>
+    </Spotlight>
   );
 };
 
