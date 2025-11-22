@@ -12,6 +12,7 @@ import {
   LibraryBooks,
   EmojiEvents,
 } from '@mui/icons-material';
+import collegeLogo from '../assets/b.tech_college_logo.jpeg';
 
 const Education = () => {
   const { isDarkMode } = useTheme();
@@ -21,6 +22,7 @@ const Education = () => {
       id: 1,
       degree: 'Bachelor of Technology',
       field: 'Computer Science and Engineering',
+      logo: "src\\assets\\b.tech_college_logo.jpeg",
       institution: 'Siddhartha Institute of Engineering & Technology',
       location: 'Hyderabad',
       year: '2025',
@@ -31,6 +33,7 @@ const Education = () => {
     {
       id: 2,
       degree: 'Intermediate (MPC)',
+      logo: "src\\assets\\ttwreis_inter_college_logo.png",
       field: 'Mathematics, Physics and Chemistry',
       institution: 'Telangana Social Welfare Residential Educational Institutions Society',
       location: 'Sangareddy, Telangana',
@@ -42,6 +45,7 @@ const Education = () => {
     {
       id: 3,
       degree: 'Secondary School Certificate',
+      logo: "src\\assets\\ssc_school_logo.png",
       field: 'General Education',
       institution: 'Zilla Parishad High School',
       location: 'Zaheerabad, Telangana',
@@ -160,6 +164,8 @@ const Education = () => {
 
                       <Box sx={{ display: 'flex', gap: 2, mb: 2, alignItems: 'center', flexDirection: { xs: 'row', md: isLeft ? 'row-reverse' : 'row' } }}>
                         <Avatar
+                          src={edu.logo}
+                          alt={edu.institution}
                           sx={{
                             width: 64,
                             height: 64,
