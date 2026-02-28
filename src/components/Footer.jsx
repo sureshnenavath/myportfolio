@@ -1,5 +1,6 @@
 import React from 'react';
 import { Box, Typography, IconButton } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 import { GitHub, LinkedIn, Email, Twitter } from '@mui/icons-material';
 import { motion } from 'framer-motion';
 
@@ -12,6 +13,8 @@ const Footer = () => {
         { icon: <Email />, url: 'mailto:sureshnenavath09@gmail.com' },
     ];
 
+    const theme = useTheme();
+
     return (
         <Box
             component="footer"
@@ -21,7 +24,9 @@ const Footer = () => {
                 py: 4,
                 px: 2,
                 textAlign: 'center',
-                background: 'linear-gradient(to top, rgba(3, 0, 20, 0.9), transparent)',
+                background: theme.palette.mode === 'light'
+                    ? '#fff'
+                    : 'linear-gradient(to top, rgba(3, 0, 20, 0.9), transparent)',
             }}
         >
             <Box

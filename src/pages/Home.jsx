@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Box, Typography, Button, Container } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 import { ArrowForward } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
 import Spotlight from '../components/Spotlight';
@@ -82,23 +83,24 @@ const Home = () => {
               component={Link}
               to="/projects"
               endIcon={<ArrowForward />}
-              sx={{
+              sx={theme => ({
                 px: 5,
                 py: 2,
                 borderRadius: '50px',
                 fontSize: '1.1rem',
                 textTransform: 'none',
-                background: 'rgba(255, 255, 255, 0.1)',
-                backdropFilter: 'blur(10px)',
-                border: '1px solid rgba(255, 255, 255, 0.1)',
-                color: '#fff',
-                transition: 'all 0.3s ease',
+                background: theme.palette.mode === 'light'
+                  ? theme.palette.primary.main
+                  : 'rgba(255, 255, 255, 0.1)',
+                color: theme.palette.mode === 'light' ? '#fff' : '#fff',
                 '&:hover': {
-                  background: 'rgba(255, 255, 255, 0.2)',
+                  background: theme.palette.mode === 'light'
+                    ? theme.palette.primary.dark
+                    : 'rgba(255, 255, 255, 0.2)',
                   transform: 'translateY(-2px)',
                   boxShadow: '0 10px 20px rgba(0,0,0,0.2)',
                 },
-              }}
+              })}
             >
               View My Work
             </Button>
