@@ -4,6 +4,11 @@ exports.handler = async (event) => {
   try {
     const { name, email, message } = JSON.parse(event.body);
 
+    // debug: make sure env vars are populated (don't log secrets)
+    console.log('smtp host', process.env.SMTP_HOST);
+    console.log('smtp user', process.env.SMTP_USER);
+    console.log('recipients', process.env.RECIPIENTS);
+
     const transporter = nodemailer.createTransport({
       host: process.env.SMTP_HOST,
       port: process.env.SMTP_PORT || 587,
@@ -30,7 +35,7 @@ exports.handler = async (event) => {
     console.error('sendEmail error', err);
     return {
       statusCode: 500,
-      body: JSON.stringify({ error: 'Unable to send mail' }),
+      body: JSON.stringify({ error: 'Unable to send mail', message: err.message }),
     };
   }
 };
