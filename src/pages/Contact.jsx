@@ -52,7 +52,13 @@ const Contact = () => {
   return (
     <Spotlight className="min-h-screen flex items-center justify-center pb-20 pt-4">
       <Container maxWidth="md">
-        <Box sx={{ textAlign: 'center', mb: 8, position: 'relative', zIndex: 10 }}>
+        <Box sx={{
+          textAlign: 'center',
+          mb: { xs: 4, md: 8 },
+          position: 'relative',
+          zIndex: 10,
+          px: { xs: 2, sm: 4 },
+        }}>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -61,10 +67,15 @@ const Contact = () => {
             <Typography
               variant="h1"
               sx={{
-                fontSize: { xs: '3rem', md: '5rem' },
+                fontSize: {
+                  xs: '2.5rem',
+                  sm: '3rem',
+                  md: '5rem',
+                  lg: '6rem',
+                },
                 fontWeight: 800,
                 fontFamily: 'var(--font-display)',
-                mb: 2,
+                mb: { xs: 1, sm: 2 },
                 background: 'var(--gradient-text)',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
@@ -178,6 +189,24 @@ const Contact = () => {
               </Button>
             </Box>
           </motion.div>
+
+          {/* direct email address shown beneath form */}
+          <Typography
+            variant="body1"
+            sx={{
+              mt: 4,
+              color: 'var(--text-secondary)',
+              textAlign: 'center',
+            }}
+          >
+            Or email me directly at{' '}
+            <a
+              href="mailto:connect@sureshnenavath.tech"
+              style={{ color: 'var(--primary)', textDecoration: 'underline' }}
+            >
+              connect@sureshnenavath.tech
+            </a>
+          </Typography>
         </Box>
       </Container>
 
