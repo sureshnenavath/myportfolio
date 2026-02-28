@@ -17,6 +17,7 @@
     "framer-motion": "^12.23.16",
     "gsap": "^3.13.0",
     "motion": "^12.23.16",
+    "nodemailer": "^8.0.1",
     "prop-types": "^15.8.1",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",

@@ -20,11 +20,27 @@ const Contact = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
-    setShowAlert(true);
-    setFormData({ name: '', email: '', message: '' });
+
+    try {
+      const res = await fetch('/.netlify/functions/sendEmail', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+
+      if (!res.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      setShowAlert(true);
+    } catch (err) {
+      console.error('sending email failed', err);
+      // you could show a different snackbar for errors if desired
+    } finally {
+      setFormData({ name: '', email: '', message: '' });
+    }
   };
 
   const socialLinks = [
