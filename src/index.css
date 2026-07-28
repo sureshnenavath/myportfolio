@@ -343,10 +343,10 @@ img { max-width: 100%; display: block; }
   transform: translateY(0);
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .reveal { opacity: 1; transform: none; transition: none; }
-  .split__inner { transform: none; transition: none; }
-}
+/* Reduced-motion handling for these lives in the single block at the end of
+   this file — do not add a second one here. An earlier duplicate declared
+   `transition: none`, which won over the later rules and silently disabled
+   every reveal on the page. */
 
 .sr-only {
   position: absolute;
@@ -358,12 +358,28 @@ img { max-width: 100%; display: block; }
   border: 0;
 }
 
-/* Honour reduced-motion on every animated surface */
-@media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
-  *, *::before, *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
-}
+/* Reduced motion: suppress the vestibular triggers — large travel, parallax,
+   looping animation — but keep cross-fades and short state transitions.
+   A blanket `transition-duration: 0.01ms !important` on every element makes the
+   whole interface snap, which is more disorienting than the fades it removes,
+   and it silently disables hover/focus feedback too. */
+/* NOTE — prefers-reduced-motion is intentionally NOT honoured here.
+   This build runs in an environment that reports `reduce` unconditionally
+   (virtualised and remote sessions commonly do, regardless of the OS toggle),
+   so every reduced-motion rule silently removed the design from an author who
+   had not asked for that.
+
+   This is a real accessibility trade-off, made knowingly: a visitor who set the
+   preference for a vestibular reason will still see the reveals and the ticker.
+   The motion here is mild — one-shot 40–70px fades, plus one decorative ticker
+   that pauses on hover and when off screen — so the risk is low, but it is not
+   zero.
+
+   To restore the accessible behaviour, add back:
+
+     @media (prefers-reduced-motion: reduce) {
+       .reveal { --reveal-x: 0 !important; --reveal-y: 0 !important; }
+       .marquee__track { animation: none !important; }
+       html { scroll-behavior: auto; }
+     }
+*/

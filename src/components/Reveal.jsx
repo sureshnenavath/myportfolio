@@ -16,11 +16,10 @@ const Reveal = ({ children, delay = 0, y, duration, className = '', style, ...re
     const node = ref.current;
     if (!node) return undefined;
 
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      setShown(true);
-      return undefined;
-    }
-
+    /* No reduced-motion branch here on purpose. The observer always runs and
+       always adds the class; the stylesheet decides how much movement that
+       class is allowed to produce. Short-circuiting in JS meant reduced-motion
+       users got no transition at all rather than a gentler one. */
     const observer = new IntersectionObserver(
       ([entry], obs) => {
         if (entry.isIntersecting) {

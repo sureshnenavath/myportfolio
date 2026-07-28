@@ -17,11 +17,6 @@ const CountUp = ({ value, duration = 1.4 }) => {
     const node = ref.current;
     if (!node || !numeric) return undefined;
 
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      node.textContent = String(target);
-      return undefined;
-    }
-
     let frame = 0;
     let start = 0;
 

@@ -12,10 +12,9 @@ const Magnetic = ({ children, strength = 0.35, className, style }) => {
   const sx = useSpring(x, { stiffness: 260, damping: 18, mass: 0.4 });
   const sy = useSpring(y, { stiffness: 260, damping: 18, mass: 0.4 });
 
+  // Pointer check only — see the note in index.css about reduced motion.
   const enabled = () =>
-    typeof window !== 'undefined' &&
-    window.matchMedia('(pointer: fine)').matches &&
-    !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    typeof window !== 'undefined' && window.matchMedia('(pointer: fine)').matches;
 
   const onMove = (e) => {
     if (!ref.current || !enabled()) return;

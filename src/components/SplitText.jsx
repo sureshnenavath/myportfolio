@@ -29,11 +29,7 @@ const SplitText = ({
     const node = ref.current;
     if (!node) return undefined;
 
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      setShown(true);
-      return undefined;
-    }
-
+    // CSS decides how much movement is allowed — see the reduced-motion block.
     const observer = new IntersectionObserver(
       ([entry], obs) => {
         if (entry.isIntersecting) {

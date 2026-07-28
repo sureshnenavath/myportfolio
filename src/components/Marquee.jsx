@@ -102,9 +102,6 @@ const Marquee = ({ items, speed = 34, reverse = false }) => {
         from { transform: translate3d(0, 0, 0); }
         to   { transform: translate3d(-50%, 0, 0); }
       }
-      @media (prefers-reduced-motion: reduce) {
-        .marquee__track { animation: none; }
-      }
     `}</style>
   </div>
   );
