@@ -9,7 +9,8 @@ import {
 import { AnimatePresence, motion } from 'framer-motion';
 import Navbar from './components/Navbar';
 import Background from './components/Background';
-import ScrollRuler from './components/ScrollRuler';
+import useAnchorScroll from './hooks/useAnchorScroll';
+import { scrollToHash } from './utils/smoothScroll';
 import Footer from './components/Footer';
 import Home from './pages/Home';
 import Projects from './pages/Projects';
@@ -32,10 +33,7 @@ const ScrollManager = () => {
 
     if (hash) {
       // Wait a frame so the target section exists after the route swap.
-      const id = window.requestAnimationFrame(() => {
-        const el = document.querySelector(hash);
-        if (el) el.scrollIntoView({ block: 'start' });
-      });
+      const id = window.requestAnimationFrame(() => scrollToHash(hash));
       return () => window.cancelAnimationFrame(id);
     }
 
@@ -93,11 +91,16 @@ const AnimatedRoutes = () => {
   );
 };
 
+const AppShell = () => {
+  useAnchorScroll();
+  return null;
+};
+
 const App = () => (
   <Router>
     <Background />
     <ScrollManager />
-    <ScrollRuler />
+    <AppShell />
     <div style={{ position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
       <Navbar />
       <main style={{ flexGrow: 1 }}>

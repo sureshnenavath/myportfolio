@@ -1,7 +1,12 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MailOutline, Menu as MenuIcon, Close as CloseIcon } from '@mui/icons-material';
+import {
+  MailOutline,
+  Menu as MenuIcon,
+  Close as CloseIcon,
+  ArrowOutward,
+} from '@mui/icons-material';
 import { navItems, profile } from '../data/content';
 
 /* Floating pill navigation, after the reference:
@@ -39,7 +44,9 @@ const Navbar = () => {
   // Track which section is in view so the nav reflects position.
   useEffect(() => {
     if (!onHome) return undefined;
-    const ids = navItems.map((n) => n.href.slice(1));
+    // 'contact' is not a tab, but it must be observed — otherwise the last
+    // observed section (Education) stayed highlighted once you scrolled past it.
+    const ids = [...navItems.map((n) => n.href.slice(1)), 'contact'];
     const targets = ids
       .map((id) => document.getElementById(id))
       .filter(Boolean);
@@ -63,16 +70,21 @@ const Navbar = () => {
 
   const isActive = (href) => onHome && activeHash === href;
 
+  /* The active item gets a filled pill, not just orange text — the dark
+     "Contact" chip beside it is a CTA that is always dark, and colour alone
+     made that chip read as the selected tab. */
   const linkStyle = (active) => ({
     display: 'inline-flex',
     alignItems: 'center',
     padding: '10px 16px',
     borderRadius: 'var(--radius-pill)',
     fontSize: 'var(--text-base)',
-    fontWeight: 500,
+    fontWeight: active ? 700 : 500,
     whiteSpace: 'nowrap',
     color: active ? 'var(--color-accent)' : 'var(--color-ink)',
-    transition: 'color var(--duration-normal) var(--ease-out)',
+    background: active ? 'var(--color-accent-soft)' : 'transparent',
+    transition:
+      'color var(--duration-normal) var(--ease-out), background var(--duration-normal) var(--ease-out)',
   });
 
   return (
@@ -91,15 +103,15 @@ const Navbar = () => {
           alignItems: 'center',
           justifyContent: 'space-between',
           gap: 'var(--space-5)',
-          padding: 'calc(var(--space-6) + var(--ruler-h)) var(--shell-pad) var(--space-6)',
+          padding: 'var(--space-6) var(--shell-pad)',
           pointerEvents: 'none',
         }}
       >
         {/* Left — availability status */}
         <a
           href={resolve('#contact')}
-          className="pill nav-side"
-          style={{ pointerEvents: 'auto' }}
+          className="pill glass nav-side"
+          style={{ pointerEvents: 'auto', boxShadow: 'none' }}
         >
           <span className="dot" />
           {profile.availabilityLabel}
@@ -108,7 +120,7 @@ const Navbar = () => {
         {/* Centre — nav pill */}
         <nav
           aria-label="Primary"
-          className="nav-pill"
+          className="nav-pill glass"
           style={{
             pointerEvents: 'auto',
             display: 'flex',
@@ -116,8 +128,6 @@ const Navbar = () => {
             gap: 2,
             padding: 6,
             borderRadius: 'var(--radius-pill)',
-            background: 'var(--color-surface)',
-            boxShadow: 'var(--shadow-3)',
           }}
         >
           <div className="nav-links">
@@ -162,35 +172,41 @@ const Navbar = () => {
             {open ? <CloseIcon /> : <MenuIcon />}
           </button>
 
+          {/* Divider — makes it plain that Contact is an action, not a tab */}
+          <span
+            aria-hidden="true"
+            className="nav-divider"
+            style={{
+              width: 1,
+              height: 22,
+              margin: '0 6px',
+              flexShrink: 0,
+              background: 'var(--color-border)',
+            }}
+          />
+
+          {/* Outlined, never filled: the filled pill is reserved for the
+              active section, so a solid Contact chip read as "selected". */}
           <a
             href={resolve('#contact')}
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              padding: '11px 22px',
-              borderRadius: 'var(--radius-pill)',
-              background: 'var(--color-surface-dark)',
-              color: 'var(--color-text-on-dark)',
-              fontWeight: 700,
-              fontSize: 'var(--text-base)',
-              transition: 'background var(--duration-normal) var(--ease-out)',
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.background = 'var(--color-accent)';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.background = 'var(--color-surface-dark)';
-            }}
+            className={`nav-cta ${isActive('#contact') ? 'is-active' : ''}`}
+            aria-current={isActive('#contact') ? 'true' : undefined}
           >
             Contact
+            <ArrowOutward style={{ fontSize: 16 }} />
           </a>
         </nav>
 
         {/* Right — email */}
         <a
           href={`mailto:${profile.email}`}
-          className="pill nav-side"
-          style={{ pointerEvents: 'auto', fontFamily: 'var(--font-mono)', letterSpacing: '0.02em' }}
+          className="pill glass nav-side"
+          style={{
+            pointerEvents: 'auto',
+            boxShadow: 'none',
+            fontFamily: 'var(--font-mono)',
+            letterSpacing: '0.02em',
+          }}
         >
           <MailOutline style={{ fontSize: 17 }} />
           {profile.email}
@@ -300,10 +316,37 @@ const Navbar = () => {
       <style>{`
         .nav-links { display: none; align-items: center; gap: 2px; }
         .nav-burger { display: inline-flex; }
+        .nav-divider { display: none; }
+
+        .nav-cta {
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          padding: 10px 20px;
+          border: 1px solid var(--color-border-strong);
+          border-radius: var(--radius-pill);
+          font-size: var(--text-base);
+          font-weight: 700;
+          white-space: nowrap;
+          color: var(--color-ink);
+          transition: border-color var(--duration-normal) var(--ease-out),
+                      color var(--duration-normal) var(--ease-out);
+        }
+        .nav-cta:hover {
+          border-color: var(--color-accent);
+          color: var(--color-accent);
+        }
+        /* Same treatment the tabs get, so Contact reads as current too */
+        .nav-cta.is-active {
+          background: var(--color-accent-soft);
+          border-color: var(--color-accent);
+          color: var(--color-accent);
+        }
 
         @media (min-width: 1100px) {
           .nav-links { display: flex; }
           .nav-burger { display: none; }
+          .nav-divider { display: block; }
         }
         @media (max-width: 1279px) {
           .nav-side { display: none; }

@@ -15,9 +15,11 @@
   50%      { transform: translateY(-10px); }
 }
 
-/* Corner meta text — the reference's four-corner mono annotations */
+/* Corner meta text — the reference's corner annotations.
+   Absolute, not fixed: fixed kept it pinned to the viewport all the way down
+   the page, where it printed on top of the cards and the footer slab. */
 .corner-meta {
-  position: fixed;
+  position: absolute;
   z-index: 2;
   font-family: var(--font-mono);
   font-size: var(--text-xs);
@@ -27,8 +29,8 @@
   color: rgba(20, 32, 43, 0.55);
   pointer-events: none;
 }
-.corner-meta--bl { left: var(--shell-pad); bottom: var(--space-6); }
-.corner-meta--br { right: var(--shell-pad); bottom: var(--space-6); text-align: right; }
+.corner-meta--bl { left: 0; bottom: var(--space-8); }
+.corner-meta--br { right: 0; bottom: var(--space-8); text-align: right; }
 
 @media (max-width: 1023px) {
   .corner-meta { display: none; }
