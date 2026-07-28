@@ -93,6 +93,7 @@ const Navbar = () => {
         initial={{ y: -70, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+        className="nav-header"
         style={{
           position: 'fixed',
           top: 0,
@@ -101,7 +102,6 @@ const Navbar = () => {
           zIndex: 1200,
           display: 'flex',
           alignItems: 'center',
-          justifyContent: 'space-between',
           gap: 'var(--space-5)',
           padding: 'var(--space-6) var(--shell-pad)',
           pointerEvents: 'none',
@@ -199,7 +199,7 @@ const Navbar = () => {
 
         {/* Right — email */}
         <a
-          href={`mailto:${profile.email}`}
+          href={`mailto:${profile.publicEmail}`}
           className="pill glass nav-side"
           style={{
             pointerEvents: 'auto',
@@ -209,7 +209,7 @@ const Navbar = () => {
           }}
         >
           <MailOutline style={{ fontSize: 17 }} />
-          {profile.email}
+          {profile.publicEmail}
         </a>
       </motion.header>
 
@@ -302,11 +302,11 @@ const Navbar = () => {
               </nav>
 
               <a
-                href={`mailto:${profile.email}`}
+                href={`mailto:${profile.publicEmail}`}
                 className="mono-label mono-label--on-dark"
                 style={{ display: 'inline-block', marginTop: 'var(--space-7)' }}
               >
-                {profile.email}
+                {profile.publicEmail}
               </a>
             </motion.div>
           </>
@@ -343,6 +343,10 @@ const Navbar = () => {
           color: var(--color-accent);
         }
 
+        /* Side pills only exist on wide screens; without them the bar must
+           centre its single pill instead of pushing it to the left edge. */
+        .nav-header { justify-content: center; }
+
         @media (min-width: 1100px) {
           .nav-links { display: flex; }
           .nav-burger { display: none; }
@@ -350,6 +354,9 @@ const Navbar = () => {
         }
         @media (max-width: 1279px) {
           .nav-side { display: none; }
+        }
+        @media (min-width: 1280px) {
+          .nav-header { justify-content: space-between; }
         }
       `}</style>
     </>

@@ -14,11 +14,17 @@ const SplitText = ({
   stagger = 0.055,
   delay = 0,
   accentFrom = -1,
+  wordClass,
+  suffix,
+  suffixClass = '',
   animate = false,
 }) => {
   const ref = useRef(null);
   const [shown, setShown] = useState(false);
   const words = String(text).split(' ');
+  // Rendered tight against the last word, so it can be styled on its own
+  // without a space between it and the text.
+  const hasSuffix = suffix !== undefined && suffix !== null && suffix !== '';
 
   useEffect(() => {
     if (animate) {
@@ -47,21 +53,31 @@ const SplitText = ({
   return (
     <Tag
       ref={ref}
-      aria-label={text}
+      aria-label={hasSuffix ? `${text}${suffix}` : text}
       className={`split ${shown ? 'is-in' : ''} ${className}`.trim()}
       style={style}
     >
       {words.map((w, i) => (
         <span key={`${w}-${i}`} aria-hidden="true" className="split__word">
           <span
-            className="split__inner"
+            className={`split__inner ${
+              typeof wordClass === 'function' ? wordClass(i) : wordClass || ''
+            }`.trim()}
             style={{
               '--split-delay': `${delay + i * stagger}s`,
-              color: accentFrom >= 0 && i >= accentFrom ? 'var(--color-accent)' : undefined,
+              // A wordClass may paint the glyphs itself (halftone fill), in
+              // which case it owns the colour.
+              color:
+                !wordClass && accentFrom >= 0 && i >= accentFrom
+                  ? 'var(--color-accent)'
+                  : undefined,
             }}
           >
             {w}
             {i < words.length - 1 ? ' ' : ''}
+            {hasSuffix && i === words.length - 1 && (
+              <span className={suffixClass}>{suffix}</span>
+            )}
           </span>
         </span>
       ))}
@@ -77,6 +93,9 @@ SplitText.propTypes = {
   stagger: PropTypes.number,
   delay: PropTypes.number,
   accentFrom: PropTypes.number,
+  wordClass: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
+  suffix: PropTypes.node,
+  suffixClass: PropTypes.string,
   animate: PropTypes.bool,
 };
 

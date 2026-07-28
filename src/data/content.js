@@ -12,6 +12,9 @@ export const profile = {
   role: 'Full-Stack Developer',
   location: 'Hyderabad, Telangana',
   email: 'sureshnenavath09@gmail.com',
+  // Shown in the header. Kept separate from `email` so the contact form,
+  // footer and direct-channels list still point at the inbox that receives.
+  publicEmail: 'connect@sureshnenavath.tech',
   phone: '+91 91773 46580',
   site: 'sureshnenavath.tech',
   github: 'https://github.com/sureshnenavath',

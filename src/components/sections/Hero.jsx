@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ArrowForward, ArrowOutward, KeyboardArrowDown } from '@mui/icons-material';
+import { ArrowForward, ArrowOutward } from '@mui/icons-material';
 import SplitText from '../SplitText';
 import Magnetic from '../Magnetic';
 import { profile } from '../../data/content';
@@ -47,33 +47,26 @@ const Hero = () => {
         }}
       >
         <motion.div variants={rise} initial="hidden" animate="show" custom={0}>
-          <p
-            className="pill"
-            style={{
-              background: 'rgba(255,255,255,0.92)',
-              fontSize: 'var(--text-base)',
-            }}
-          >
+          <p className="pill hero-badge">
             <span className="dot" />
-            3 products live in production ·{' '}
-            <strong style={{ color: 'var(--color-accent)' }}>React + Django</strong>
+            <span>
+              3 products live in production ·{' '}
+              <strong style={{ color: 'var(--color-accent)' }}>React + Django</strong>
+            </span>
           </p>
         </motion.div>
 
+        {/* Scale and density, no fill trickery. Sizing lives in .hero-headline. */}
         <SplitText
           as="h1"
           text={`${profile.headline[0]} ${profile.headline[1]}`}
-          className="display"
+          className="display hero-headline"
           animate
           delay={0.25}
           stagger={0.08}
-          accentFrom={1}
-          style={{
-            margin: 'var(--space-7) 0 var(--space-6)',
-            fontSize: 'var(--text-display)',
-            color: 'var(--color-ink)',
-            maxWidth: '15ch',
-          }}
+          suffix="."
+          suffixClass="hero-stop"
+          style={{ margin: 'var(--space-7) 0 var(--space-6)' }}
         />
 
         <motion.p
@@ -92,12 +85,7 @@ const Hero = () => {
           initial="hidden"
           animate="show"
           custom={6}
-          style={{
-            maxWidth: '54ch',
-            fontSize: 'clamp(1.05rem, 2vw, 1.4rem)',
-            color: 'var(--color-text-secondary)',
-            marginBottom: 'var(--space-8)',
-          }}
+          className="hero-lede"
         >
           {profile.lede}
         </motion.p>
@@ -107,12 +95,7 @@ const Hero = () => {
           initial="hidden"
           animate="show"
           custom={7}
-          style={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            justifyContent: 'center',
-            gap: 'var(--space-5)',
-          }}
+          className="hero-actions"
         >
           <Magnetic>
             <a href="#work" className="btn btn--primary">
@@ -128,33 +111,6 @@ const Hero = () => {
           </Magnetic>
         </motion.div>
       </div>
-
-      {/* Scroll cue */}
-      <motion.a
-        href="#about"
-        aria-label="Scroll to about"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.4, duration: 0.6 }}
-        style={{
-          position: 'absolute',
-          bottom: 'var(--space-8)',
-          left: '50%',
-          x: '-50%',
-          display: 'inline-flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          width: 44,
-          height: 44,
-          borderRadius: 'var(--radius-pill)',
-          background: 'rgba(255,255,255,0.9)',
-          color: 'var(--color-ink)',
-        }}
-      >
-        {/* Static: an infinite bob keeps a compositing layer alive for the
-            whole session, which is not worth 5px of movement. */}
-        <KeyboardArrowDown />
-      </motion.a>
 
       {/* Corner meta — the reference's fixed annotations */}
       <div className="corner-meta corner-meta--bl">

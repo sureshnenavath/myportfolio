@@ -183,6 +183,70 @@ img { max-width: 100%; display: block; }
   box-shadow: var(--shadow-1);
 }
 
+/* ---- Hero display type ----
+   No fill effect: scale and density do the work. Set much larger than the
+   section headings, tracked in hard, and locked to a short measure so it wraps
+   into a solid two-line block rather than one thin line. */
+.hero-headline {
+  /* Bounded by viewport HEIGHT as well as width. Sizing on vw alone let the
+     headline grow to three lines and run off a short screen. */
+  font-size: clamp(2.5rem, min(8vw, 10.5vh), 6rem);
+  letter-spacing: -0.05em;
+  line-height: 0.9;
+  color: var(--color-ink);
+  max-width: 13ch;   /* wraps to "SHIPS REAL" / "PRODUCTS." */
+}
+
+/* The one spot of colour — a full stop, not a whole word */
+.hero-stop {
+  color: var(--color-accent);
+  -webkit-text-fill-color: var(--color-accent);
+}
+
+/* `.pill` is nowrap by default, which pushed this badge past both screen
+   edges on a phone. Here it wraps and stays inside the viewport. */
+.hero-badge {
+  max-width: 100%;
+  white-space: normal;
+  text-align: left;
+  align-items: flex-start;
+  font-size: var(--text-base);
+  background: rgba(255, 255, 255, 0.92);
+}
+
+/* Keeps the dot on the first line once the label wraps */
+.hero-badge .dot { margin-top: 0.5em; }
+
+.hero-lede {
+  max-width: 54ch;
+  font-size: clamp(1rem, 2vw, 1.4rem);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-8);
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-5);
+}
+
+@media (max-width: 599px) {
+  .hero-badge {
+    font-size: var(--text-md);
+    padding: 10px 16px;
+  }
+  /* Equal-width stacked buttons — side by side they wrapped to two ragged rows */
+  .hero-actions {
+    width: 100%;
+    max-width: 340px;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+  .hero-actions > * { width: 100%; }
+  .hero-actions .btn { width: 100%; }
+}
+
 /* Section display headline */
 .display {
   font-family: var(--font-primary);
