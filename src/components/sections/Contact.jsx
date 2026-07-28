@@ -31,6 +31,7 @@ const Contact = () => {
   const [form, setForm] = useState({ name: '', email: '', message: '' });
   const [status, setStatus] = useState('idle'); // idle | sending | sent | error
   const [errors, setErrors] = useState({});
+  const [serverError, setServerError] = useState('');
 
   const change = (e) => {
     const { name, value } = e.target;
@@ -53,17 +54,35 @@ const Contact = () => {
     if (!validate()) return;
 
     setStatus('sending');
+    setServerError('');
+
     try {
       const res = await fetch('/.netlify/functions/sendEmail', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form),
       });
-      if (!res.ok) throw new Error(`Request failed: ${res.status}`);
+
+      if (!res.ok) {
+        /* Read the reason rather than swallowing it. A gateway error returns an
+           HTML page, not JSON, so parsing is best-effort. */
+        let reason = `HTTP ${res.status}`;
+        try {
+          const data = await res.json();
+          if (data?.error) reason = data.error;
+        } catch {
+          if (res.status === 502 || res.status === 504) {
+            reason = 'The mail service did not respond';
+          }
+        }
+        throw new Error(reason);
+      }
+
       setStatus('sent');
       setForm({ name: '', email: '', message: '' });
     } catch (err) {
-      console.error('sending email failed', err);
+      console.error('sendEmail request failed:', err);
+      setServerError(err.message || '');
       setStatus('error');
     }
   };
@@ -188,7 +207,8 @@ const Contact = () => {
               }}
             >
               {status === 'sent' && 'MESSAGE SENT — I usually reply within a day.'}
-              {status === 'error' && 'SENDING FAILED — email me directly instead.'}
+              {status === 'error' &&
+                `SENDING FAILED${serverError ? ` — ${serverError}` : ''}. EMAIL ME DIRECTLY INSTEAD.`}
             </p>
           </form>
         </Reveal>
