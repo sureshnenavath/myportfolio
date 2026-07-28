@@ -1,254 +1,312 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import {
-  Home, Person, Work, Code, School, EmojiEvents, Email,
-  Brightness4, Brightness7, Menu as MenuIcon, Close as CloseIcon,
-} from '@mui/icons-material';
-import { useTheme } from '../contexts/ThemeContext';
+import { MailOutline, Menu as MenuIcon, Close as CloseIcon } from '@mui/icons-material';
+import { navItems, profile } from '../data/content';
 
-const navItems = [
-  { name: 'Home',         path: '/',             icon: Home },
-  { name: 'About',        path: '/about',        icon: Person },
-  { name: 'Experience',   path: '/experience',   icon: Work },
-  { name: 'Projects',     path: '/projects',     icon: Code },
-  { name: 'Education',    path: '/education',    icon: School },
-  { name: 'Achievements', path: '/achievements', icon: EmojiEvents },
-  { name: 'Contact',      path: '/contact',      icon: Email },
-];
+/* Floating pill navigation, after the reference:
+   left status pill · centre nav pill with a dark Contact chip · right email pill.
+   Below 1100px the centre pill collapses to a burger + slide-in drawer. */
 
 const Navbar = () => {
   const location = useLocation();
-  const { isDarkMode, toggleTheme } = useTheme();
-  const [mobileOpen, setMobileOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
+  const onHome = location.pathname === '/';
+  const [open, setOpen] = useState(false);
+  const [activeHash, setActiveHash] = useState('#top');
 
-  // Close drawer on navigation
-  useEffect(() => { setMobileOpen(false); }, [location.pathname]);
-
-  // Shrink bar slightly on scroll
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
-  }, []);
+    setOpen(false);
+  }, [location.pathname, location.hash]);
 
-  const dark = isDarkMode;
+  // Lock body scroll while the drawer is open.
+  useEffect(() => {
+    document.body.style.overflow = open ? 'hidden' : '';
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [open]);
+
+  // Close on Escape — keyboard parity with the backdrop click.
+  useEffect(() => {
+    if (!open) return undefined;
+    const onKey = (e) => {
+      if (e.key === 'Escape') setOpen(false);
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [open]);
+
+  // Track which section is in view so the nav reflects position.
+  useEffect(() => {
+    if (!onHome) return undefined;
+    const ids = navItems.map((n) => n.href.slice(1));
+    const targets = ids
+      .map((id) => document.getElementById(id))
+      .filter(Boolean);
+    if (!targets.length) return undefined;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((e) => e.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+        if (visible) setActiveHash(`#${visible.target.id}`);
+      },
+      { rootMargin: '-45% 0px -45% 0px', threshold: [0, 0.25, 0.5, 1] }
+    );
+    targets.forEach((t) => observer.observe(t));
+    return () => observer.disconnect();
+  }, [onHome, location.pathname]);
+
+  // On Home a hash link is same-page; elsewhere it has to route back first.
+  const resolve = useCallback((href) => (onHome ? href : `/${href}`), [onHome]);
+
+  const isActive = (href) => onHome && activeHash === href;
+
+  const linkStyle = (active) => ({
+    display: 'inline-flex',
+    alignItems: 'center',
+    padding: '10px 16px',
+    borderRadius: 'var(--radius-pill)',
+    fontSize: 'var(--text-base)',
+    fontWeight: 500,
+    whiteSpace: 'nowrap',
+    color: active ? 'var(--color-accent)' : 'var(--color-ink)',
+    transition: 'color var(--duration-normal) var(--ease-out)',
+  });
 
   return (
     <>
-      {/* ═══ TOP BAR ═══ */}
       <motion.header
-        initial={{ y: -80, opacity: 0 }}
+        initial={{ y: -70, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.45, ease: 'easeOut' }}
+        transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
         style={{
-          position: 'fixed', top: 0, left: 0, right: 0, zIndex: 1200,
-          display: 'flex', justifyContent: 'center',
-          padding: scrolled ? '8px 16px' : '14px 16px',
-          transition: 'padding 0.3s',
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          zIndex: 1200,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          gap: 'var(--space-5)',
+          padding: 'calc(var(--space-6) + var(--ruler-h)) var(--shell-pad) var(--space-6)',
+          pointerEvents: 'none',
         }}
       >
-        <div style={{
-          display: 'flex', alignItems: 'center', gap: 4,
-          padding: '6px 10px', borderRadius: 999,
-          background: dark ? 'rgba(15,23,42,0.8)' : 'rgba(255,255,255,0.88)',
-          backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)',
-          border: `1px solid ${dark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.08)'}`,
-          boxShadow: '0 4px 24px rgba(0,0,0,0.08)',
-        }}>
+        {/* Left — availability status */}
+        <a
+          href={resolve('#contact')}
+          className="pill nav-side"
+          style={{ pointerEvents: 'auto' }}
+        >
+          <span className="dot" />
+          {profile.availabilityLabel}
+        </a>
 
-          {/* ── Desktop: full text + icon pills (≥1024px) ── */}
-          <nav className="ns-desktop">
-            {navItems.map(({ name, path, icon: Icon }) => {
-              const active = location.pathname === path;
-              return (
-                <motion.div key={name} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                  <Link to={path} style={{
-                    display: 'flex', alignItems: 'center', gap: 6,
-                    padding: '7px 14px', borderRadius: 999, textDecoration: 'none',
-                    fontWeight: 500, fontSize: '0.875rem', whiteSpace: 'nowrap',
-                    transition: 'all 0.2s',
-                    background: active ? 'linear-gradient(135deg,#6366f1,#8b5cf6)' : 'transparent',
-                    color: active ? '#fff' : (dark ? 'rgba(255,255,255,0.7)' : 'rgba(30,30,50,0.75)'),
-                  }}>
-                    <Icon style={{ fontSize: 17 }} />
-                    {name}
-                  </Link>
-                </motion.div>
-              );
-            })}
-          </nav>
+        {/* Centre — nav pill */}
+        <nav
+          aria-label="Primary"
+          className="nav-pill"
+          style={{
+            pointerEvents: 'auto',
+            display: 'flex',
+            alignItems: 'center',
+            gap: 2,
+            padding: 6,
+            borderRadius: 'var(--radius-pill)',
+            background: 'var(--color-surface)',
+            boxShadow: 'var(--shadow-3)',
+          }}
+        >
+          <div className="nav-links">
+            {navItems.map((item) =>
+              onHome ? (
+                <a
+                  key={item.label}
+                  href={item.href}
+                  aria-current={isActive(item.href) ? 'true' : undefined}
+                  style={linkStyle(isActive(item.href))}
+                >
+                  {item.label}
+                </a>
+              ) : (
+                <Link
+                  key={item.label}
+                  to={resolve(item.href)}
+                  style={linkStyle(false)}
+                >
+                  {item.label}
+                </Link>
+              )
+            )}
+          </div>
 
-          {/* ── Tablet: icon-only circles (640px–1023px) ── */}
-          <nav className="ns-tablet">
-            {navItems.map(({ name, path, icon: Icon }) => {
-              const active = location.pathname === path;
-              return (
-                <motion.div key={name} whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }} title={name}>
-                  <Link to={path} style={{
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    width: 38, height: 38, borderRadius: '50%', textDecoration: 'none',
-                    transition: 'all 0.2s',
-                    background: active ? 'linear-gradient(135deg,#6366f1,#8b5cf6)' : 'transparent',
-                    color: active ? '#fff' : (dark ? 'rgba(255,255,255,0.65)' : 'rgba(30,30,50,0.65)'),
-                  }}>
-                    <Icon style={{ fontSize: 19 }} />
-                  </Link>
-                </motion.div>
-              );
-            })}
-          </nav>
-
-          {/* ── Mobile: burger button (<640px) ── */}
           <button
-            className="ns-burger"
-            onClick={() => setMobileOpen(o => !o)}
+            type="button"
+            className="nav-burger"
+            aria-label={open ? 'Close menu' : 'Open menu'}
+            aria-expanded={open}
+            onClick={() => setOpen((v) => !v)}
             style={{
-              background: 'none', border: 'none', cursor: 'pointer',
-              color: dark ? 'rgba(255,255,255,0.7)' : 'rgba(30,30,50,0.7)',
-              padding: '6px 8px', borderRadius: 8, lineHeight: 0,
+              background: 'none',
+              border: 'none',
+              cursor: 'pointer',
+              color: 'var(--color-ink)',
+              padding: '8px 10px',
+              lineHeight: 0,
+              borderRadius: 'var(--radius-pill)',
             }}
           >
-            {mobileOpen ? <CloseIcon style={{ fontSize: 22 }} /> : <MenuIcon style={{ fontSize: 22 }} />}
+            {open ? <CloseIcon /> : <MenuIcon />}
           </button>
 
-          {/* divider */}
-          <div style={{
-            width: 1, height: 22, flexShrink: 0, margin: '0 4px',
-            background: dark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)',
-          }} />
-
-          {/* Theme toggle */}
-          <motion.button
-            whileHover={{ scale: 1.15, rotate: 180 }} whileTap={{ scale: 0.9 }}
-            onClick={toggleTheme}
-            title={dark ? 'Light mode' : 'Dark mode'}
+          <a
+            href={resolve('#contact')}
             style={{
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              width: 34, height: 34, flexShrink: 0, borderRadius: '50%',
-              border: 'none', cursor: 'pointer', transition: 'background 0.2s',
-              background: dark ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.05)',
-              color: dark ? 'rgba(255,255,255,0.7)' : 'rgba(30,30,50,0.7)',
+              display: 'inline-flex',
+              alignItems: 'center',
+              padding: '11px 22px',
+              borderRadius: 'var(--radius-pill)',
+              background: 'var(--color-surface-dark)',
+              color: 'var(--color-text-on-dark)',
+              fontWeight: 700,
+              fontSize: 'var(--text-base)',
+              transition: 'background var(--duration-normal) var(--ease-out)',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = 'var(--color-accent)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = 'var(--color-surface-dark)';
             }}
           >
-            {dark ? <Brightness7 style={{ fontSize: 18 }} /> : <Brightness4 style={{ fontSize: 18 }} />}
-          </motion.button>
+            Contact
+          </a>
+        </nav>
 
-        </div>
+        {/* Right — email */}
+        <a
+          href={`mailto:${profile.email}`}
+          className="pill nav-side"
+          style={{ pointerEvents: 'auto', fontFamily: 'var(--font-mono)', letterSpacing: '0.02em' }}
+        >
+          <MailOutline style={{ fontSize: 17 }} />
+          {profile.email}
+        </a>
       </motion.header>
 
-      {/* ═══ MOBILE DRAWER ═══ */}
+      {/* Mobile drawer */}
       <AnimatePresence>
-        {mobileOpen && (
+        {open && (
           <>
-            {/* Backdrop */}
             <motion.div
               key="backdrop"
-              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-              onClick={() => setMobileOpen(false)}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setOpen(false)}
               style={{
-                position: 'fixed', inset: 0, zIndex: 1100,
-                background: 'rgba(0,0,0,0.4)', backdropFilter: 'blur(4px)',
+                position: 'fixed',
+                inset: 0,
+                zIndex: 1250,
+                background: 'rgba(20, 32, 43, 0.45)',
+                backdropFilter: 'blur(4px)',
               }}
             />
-
-            {/* Panel */}
             <motion.div
               key="drawer"
-              initial={{ x: '-100%' }} animate={{ x: 0 }} exit={{ x: '-100%' }}
-              transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+              className="on-dark"
+              initial={{ y: '-100%' }}
+              animate={{ y: 0 }}
+              exit={{ y: '-100%' }}
+              transition={{ type: 'spring', stiffness: 320, damping: 34 }}
               style={{
-                position: 'fixed', top: 0, left: 0, bottom: 0, width: 260,
-                zIndex: 1300, display: 'flex', flexDirection: 'column',
-                background: dark ? 'rgba(15,23,42,0.97)' : 'rgba(255,255,255,0.97)',
-                backdropFilter: 'blur(24px)', WebkitBackdropFilter: 'blur(24px)',
-                borderRight: `1px solid ${dark ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.07)'}`,
-                padding: '24px 16px',
+                position: 'fixed',
+                top: 0,
+                left: 0,
+                right: 0,
+                zIndex: 1300,
+                background: 'var(--color-surface-dark)',
+                color: 'var(--color-text-on-dark)',
+                borderRadius: '0 0 var(--radius-2xl) var(--radius-2xl)',
+                padding: 'var(--space-8) var(--shell-pad) var(--space-7)',
+                boxShadow: 'var(--shadow-1)',
               }}
             >
-              {/* Drawer header */}
-              <div style={{
-                display: 'flex', justifyContent: 'space-between',
-                alignItems: 'center', marginBottom: 32, paddingLeft: 8,
-              }}>
-                <span style={{
-                  fontWeight: 700, fontSize: '1.1rem',
-                  background: 'linear-gradient(135deg,#6366f1,#8b5cf6)',
-                  WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
-                }}>Navigation</span>
-                <button onClick={() => setMobileOpen(false)} style={{
-                  background: 'none', border: 'none', cursor: 'pointer', lineHeight: 0, padding: 4,
-                  color: dark ? 'rgba(255,255,255,0.5)' : 'rgba(0,0,0,0.4)',
-                }}>
-                  <CloseIcon style={{ fontSize: 20 }} />
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  marginBottom: 'var(--space-7)',
+                }}
+              >
+                <span className="mono-label mono-label--on-dark">MENU</span>
+                <button
+                  type="button"
+                  aria-label="Close menu"
+                  onClick={() => setOpen(false)}
+                  style={{
+                    background: 'none',
+                    border: 'none',
+                    cursor: 'pointer',
+                    color: 'var(--color-text-on-dark)',
+                    lineHeight: 0,
+                  }}
+                >
+                  <CloseIcon />
                 </button>
               </div>
 
-              {/* Nav links */}
-              <nav style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-                {navItems.map(({ name, path, icon: Icon }, i) => {
-                  const active = location.pathname === path;
-                  return (
-                    <motion.div
-                      key={name}
-                      initial={{ opacity: 0, x: -16 }} animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: i * 0.04 }}
+              <nav style={{ display: 'flex', flexDirection: 'column' }}>
+                {[...navItems, { label: 'Contact', href: '#contact' }].map((item, i) => (
+                  <motion.div
+                    key={item.label}
+                    initial={{ opacity: 0, y: -8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.04 * i }}
+                  >
+                    <a
+                      href={resolve(item.href)}
+                      onClick={() => setOpen(false)}
+                      className="display"
+                      style={{
+                        display: 'block',
+                        padding: '10px 0',
+                        fontSize: 'clamp(1.75rem, 8vw, 2.5rem)',
+                        color: 'var(--color-text-on-dark)',
+                      }}
                     >
-                      <Link to={path} style={{
-                        display: 'flex', alignItems: 'center', gap: 14,
-                        padding: '12px 16px', borderRadius: 12, textDecoration: 'none',
-                        fontWeight: active ? 600 : 400, fontSize: '0.95rem', transition: 'all 0.2s',
-                        background: active
-                          ? 'linear-gradient(135deg,rgba(99,102,241,0.15),rgba(139,92,246,0.15))'
-                          : 'transparent',
-                        color: active ? '#6366f1' : (dark ? 'rgba(255,255,255,0.7)' : 'rgba(30,30,50,0.75)'),
-                        borderLeft: active ? '3px solid #6366f1' : '3px solid transparent',
-                      }}>
-                        <Icon style={{ fontSize: 20 }} />
-                        {name}
-                      </Link>
-                    </motion.div>
-                  );
-                })}
+                      {item.label}
+                    </a>
+                  </motion.div>
+                ))}
               </nav>
 
-              {/* Theme toggle at bottom */}
-              <div style={{ marginTop: 'auto', paddingLeft: 8 }}>
-                <button onClick={toggleTheme} style={{
-                  display: 'flex', alignItems: 'center', gap: 10, width: '100%',
-                  background: 'none', cursor: 'pointer', fontSize: '0.875rem',
-                  border: `1px solid ${dark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`,
-                  borderRadius: 10, padding: '10px 16px',
-                  color: dark ? 'rgba(255,255,255,0.6)' : 'rgba(30,30,50,0.6)',
-                }}>
-                  {dark
-                    ? <><Brightness7 style={{ fontSize: 18 }} /> Switch to Light</>
-                    : <><Brightness4 style={{ fontSize: 18 }} /> Switch to Dark</>}
-                </button>
-              </div>
+              <a
+                href={`mailto:${profile.email}`}
+                className="mono-label mono-label--on-dark"
+                style={{ display: 'inline-block', marginTop: 'var(--space-7)' }}
+              >
+                {profile.email}
+              </a>
             </motion.div>
           </>
         )}
       </AnimatePresence>
 
-      {/* ═══ RESPONSIVE CSS ═══ */}
       <style>{`
-        .ns-desktop, .ns-tablet, .ns-burger { display: none; }
+        .nav-links { display: none; align-items: center; gap: 2px; }
+        .nav-burger { display: inline-flex; }
 
-        /* Mobile < 640px → burger */
-        @media (max-width: 639px) {
-          .ns-burger { display: flex !important; }
+        @media (min-width: 1100px) {
+          .nav-links { display: flex; }
+          .nav-burger { display: none; }
         }
-
-        /* Tablet 640–1023px → icon circles */
-        @media (min-width: 640px) and (max-width: 1023px) {
-          .ns-tablet { display: flex !important; align-items: center; gap: 2px; }
-        }
-
-        /* Desktop ≥ 1024px → full pills */
-        @media (min-width: 1024px) {
-          .ns-desktop { display: flex !important; align-items: center; gap: 2px; }
+        @media (max-width: 1279px) {
+          .nav-side { display: none; }
         }
       `}</style>
     </>

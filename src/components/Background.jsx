@@ -1,82 +1,44 @@
 import React from 'react';
-import { motion } from 'framer-motion';
-import { Box } from '@mui/material';
 
-const Background = () => {
-  return (
-    <Box
-      sx={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        width: '100%',
-        height: '100vh',
-        zIndex: 0,
-        overflow: 'hidden',
-        background: 'var(--bg-dark)',
-      }}
-    >
-      {/* Gradient Orbs */}
-      <motion.div
-        animate={{
-          scale: [1, 1.2, 1],
-          opacity: [0.3, 0.5, 0.3],
-        }}
-        transition={{
-          duration: 8,
-          repeat: Infinity,
-          ease: "easeInOut"
-        }}
-        style={{
-          position: 'absolute',
-          top: '-10%',
-          left: '-10%',
-          width: '50vw',
-          height: '50vw',
-          background: 'radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, transparent 70%)',
-          filter: 'blur(60px)',
-          borderRadius: '50%',
-        }}
-      />
+/* Sky backdrop — the reference's atmosphere layer, painted once.
+   Deliberately static: a fixed, full-viewport element that animates (drifting
+   clouds, scroll parallax) forces a full-page repaint on every frame wherever
+   the browser has no GPU compositing — WSL, remote desktops, low-end laptops.
+   That repaint is what made the cards blink and the whole page stutter.
+   The clouds are baked into one background-image, so this layer costs a single
+   paint for the life of the page. */
 
-      <motion.div
-        animate={{
-          scale: [1, 1.1, 1],
-          opacity: [0.3, 0.5, 0.3],
-        }}
-        transition={{
-          duration: 10,
-          repeat: Infinity,
-          ease: "easeInOut",
-          delay: 1
-        }}
-        style={{
-          position: 'absolute',
-          bottom: '-10%',
-          right: '-10%',
-          width: '50vw',
-          height: '50vw',
-          background: 'radial-gradient(circle, rgba(139, 92, 246, 0.15) 0%, transparent 70%)',
-          filter: 'blur(60px)',
-          borderRadius: '50%',
-        }}
-      />
+const cloud = (x, y, w, h, a) =>
+  `radial-gradient(${w}px ${h}px at ${x}% ${y}%, rgba(255,255,255,${a}) 0%, rgba(255,255,255,${a * 0.45}) 42%, rgba(255,255,255,0) 72%)`;
 
-      {/* Stars Effect */}
-      <div style={{
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        backgroundImage: 'radial-gradient(var(--star-color) 1px, transparent 1px)',
-        backgroundSize: '50px 50px',
-        opacity: 0.5,
-        maskImage: 'linear-gradient(to bottom, black, transparent)',
-        WebkitMaskImage: 'linear-gradient(to bottom, black, transparent)',
-      }} />
-    </Box>
-  );
-};
+const SKY = [
+  cloud(12, 8, 260, 120, 0.85),
+  cloud(24, 11, 180, 80, 0.7),
+  cloud(78, 6, 300, 130, 0.75),
+  cloud(88, 10, 200, 90, 0.6),
+  cloud(46, 22, 340, 140, 0.55),
+  cloud(8, 38, 280, 120, 0.5),
+  cloud(70, 44, 240, 110, 0.45),
+  cloud(30, 62, 320, 130, 0.4),
+  cloud(86, 70, 260, 110, 0.38),
+  cloud(52, 86, 300, 120, 0.3),
+  'radial-gradient(120% 70% at 50% 35%, rgba(255,255,255,0.28) 0%, rgba(255,255,255,0) 62%)',
+  'linear-gradient(180deg, var(--sky-top) 0%, var(--sky-mid) 46%, var(--sky-bottom) 100%)',
+].join(',');
+
+const Background = () => (
+  <div
+    aria-hidden="true"
+    style={{
+      position: 'fixed',
+      inset: 0,
+      zIndex: 0,
+      pointerEvents: 'none',
+      backgroundImage: SKY,
+      backgroundRepeat: 'no-repeat',
+      backgroundAttachment: 'fixed',
+    }}
+  />
+);
 
 export default Background;
