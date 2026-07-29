@@ -6,6 +6,9 @@
 :root {
   /* ---- Type ---- */
   --font-primary: 'Hanken Grotesk', system-ui, sans-serif;
+  /* Hero headline only. Everything else — section titles, footer wordmark,
+     drawer links — stays on the primary grotesk. */
+  --font-display: 'Bricolage Grotesque', 'Hanken Grotesk', system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', monospace;
   --font-script: 'Caveat', cursive;
 
@@ -187,14 +190,22 @@ img { max-width: 100%; display: block; }
    No fill effect: scale and density do the work. Set much larger than the
    section headings, tracked in hard, and locked to a short measure so it wraps
    into a solid two-line block rather than one thin line. */
-.hero-headline {
+/* Compound selector on purpose: .display later in this file sets font-family,
+   and at equal specificity it would win on source order. */
+.display.hero-headline {
   /* Bounded by viewport HEIGHT as well as width. Sizing on vw alone let the
      headline grow to three lines and run off a short screen. */
+  font-family: var(--font-display);
+  /* Bricolage is a variable font: max optical size for display, slightly
+     narrowed so the long headline holds two lines. */
+  font-variation-settings: 'opsz' 96, 'wdth' 88;
+  font-weight: 800;
   font-size: clamp(2.5rem, min(8vw, 10.5vh), 6rem);
-  letter-spacing: -0.05em;
+  /* Looser than the grotesk was — Bricolage's flared stems collide at -0.05em. */
+  letter-spacing: -0.03em;
   line-height: 0.9;
   color: var(--color-ink);
-  max-width: 13ch;   /* wraps to "SHIPS REAL" / "PRODUCTS." */
+  max-width: 15ch;   /* wraps to "I BUILD SYSTEMS" / "THAT RUN." */
 }
 
 /* The one spot of colour — a full stop, not a whole word */

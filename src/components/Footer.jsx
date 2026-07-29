@@ -56,7 +56,7 @@ const Wordmark = () => (
     >
       {/* style, not fill="" — a presentation attribute does not resolve var() */}
       <tspan style={{ fill: 'var(--color-accent)' }}>N</tspan>
-      <tspan style={{ fill: 'var(--color-text-on-dark)' }}>enavath Suresh</tspan>
+      <tspan style={{ fill: 'var(--color-text-on-dark)' }}>enavath <tspan style={{ fill: 'var(--color-accent)' }}>S</tspan>uresh</tspan>
     </text>
   </svg>
 );
@@ -138,7 +138,7 @@ const Footer = () => {
         <div className="footer-meta">
           <span className="mono-label mono-label--on-dark">{profile.location}</span>
           <span className="mono-label mono-label--on-dark">
-            © {year} · built with React &amp; Framer Motion
+            © {year} {profile.name}. All rights reserved.
           </span>
         </div>
       </div>

@@ -23,8 +23,8 @@ export const profile = {
     'https://res.cloudinary.com/dd6nthams/image/upload/v1738431713/Profesional_photo_nurfda.jpg',
   available: true,
   availabilityLabel: 'open to full-time & freelance',
-  headline: ['SHIPS', 'REAL PRODUCTS'],
-  lede: 'Most portfolios list tutorials. Mine lists systems in production, with paying users on the other end.',
+  headline: ['I BUILD', 'SYSTEMS THAT RUN'],
+  lede: 'Sole engineer on AcadFlows, a commercial school ERP with 16+ modules in production. Freelance build behind Svagio Fashion’s multi-vendor marketplace.',
   summary:
     'Full-Stack Developer with production experience building and shipping web applications using React.js, Django REST Framework, PostgreSQL, and Redis/Celery. Currently the sole engineer on AcadFlows, a commercial School ERP SaaS platform, while concurrently delivering Svagio Fashion, a multi-vendor e-commerce marketplace, as a freelance Full-Stack Developer.',
 };
